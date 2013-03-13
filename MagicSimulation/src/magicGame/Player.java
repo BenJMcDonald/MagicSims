@@ -77,8 +77,8 @@ public class Player {
 
 	public int changeLife(int lifeChangeIncrement) {
 		this.life += lifeChangeIncrement;
-		System.out.println("Player " + this.playerNumber + " now has "
-				+ this.life + " life remaining.");
+		// System.out.println("Player " + this.playerNumber + " now has "
+		// + this.life + " life remaining.");
 		return this.life;
 	}
 
@@ -165,8 +165,8 @@ public class Player {
 		Card cardToPlay = this.hand.remove(handIndex);
 		this.payCost(cardToPlay);
 		this.gameState.addPermanent(cardToPlay);
-		System.out.println("Player " + this.playerNumber + " has played "
-				+ cardToPlay.getName() + ".");
+		// System.out.println("Player " + this.playerNumber + " has played "
+		// + cardToPlay.getName() + ".");
 
 	}
 
@@ -387,8 +387,8 @@ public class Player {
 
 	public void destroy(Card creature) {
 		this.graveyard.add(creature);
-		System.out.println("Player " + this.playerNumber + "'s "
-				+ creature.getName() + " has been destroyed.");
+		// System.out.println("Player " + this.playerNumber + "'s "
+		// + creature.getName() + " has been destroyed.");
 
 	}
 
@@ -406,6 +406,14 @@ public class Player {
 
 	public void setPlayedLand(boolean playedLand) {
 		this.playedLand = playedLand;
+	}
+
+	public String[] getDeckList() {
+		return deckList;
+	}
+
+	public void setDeckList(String[] deckList) {
+		this.deckList = deckList;
 	}
 
 }
