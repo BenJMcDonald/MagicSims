@@ -1,0 +1,51 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class GameState {
+
+	private int numPlayers = 0;
+	private ArrayList<Player> players;
+	private ArrayList<Card> permanents;
+
+	public GameState(int numberPlayers) {
+		this.numPlayers = numberPlayers;
+		this.players = new ArrayList<Player>();
+		this.permanents = new ArrayList<Card>();
+	}
+
+	public int getNumPlayers() {
+		return this.numPlayers;
+	}
+
+	public void makePlayers(ArrayList<String[]> decks) {
+		for (String[] deck : decks) {
+			players.add(new Player(deck));
+		}
+	}
+
+	public void initializeGame() {
+		for (Player player : this.players) {
+			player.draw(7);
+		}
+
+	}
+
+	/**
+	 * Here is where a lot of the magic takes place. In this method, the players
+	 * actually play a game of Magic. It returns the winner.
+	 * 
+	 * @return winning player
+	 */
+	public Player playGame() {
+		int activePlayer = 0;
+		while(this.players.size()>1){
+			
+			
+			
+		}
+		
+		return this.players.get(0);
+	}
+
+}

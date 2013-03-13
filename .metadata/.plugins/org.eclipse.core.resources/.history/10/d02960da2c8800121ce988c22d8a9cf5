@@ -1,0 +1,7 @@
+package magicGame;
+
+// A zone is a location where cards can exist.  I figured that polymorphism would be useful here.
+public class Zone {
+
+	
+}

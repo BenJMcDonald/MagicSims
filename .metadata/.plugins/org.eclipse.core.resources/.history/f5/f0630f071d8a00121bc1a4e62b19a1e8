@@ -1,0 +1,10 @@
+package magicGame;
+
+public class Game {
+
+private int players = 0;
+	
+	public Game(int numPlayers){
+		this.players = numPlayers;
+	}
+}

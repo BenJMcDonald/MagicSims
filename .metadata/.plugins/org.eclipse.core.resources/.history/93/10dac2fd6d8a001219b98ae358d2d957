@@ -1,0 +1,68 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class GameState {
+
+	private int numPlayers = 0;
+	private ArrayList<Player> players;
+	private ArrayList<Card> permanents;
+	private Player activePlayer;
+
+	public GameState(int numberPlayers) {
+		this.numPlayers = numberPlayers;
+		this.players = new ArrayList<Player>();
+		this.permanents = new ArrayList<Card>();
+	}
+
+	public int getNumPlayers() {
+		return this.numPlayers;
+	}
+
+	public void makePlayers(ArrayList<String[]> decks) {
+		for (String[] deck : decks) {
+			players.add(new Player(deck));
+		}
+	}
+
+	public void initializeGame() {
+		for (Player player : this.players) {
+			player.draw(7);
+		}
+
+	}
+
+	/**
+	 * Here is where a lot of the magic takes place. In this method, the players
+	 * actually play a game of Magic. It returns the winner.
+	 * 
+	 * @return winning player
+	 */
+	public Player playGame() {
+		int activePlayerIndex = 0;
+		while (this.players.size() > 1) {
+			this.activePlayer = this.players.get(activePlayerIndex);
+			this.untap();
+			this.upkeep();
+
+		}
+
+		return this.players.get(0);
+	}
+
+	private void upkeep() {
+		// There are no upkeep triggers in the game at this point, so nothing
+		// happens here yet.
+
+	}
+
+	private void untap() {
+		for (Card permanent : this.permanents) {
+			if (permanent.owner.equals(activePlayer)) {
+				permanent.untap();
+			}
+		}
+
+	}
+
+}

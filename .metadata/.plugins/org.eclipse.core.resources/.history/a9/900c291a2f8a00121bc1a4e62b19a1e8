@@ -1,0 +1,30 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Game {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GameState currentState = new GameState(2);
+		String[] dummyCardList = { "Forest", "Forest", "Forest", "Forest",
+				"Forest", "Forest", "Forest", "Forest", "Forest", "Forest",
+				"Forest", "Forest", "Forest", "Forest", "Forest", "Forest"};
+		String[] deck1 = dummyCardList;
+		String[] deck2 = dummyCardList;
+
+		Player player1 = new Player(deck1);
+		Player player2 = new Player(deck2);
+
+		ArrayList<Card> constructedDeck1 = player1.getDeck();
+		ArrayList<Card> constructedDeck2 = player2.getDeck();
+		
+		System.out.println("This is a test of my deck constructing code");
+		for(int i = 0; i < constructedDeck1.size(); i++){
+			System.out.println(constructedDeck1.get(i).name);
+		}
+	}
+
+}

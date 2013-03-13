@@ -249,4 +249,16 @@ public class GameState {
 		return this.activePlayer;
 	}
 
+	public Card getNextUntappedPerm(String permName, Player controller) {
+		for (Card perm : this.permanents) {
+			if (perm.getName().equals(permName)
+					&& perm.getController().equals(controller)
+					&& !perm.isTapped()) {
+				return perm;
+			}
+		}
+
+		return null;
+	}
+
 }

@@ -1,0 +1,28 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class GameState {
+
+	private int numPlayers = 0;
+	private ArrayList<Player> players;
+	private ArrayList<Card> permanents;
+
+	public GameState(int numberPlayers) {
+		this.numPlayers = numberPlayers;
+		this.players = new ArrayList<Player>();
+		this.permanents = new ArrayList<Card>();
+	}
+	
+	public int getNumPlayers(){
+		return this.numPlayers;
+	}
+
+	public void makePlayers(ArrayList<String[]> decks) {
+		for (String[] deck : decks){
+			players.add(new Player(deck));
+		}
+	}
+	
+	
+}

@@ -1,0 +1,20 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Game {
+
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GameState currentState = new GameState(2);
+		ArrayList deck1 = new ArrayList();
+		ArrayList deck2 = new ArrayList();
+		Player player1 = new Player(deck1);
+		Player player2 = new Player(deck2);
+		
+	}
+
+}

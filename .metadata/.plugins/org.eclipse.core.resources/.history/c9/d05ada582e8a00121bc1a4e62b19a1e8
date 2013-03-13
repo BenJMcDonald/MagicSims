@@ -1,0 +1,27 @@
+package magicGame;
+
+public class CardDB {
+
+	public static Card getCard(String cardName, Player owner) {
+		switch (cardName) {
+		case "Forest":
+			return new Card("Forest", "", "Land", owner);
+		case "Grisly Bear":
+			return new Card("Grisly Bear", "1G", "Creature", owner, 2, 2);
+		case "Axebane Stag":
+			return new Card("Axebane Stag", "6G", "Creature", owner, 6, 7);
+		case "Acidic Slime":
+			return new Card("Acidic Slime", "3GG", "Creature", owner, 2, 2);
+		case "Adaptive Snapjaw":
+			return new Card("Adaptive Snapjaw", "4G", "Creature", owner, 6,2);
+		case "Ambush viper":
+			return new Card("Ambush Viper", "1G", "Creature", owner, 2, 1);
+		case "Arbor Elf":
+			return new Card("Arbor Elf", "G", "Creature", owner, 1, 1);
+		default:
+			return null;
+
+		}
+	}
+
+}

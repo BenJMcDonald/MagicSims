@@ -1,0 +1,32 @@
+package magicGame;
+
+public class CardDB {
+
+	
+	
+	public static Card getCard(String cardName, Player owner){
+		switch(cardName){
+		case "Forest":
+			return new Card("Forest", "", "LAND", owner);
+		case "Grisly Bear":
+		
+		
+		
+		
+		}
+		
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,144 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class GameState {
+
+	private int numPlayers = 0;
+	private ArrayList<Player> players;
+	private ArrayList<Card> permanents;
+	private Player activePlayer;
+	private int turnNumber;
+
+	public GameState(int numberPlayers) {
+		this.numPlayers = numberPlayers;
+		this.players = new ArrayList<Player>();
+		this.permanents = new ArrayList<Card>();
+		this.turnNumber = 0;
+	}
+
+	public int getNumPlayers() {
+		return this.numPlayers;
+	}
+
+	public void makePlayers(ArrayList<String[]> decks) {
+		for (String[] deck : decks) {
+			players.add(new Player(deck, this));
+		}
+	}
+
+	public void initializeGame() {
+		for (Player player : this.players) {
+			player.draw(7);
+		}
+
+	}
+
+	/**
+	 * Here is where a lot of the magic takes place. In this method, the players
+	 * actually play a game of Magic. It returns the winner.
+	 * 
+	 * @return winning player
+	 */
+	public Player playGame() {
+		int activePlayerIndex = 0;
+		while (this.players.size() > 1) {
+			this.turnNumber ++;
+			this.activePlayer = this.players.get(activePlayerIndex);
+			this.untap();
+			this.upkeep();
+			this.draw();
+			this.mainPhase(1);
+			this.combat();
+			this.mainPhase(2);
+			this.endStep();
+			if (activePlayerIndex < this.players.size() - 1) {
+				activePlayerIndex++;
+			} else {
+				activePlayerIndex = 0;
+			}
+
+		}
+
+		return this.players.get(0);
+	}
+
+	private void draw() {
+		this.activePlayer.draw(1);
+
+	}
+
+	private void endStep() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void combat() {
+		this.activePlayer.chooseBlockers();
+		for (Player player : this.players) {
+			if (!(player.equals(this.activePlayer))) {
+				player.chooseBlockers();
+			}
+		}
+
+	}
+
+	private void mainPhase(int phase) {
+		// As of right now we don't actually care which main phase it is.
+		// However, we will once things are in the game that require stuff like
+		// opponent taking damage, so it'll go ahead and follow normal patterns.
+		this.activePlayer.playMainPhase();
+
+	}
+
+	private void upkeep() {
+		// There are no upkeep triggers in the game at this point, so nothing
+		// happens here yet.
+
+	}
+
+	private void untap() {
+		for (Card permanent : this.permanents) {
+			if (permanent.owner.equals(activePlayer)) {
+				permanent.untap();
+			}
+		}
+	}
+
+	public void addPermanent(Card newPermanent) {
+		this.permanents.add(newPermanent);
+
+	}
+
+	public String openMana(Player player) {
+		// Currently only considers basic lands.
+		String mana = "";
+		for (Card perm : this.permanents) {
+			if (perm.types.equals("Land") && perm.controller.equals(player)) {
+				String cardName = perm.name;
+				switch (cardName) {
+				case "Forest":
+					mana += "G";
+					break;
+				case "Mountain":
+					mana += "R";
+					break;
+				case "Plains":
+					mana += "W";
+					break;
+				case "Swamp":
+					mana += "B";
+					break;
+				case "Island":
+					mana += "U";
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+		return mana;
+	}
+
+}

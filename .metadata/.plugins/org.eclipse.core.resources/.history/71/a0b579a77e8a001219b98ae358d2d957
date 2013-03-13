@@ -1,0 +1,142 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	String[] deckList;
+	ArrayList<Card> deck;
+	ArrayList<Card> hand;
+	boolean hasLost;
+	int life;
+	GameState gameState;
+	boolean playedLand;
+
+	public Player(String[] newDeck, GameState gameState) {
+		this.hasLost = false;
+		playedLand = false;
+		this.life = 20;
+		this.deckList = newDeck;
+		deck = new ArrayList<Card>();
+		hand = new ArrayList<Card>();
+		this.gameState = gameState;
+
+		for (String cardName : this.deckList) {
+			Card card = CardDB.getCard(cardName, this);
+			this.deck.add(card);
+		}
+
+	}
+
+	public ArrayList<Card> getDeck() {
+		return this.deck;
+	}
+
+	public ArrayList<Card> getHand() {
+		return this.hand;
+	}
+
+	public boolean draw(int numToDraw) {
+		for (int i = 0; i < numToDraw; i++) {
+			if (deck.size() == 0) {
+				this.hasLost = true;
+				return this.hasLost;
+			}
+			this.hand.add(this.deck.remove(0));
+		}
+		return this.hasLost;
+	}
+
+	public boolean loses() {
+		return this.hasLost;
+	}
+
+	public int getLife() {
+		return this.life;
+	}
+
+	public int setLife(int newLife) {
+		this.life = newLife;
+		return this.life;
+	}
+
+	public int changeLife(int lifeChangeIncrement) {
+		this.life += lifeChangeIncrement;
+		return this.life;
+	}
+
+	public void chooseBlockers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void playMainPhase() {
+		// Look for a land to play, and play it.
+		Card c;
+		for (int i = 0; i < this.hand.size(); i++) {
+			c = this.hand.get(i);
+			if (c.types.equals("Land") && this.playedLand == false) {
+				this.gameState.addPermanent(this.hand.remove(i));
+				break;
+			}
+
+		}
+		// Here, we evaluate open mana by building a string of open mana and
+		// parsing it into integers on a case-by-case basis.
+		String openMana = this.gameState.openMana(this);
+		int greenMana = 0;
+		int redMana = 0;
+		int whiteMana = 0;
+		int blueMana = 0;
+		int blackMana = 0;
+		int colorlessMana = 0;
+		for (char ch : openMana.toCharArray()) {
+			switch (ch) {
+			case 'G':
+				greenMana++;
+				break;
+			case 'W':
+				whiteMana++;
+				break;
+			case 'R':
+				redMana++;
+				break;
+			case 'U':
+				blueMana++;
+				break;
+			case 'B':
+				blackMana++;
+				break;
+			case '1':
+				colorlessMana++;
+				break;
+			default:
+				break;
+
+			}
+
+		}
+		
+		
+
+		// Evaluate playable cards, and play the creature with the most power,
+		// if possible. No creature in magic has a power less than or equal to
+		// -2, so we'll start with that default value.
+		while (true) {
+			int maxPowerIndex = -1;
+			int maxPower = -2;
+
+			for (int i = 0; i < this.hand.size(); i++) {
+				c = this.hand.get(i);
+				if (c.types.equals("Creature")) {
+					if (c.power > maxPower) {
+						maxPower = c.power;
+						maxPowerIndex = i;
+					}
+				}
+			}
+			
+			
+		}
+	}
+}

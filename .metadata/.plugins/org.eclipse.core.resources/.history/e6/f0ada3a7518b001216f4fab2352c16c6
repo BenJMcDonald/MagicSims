@@ -1,0 +1,125 @@
+package magicGame;
+
+//This is going to be the meat of the magic game.
+
+public class Card {
+
+	public String name;
+	public String cost;
+	public int cmc;
+	// There are better ways to handle types, but I haven't figured out how to
+	// implement them yet.
+	public String types;
+	public int power = 0;
+	public int toughness = 0;
+	public Player controller;
+	public Player owner;
+	public boolean tapped;
+	public boolean attacking = false;
+	public Card blocking = null;
+
+	public Card(String cardName, String cardCost, String cardTypes,
+			Player player) {
+
+		this.name = cardName;
+		this.cost = cardCost;
+		this.cmc = cardCost.length();
+		this.types = cardTypes;
+		this.controller = player;
+		this.owner = player;
+		this.tapped = false;
+
+	}
+
+	public Card(String cardName, String cardCost, String cardTypes,
+			Player player, int newPower, int newToughness) {
+
+		this.name = cardName;
+		this.cost = cardCost;
+		this.cmc = cardCost.length();
+		this.types = cardTypes;
+		this.power = newPower;
+		this.toughness = newToughness;
+		this.controller = player;
+		this.owner = player;
+		this.tapped = false;
+	}
+
+	/**
+	 * The getters and setters live down here.
+	 */
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getCmc() {
+		return cmc;
+	}
+
+	public void setCmc(int cmc) {
+		this.cmc = cmc;
+	}
+
+	public String getTypes() {
+		return types;
+	}
+
+	public void setTypes(String types) {
+		this.types = types;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
+	}
+
+	public int getToughness() {
+		return toughness;
+	}
+
+	public void setToughness(int toughness) {
+		this.toughness = toughness;
+	}
+
+	public Player getController() {
+		return controller;
+	}
+
+	public void setController(Player controller) {
+		this.controller = controller;
+	}
+
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	public boolean isTapped() {
+		return tapped;
+	}
+
+	public void setTapped(boolean tapped) {
+		this.tapped = tapped;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
+	}
+
+	public void untap() {
+		this.tapped = false;
+		
+	}
+
+}

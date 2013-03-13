@@ -1,0 +1,234 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	String[] deckList;
+	ArrayList<Card> deck;
+	ArrayList<Card> hand;
+	// Have I lost the game?
+	boolean hasLost;
+	int life;
+	GameState gameState;
+	// Have I played a land this turn?
+	boolean playedLand;
+
+	// Mana open is a length 6 int array that stores avaliable mana in
+	// alphabetical color order, with colorless last. The specific order is
+	// [Black, Blue, Green, White, Red, Colorless]
+	private int[] manaOpen;
+
+	public Player(String[] newDeck, GameState gameState) {
+		this.hasLost = false;
+		playedLand = false;
+		this.life = 20;
+		this.deckList = newDeck;
+		deck = new ArrayList<Card>();
+		hand = new ArrayList<Card>();
+		this.gameState = gameState;
+		this.manaOpen = new int[6];
+
+		for (String cardName : this.deckList) {
+			Card card = CardDB.getCard(cardName, this);
+			this.deck.add(card);
+		}
+
+	}
+
+	public ArrayList<Card> getDeck() {
+		return this.deck;
+	}
+
+	public ArrayList<Card> getHand() {
+		return this.hand;
+	}
+
+	public boolean draw(int numToDraw) {
+		for (int i = 0; i < numToDraw; i++) {
+			if (deck.size() == 0) {
+				this.hasLost = true;
+				return this.hasLost;
+			}
+			this.hand.add(this.deck.remove(0));
+		}
+		return this.hasLost;
+	}
+
+	public boolean loses() {
+		return this.hasLost;
+	}
+
+	public int getLife() {
+		return this.life;
+	}
+
+	public int setLife(int newLife) {
+		this.life = newLife;
+		return this.life;
+	}
+
+	public int changeLife(int lifeChangeIncrement) {
+		this.life += lifeChangeIncrement;
+		return this.life;
+	}
+
+	public void chooseBlockers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void playMainPhase() {
+		// Look for a land to play, and play it.
+		Card c;
+		for (int i = 0; i < this.hand.size(); i++) {
+			c = this.hand.get(i);
+			if (c.types.equals("Land") && this.playedLand == false) {
+				this.playCard(i);
+				break;
+			}
+
+		}
+
+		this.evaluateOpenMana();
+
+		// Evaluate playable cards, and play the creature with the most power,
+		// if possible. No creature in magic has a power less than or equal to
+		// -2, so we'll start with that default value.
+		while (true) {
+			int maxPowerIndex = -1;
+			int maxPower = -2;
+			for (int i = 0; i < this.hand.size(); i++) {
+				c = this.hand.get(i);
+				if (c.types.equals("Creature")) {
+					if ((c.power > maxPower) && this.evaluateCardPlayable(c)) {
+
+						maxPower = c.power;
+						maxPowerIndex = i;
+					}
+				}
+			}
+
+			// Makes sure we found a creature and plays it, then breaks the loop
+			// if we didn't find a creature to play. This is, of course,
+			// assuming that only creature cards are in the game. This will be
+			// fixable and generalizable later on.
+			if (maxPowerIndex > -1) {
+				this.playCard(maxPowerIndex);
+			}
+
+		}
+	}
+
+	private void playCard(int handIndex) {
+		this.gameState.addPermanent(this.hand.remove(handIndex));
+
+	}
+
+	// This determines the mana cost of the card via the same method that the
+	// evaluateOpenMana evaluates avaliable mana, but using the cost string that
+	// each card has, instead of building up a fresh string.
+	private boolean evaluateCardPlayable(Card c) {
+		// There are spells that have no cost, and those cannot be played for
+		// their cost, seeing as they don't have one. Thus, despite not
+		// implementing those cards for a while, there will be a special case
+		// where I check to see if their cost is null.
+
+		if (c.cost.equals("0")) {
+			return false;
+		}
+
+		// The mana cost array looks at mana in alphabetical order for colors,
+		// with colorless last. The specific order is [Black, Blue, Green, Red,
+		// White, Colorless].
+		int[] manaCost = { 0, 0, 0, 0, 0, 0 };
+
+		// This will have to change a bit when I introduce hybrid mana and
+		// alternate costs. It's fine for the current mono green implementation
+		// though.
+		for (char ch : c.cost.toCharArray()) {
+			switch (ch) {
+			case 'B':
+				manaCost[0]++;
+				break;
+			case 'U':
+				manaCost[1]++;
+				break;
+			case 'G':
+				manaCost[2]++;
+				break;
+			case 'R':
+				manaCost[3]++;
+				break;
+			case 'W':
+				manaCost[4]++;
+				break;
+			case '1':
+				manaCost[5]++;
+				break;
+			default:
+				break;
+			}
+		}
+		// Here I check each of the five colors, and ensure that I have enough
+		// mana open to pay for the colored costs.
+		for (int i = 0; i < 5; i++) {
+			if (this.manaOpen[i] < manaCost[i]) {
+				return false;
+			}
+		}
+		// This part is only reachable if all the colored costs can be payed.
+		// Here it checks the colorless cost against avaliable colorless mana
+		// and all left over colored mana.
+
+		int remainingMana = 0;
+		for (int i = 0; i < 5; i++) {
+			remainingMana += (this.manaOpen[i] - manaCost[i]);
+		}
+
+		// Add in colorless mana and check total remaining mana against
+		// colorless cost. Return false if mana insufficient, otherwise pass to
+		// a default return true, which is the default because zero mana stuff
+		// exists.
+		remainingMana += this.manaOpen[5];
+		if (remainingMana < manaCost[5]) {
+			return false;
+		}
+
+		return true;
+	}
+
+	// Here, we evaluate open mana by building a string of open mana and
+	// parsing it into integers on a case-by-case basis.
+	private void evaluateOpenMana() {
+		String openMana = this.gameState.openMana(this);
+		this.manaOpen = new int[6];
+		for (char ch : openMana.toCharArray()) {
+			switch (ch) {
+			case 'B':
+				this.manaOpen[0]++;
+				break;
+			case 'U':
+				this.manaOpen[1]++;
+				break;
+			case 'G':
+				this.manaOpen[2]++;
+				break;
+			case 'R':
+				this.manaOpen[3]++;
+				break;
+			case 'W':
+				this.manaOpen[4]++;
+				break;
+			case '1':
+				this.manaOpen[5]++;
+				break;
+			default:
+				break;
+
+			}
+
+		}
+
+	}
+}

@@ -1,0 +1,20 @@
+package magicGame;
+
+public class Game {
+
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GameState currentState = new GameState(2);
+		String[] deck1 = {"Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest",
+				"Forest","Forest","Forest","Forest","Forest","Forest", "Grisly Bear", "Grisly Bear", "Grisly Bear", "Grisly Bear"};
+		String[] deck2 = {"Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest",
+				"Forest","Forest","Forest","Forest","Forest","Forest", "Grisly Bear", "Grisly Bear", "Grisly Bear", "Grisly Bear"};
+		Player player1 = new Player(deck1);
+		Player player2 = new Player(deck2);
+		
+	}
+
+}

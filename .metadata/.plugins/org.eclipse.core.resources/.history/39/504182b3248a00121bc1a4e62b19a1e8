@@ -1,0 +1,19 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	ArrayList deckList;
+	Card[] deck;
+	Card[] hand;
+	
+	
+	public Player(ArrayList newDeck){
+		
+		this.deckList = newDeck;
+		for (String cardName : this.deckList){
+			
+		}
+	}
+}

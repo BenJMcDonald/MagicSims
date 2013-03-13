@@ -1,0 +1,34 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	String[] deckList;
+	ArrayList<Card> deck;
+	ArrayList<Card> hand;
+
+	public Player(String[] newDeck) {
+
+		this.deckList = newDeck;
+		deck = new ArrayList<Card>();
+		hand = new ArrayList<Card>();
+
+		for (String cardName : this.deckList) {
+			Card card = CardDB.getCard(cardName, this);
+			this.deck.add(card);
+		}
+
+		
+		
+	}
+	
+	public ArrayList<Card> getDeck(){
+		return this.deck;
+	}
+	
+	public ArrayList<Card> getHand(){
+		return this.hand;
+	}
+	
+}

@@ -1,0 +1,24 @@
+package magicGame;
+
+public class CardDB {
+
+	
+	
+	public Card getCard(String cardName){
+		
+		
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

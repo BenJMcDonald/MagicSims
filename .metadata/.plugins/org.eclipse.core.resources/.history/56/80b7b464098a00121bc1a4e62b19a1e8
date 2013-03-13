@@ -1,0 +1,35 @@
+package magicGame;
+
+//This is going to be the meat of the magic game.
+
+public class Card {
+
+	public String name;
+	public String cost;
+	public int cmc;
+	//There are better ways to handle types, but I haven't figured out how to implement them yet.
+	public String[] types;
+	public int power = 0;
+	public int toughness = 0;
+	
+	
+	
+	
+	public Card(String cardName, String cardCost, String[] cardTypes, int newPower, int newToughness){
+		
+		this.name = cardName;
+		this.cost = cardCost;
+		this.cmc = cardCost.length();
+		this.types = cardTypes;
+		this.power = newPower;
+		this.toughness = newToughness;
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+}

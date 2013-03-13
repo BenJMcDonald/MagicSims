@@ -1,0 +1,17 @@
+package magicGame;
+
+public class Player {
+
+	String[] deckList;
+	Card[] deck;
+	Card[] hand;
+	
+	
+	public Player(String[] newDeck){
+		
+		this.deckList = newDeck;
+		for (String cardName : this.deckList){
+			deck.add(CardDB.getCard(cardName, this));
+		}
+	}
+}

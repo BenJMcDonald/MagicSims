@@ -169,47 +169,92 @@ public class Player {
 	}
 
 	// So I wasn't actually paying the cost for cards. Whoops. This method
-	// re-evaluates the mana cost, then taps lands accordingly.
+	// re-evaluates the mana cost, then taps lands accordingly. This will have
+	// to be majorly overhaulled when I implement mana dorks and mana artifacts.
 	private void payCost(Card cardToPlay) {
 		int[] manaCost = this.evaluateCardCost(cardToPlay);
+
+		int specificMana = 0;
+		for (int i = 0; i < 6; i++) {
+			specificMana = manaCost[i];
+			switch (i) {
+			case 0:
+				for (int j = 0; j < specificMana; j++) {
+					this.gameState.getNextUntappedPerm("Swamp", this)
+							.setTapped(true);
+				}
+				break;
+			case 1:
+				for (int j = 0; j < specificMana; j++) {
+					this.gameState.getNextUntappedPerm("Island", this)
+							.setTapped(true);
+				}
+				break;
+			case 2:
+				for (int j = 0; j < specificMana; j++) {
+					this.gameState.getNextUntappedPerm("Forest", this)
+							.setTapped(true);
+				}
+				break;
+			case 3:
+				for (int j = 0; j < specificMana; j++) {
+					this.gameState.getNextUntappedPerm("Mountain", this)
+							.setTapped(true);
+				}
+				break;
+			case 4:
+				for (int j = 0; j < specificMana; j++) {
+					this.gameState.getNextUntappedPerm("Plains", this)
+							.setTapped(true);
+				}
+				break;
+			case 5:
+				break; // Some slightly complicated logic will end up going
+						// here. For now, I'm just going to tap the next
+						// avaliable land that I control, as bad an idea as that
+						// is in practice.
+
+			}
+
+		}
 
 	}
 
 	private int[] evaluateCardCost(Card cardToPlay) {
 		// The mana cost array looks at mana in alphabetical order for colors,
-				// with colorless last. The specific order is [Black, Blue, Green, Red,
-				// White, Colorless].
-				int[] manaCost = { 0, 0, 0, 0, 0, 0 };
+		// with colorless last. The specific order is [Black, Blue, Green, Red,
+		// White, Colorless].
+		int[] manaCost = { 0, 0, 0, 0, 0, 0 };
 
-				// This will have to change a bit when I introduce hybrid mana and
-				// alternate costs. It's fine for the current mono green implementation
-				// though.
-				for (char ch : cardToPlay.getCost().toCharArray()) {
-					switch (ch) {
-					case 'B':
-						manaCost[0]++;
-						break;
-					case 'U':
-						manaCost[1]++;
-						break;
-					case 'G':
-						manaCost[2]++;
-						break;
-					case 'R':
-						manaCost[3]++;
-						break;
-					case 'W':
-						manaCost[4]++;
-						break;
-					case '1':
-						manaCost[5]++;
-						break;
-					default:
-						break;
-					}
-				}
-				
-				return manaCost;
+		// This will have to change a bit when I introduce hybrid mana and
+		// alternate costs. It's fine for the current mono green implementation
+		// though.
+		for (char ch : cardToPlay.getCost().toCharArray()) {
+			switch (ch) {
+			case 'B':
+				manaCost[0]++;
+				break;
+			case 'U':
+				manaCost[1]++;
+				break;
+			case 'G':
+				manaCost[2]++;
+				break;
+			case 'R':
+				manaCost[3]++;
+				break;
+			case 'W':
+				manaCost[4]++;
+				break;
+			case '1':
+				manaCost[5]++;
+				break;
+			default:
+				break;
+			}
+		}
+
+		return manaCost;
 	}
 
 	// This determines the mana cost of the card via the same method that the
@@ -225,11 +270,11 @@ public class Player {
 			return false;
 		}
 
-		//I've found that having the card's mana cost by itself is a desirable thing, so I made a separate method for it.
-		
+		// I've found that having the card's mana cost by itself is a desirable
+		// thing, so I made a separate method for it.
+
 		int[] manaCost = this.evaluateCardCost(c);
-		
-		
+
 		// Here I check each of the five colors, and ensure that I have enough
 		// mana open to pay for the colored costs.
 		for (int i = 0; i < 5; i++) {

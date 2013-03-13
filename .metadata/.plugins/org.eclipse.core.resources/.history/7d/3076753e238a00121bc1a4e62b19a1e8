@@ -1,0 +1,14 @@
+package magicGame;
+
+public class Player {
+
+	String[] deck;
+	String[] hand;
+	
+	
+	public Player(String[] newDeck){
+		
+		this.deck = newDeck;
+		
+	}
+}

@@ -1,0 +1,17 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	ArrayList<String> deckList;
+	ArrayList<Card> deck;
+	ArrayList<Card> hand;
+	
+	
+	public Player(ArrayList<String> newDeck){
+		
+		this.deckList = newDeck;
+		
+	}
+}

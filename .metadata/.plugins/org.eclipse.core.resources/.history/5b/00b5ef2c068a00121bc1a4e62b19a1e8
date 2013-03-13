@@ -1,0 +1,23 @@
+package magicGame;
+
+//This is going to be the meat of the magic game.
+
+public class Card {
+
+	public String name;
+	public String cost;
+	public String cmc;
+	//There are better ways to handle types, but I haven't figured out how to implement them yet.
+	public String types;
+	
+	
+	public Card(){
+		
+		
+	}
+	
+	
+	
+	
+	
+}

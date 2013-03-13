@@ -1,0 +1,52 @@
+package magicGame;
+
+//This is going to be the meat of the magic game.
+
+public class Card {
+
+	public String name;
+	public String cost;
+	public String cmc;
+	//There are better ways to handle types, but I haven't figured out how to implement them yet.
+	public String types;
+	
+	//I can't figure out a way to keep Card generic without having a P/T class that can be null if it isn't a creature card.
+	private class PowerToughness{
+		private int power;
+		private int toughness;
+	
+		public PowerToughness(int newPower, int newToughness){
+			this.power = newPower;
+			this.toughness = newToughness;
+		}
+		
+		public int getPower(){
+			return this.power;
+		}
+		
+		public int getToughness(){
+			return this.toughness;
+		}
+		
+		public int setPower(int newPower){
+			this.power = newPower;
+			return this.power;
+		}
+		
+		public int setToughness(int newToughness){
+			this.toughness = newToughness;
+			return this.toughness;
+		}
+		
+	}
+	
+	public Card(){
+		
+		
+	}
+	
+	
+	
+	
+	
+}

@@ -1,0 +1,27 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Game {
+
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GameState currentState = new GameState(2);
+		String[] dummyCardList = {"Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest","Forest",
+				"Forest","Forest","Forest","Forest","Forest","Forest", "Grisly Bear", "Grisly Bear", "Grisly Bear", "Grisly Bear"};
+		ArrayList deck1 = new ArrayList<String>();
+		ArrayList deck2 = new ArrayList<String>();
+		for(String cardName : dummyCardList){
+			deck1.add(cardName);
+			deck2.add(cardName);
+		}
+		
+		Player player1 = new Player(deck1);
+		Player player2 = new Player(deck2);
+		
+	}
+
+}

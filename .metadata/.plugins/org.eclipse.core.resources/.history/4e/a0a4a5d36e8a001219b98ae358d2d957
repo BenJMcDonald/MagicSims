@@ -1,0 +1,69 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	String[] deckList;
+	ArrayList<Card> deck;
+	ArrayList<Card> hand;
+	boolean hasLost;
+	int life;
+	GameState gameState;
+
+	public Player(String[] newDeck, GameState gameState) {
+		this.hasLost = false;
+		this.life = 20;
+		this.deckList = newDeck;
+		deck = new ArrayList<Card>();
+		hand = new ArrayList<Card>();
+		this.gameState = gameState;
+
+		for (String cardName : this.deckList) {
+			Card card = CardDB.getCard(cardName, this);
+			this.deck.add(card);
+		}
+
+		
+		
+	}
+	
+	public ArrayList<Card> getDeck(){
+		return this.deck;
+	}
+	
+	public ArrayList<Card> getHand(){
+		return this.hand;
+	}
+	
+	public boolean draw(int numToDraw){
+		for(int i = 0; i < numToDraw; i++){
+			if(deck.size() == 0){
+				this.hasLost = true;
+				return this.hasLost;
+			}
+			this.hand.add(this.deck.remove(0));
+		}
+		return this.hasLost;
+	}
+	
+	public boolean loses(){
+		return this.hasLost;
+	}
+	
+	public int getLife(){
+		return this.life;
+	}
+	
+	public int setLife(int newLife){
+		this.life = newLife;
+		return this.life;
+	}
+	
+	public int changeLife(int lifeChangeIncrement){
+		this.life += lifeChangeIncrement;
+		return this.life;
+	}
+	
+	
+}

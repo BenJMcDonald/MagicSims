@@ -1,0 +1,14 @@
+package magicGame;
+
+public class GameState {
+
+	private int players = 0;
+
+	public GameState(int numPlayers) {
+		this.players = numPlayers;
+	}
+	
+	public int numPlayers(){
+		return this.players;
+	}
+}

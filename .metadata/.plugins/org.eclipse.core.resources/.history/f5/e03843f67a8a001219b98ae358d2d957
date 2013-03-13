@@ -1,0 +1,89 @@
+package magicGame;
+
+import java.util.ArrayList;
+
+public class Player {
+
+	String[] deckList;
+	ArrayList<Card> deck;
+	ArrayList<Card> hand;
+	boolean hasLost;
+	int life;
+	GameState gameState;
+	boolean playedLand;
+
+	public Player(String[] newDeck, GameState gameState) {
+		this.hasLost = false;
+		playedLand = false;
+		this.life = 20;
+		this.deckList = newDeck;
+		deck = new ArrayList<Card>();
+		hand = new ArrayList<Card>();
+		this.gameState = gameState;
+
+		for (String cardName : this.deckList) {
+			Card card = CardDB.getCard(cardName, this);
+			this.deck.add(card);
+		}
+
+	}
+
+	public ArrayList<Card> getDeck() {
+		return this.deck;
+	}
+
+	public ArrayList<Card> getHand() {
+		return this.hand;
+	}
+
+	public boolean draw(int numToDraw) {
+		for (int i = 0; i < numToDraw; i++) {
+			if (deck.size() == 0) {
+				this.hasLost = true;
+				return this.hasLost;
+			}
+			this.hand.add(this.deck.remove(0));
+		}
+		return this.hasLost;
+	}
+
+	public boolean loses() {
+		return this.hasLost;
+	}
+
+	public int getLife() {
+		return this.life;
+	}
+
+	public int setLife(int newLife) {
+		this.life = newLife;
+		return this.life;
+	}
+
+	public int changeLife(int lifeChangeIncrement) {
+		this.life += lifeChangeIncrement;
+		return this.life;
+	}
+
+	public void chooseBlockers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void playMainPhase() {
+		// Look for a land to play, and play it.
+		Card c;
+		for (int i = 0; i < this.hand.size(); i++) {
+			c = this.hand.get(i);
+			if (c.types.equals("Land") && this.playedLand == false) {
+				this.gameState.addPermanent(this.hand.remove(i));
+				break;
+			}
+
+		}
+		// next step is to evaluate producable mana. Do this by building a
+		// string of the form "xG, xB, xU, xW, xR, xC" for now. Deal with duo
+		// lands later.
+	}
+
+}
