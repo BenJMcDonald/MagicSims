@@ -77,6 +77,8 @@ public class Player {
 
 	public int changeLife(int lifeChangeIncrement) {
 		this.life += lifeChangeIncrement;
+		System.out.println("Player " + this.playerNumber + " now has "
+				+ this.life + " life remaining.");
 		return this.life;
 	}
 
@@ -93,7 +95,7 @@ public class Player {
 		Card highestPowerAttacker = null;
 		while (creaturesAttackingMe.size() > 0
 				&& controlledCreatures.size() > 0) {
-			for (Card creature : controlledCreatures) {
+			for (Card creature : creaturesAttackingMe) {
 				if (creature.getPower() > highestAttackingPower) {
 					highestAttackingPower = creature.getPower();
 					highestPowerAttacker = creature;
@@ -358,10 +360,13 @@ public class Player {
 	// game, it will always attack the opponent.
 	public ArrayList<Card> chooseAttackers(ArrayList<Card> controlledCreatures) {
 		int playerIndex = 0;
+		ArrayList<Card> attackingCreatures = new ArrayList<Card>();
 		for (Card creature : controlledCreatures) {
-			creature.setTapped(true);
-			creature.setAttacking(true);
-
+			if (!creature.hasSummoningSickness()) {
+				creature.setTapped(true);
+				creature.setAttacking(true);
+				attackingCreatures.add(creature);
+			}
 			// Makes sure I'm not trying to attack myself.
 			if (this.gameState.getPlayers().get(playerIndex)
 					.equals(this.gameState.getActivePlayer())) {
@@ -376,14 +381,14 @@ public class Player {
 					playerIndex));
 		}
 		// TODO: create real logic for attacking
-		return controlledCreatures;
+		return attackingCreatures;
 
 	}
 
 	public void destroy(Card creature) {
-		System.out.println(creature.getName() + " is about to be destroyed.");
 		this.graveyard.add(creature);
-		System.out.println(creature.getName() + " has been destroyed.");
+		System.out.println("Player " + this.playerNumber + "'s "
+				+ creature.getName() + " has been destroyed.");
 
 	}
 

@@ -56,6 +56,11 @@ public class GameState {
 					+ ".");
 			this.activePlayer = this.players.get(activePlayerIndex);
 			this.activePlayer.setPlayedLand(false);
+			for (Card perm : this.permanents) {
+				if (perm.getController().equals(this.activePlayer)) {
+					perm.setSummoningSickness(false);
+				}
+			}
 			this.untap();
 			this.upkeep();
 			this.draw();
@@ -158,6 +163,7 @@ public class GameState {
 			// here, as will any replacement effects for damage. Once these are
 			// implemented, I'll check for them.
 			else {
+				
 				creature.getDefendingPlayer().changeLife(
 						-1 * creature.getPower());
 			}
