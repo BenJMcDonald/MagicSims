@@ -58,8 +58,12 @@ public class Player {
 		return this.hasLost;
 	}
 
-	public boolean loses() {
-		return this.hasLost;
+	public boolean checkHasLost() {
+		return hasLost;
+	}
+
+	public void setHasLost(boolean hasLost) {
+		this.hasLost = hasLost;
 	}
 
 	public int getLife() {
@@ -116,6 +120,7 @@ public class Player {
 			c = this.hand.get(i);
 			if (c.getTypes().equals("Land") && this.playedLand == false) {
 				this.playPermanentCard(i);
+				this.playedLand = true;
 				break;
 			}
 
@@ -147,6 +152,7 @@ public class Player {
 			// fixable and generalizable later on.
 			if (maxPowerIndex > -1) {
 				this.playPermanentCard(maxPowerIndex);
+				this.evaluateOpenMana();
 			} else {
 				break;
 			}
@@ -155,10 +161,55 @@ public class Player {
 
 	private void playPermanentCard(int handIndex) {
 		Card cardToPlay = this.hand.remove(handIndex);
+		this.payCost(cardToPlay);
 		this.gameState.addPermanent(cardToPlay);
 		System.out.println("Player " + this.playerNumber + " has played "
 				+ cardToPlay.getName() + ".");
 
+	}
+
+	// So I wasn't actually paying the cost for cards. Whoops. This method
+	// re-evaluates the mana cost, then taps lands accordingly.
+	private void payCost(Card cardToPlay) {
+		int[] manaCost = this.evaluateCardCost(cardToPlay);
+
+	}
+
+	private int[] evaluateCardCost(Card cardToPlay) {
+		// The mana cost array looks at mana in alphabetical order for colors,
+				// with colorless last. The specific order is [Black, Blue, Green, Red,
+				// White, Colorless].
+				int[] manaCost = { 0, 0, 0, 0, 0, 0 };
+
+				// This will have to change a bit when I introduce hybrid mana and
+				// alternate costs. It's fine for the current mono green implementation
+				// though.
+				for (char ch : cardToPlay.getCost().toCharArray()) {
+					switch (ch) {
+					case 'B':
+						manaCost[0]++;
+						break;
+					case 'U':
+						manaCost[1]++;
+						break;
+					case 'G':
+						manaCost[2]++;
+						break;
+					case 'R':
+						manaCost[3]++;
+						break;
+					case 'W':
+						manaCost[4]++;
+						break;
+					case '1':
+						manaCost[5]++;
+						break;
+					default:
+						break;
+					}
+				}
+				
+				return manaCost;
 	}
 
 	// This determines the mana cost of the card via the same method that the
@@ -174,38 +225,11 @@ public class Player {
 			return false;
 		}
 
-		// The mana cost array looks at mana in alphabetical order for colors,
-		// with colorless last. The specific order is [Black, Blue, Green, Red,
-		// White, Colorless].
-		int[] manaCost = { 0, 0, 0, 0, 0, 0 };
-
-		// This will have to change a bit when I introduce hybrid mana and
-		// alternate costs. It's fine for the current mono green implementation
-		// though.
-		for (char ch : c.getCost().toCharArray()) {
-			switch (ch) {
-			case 'B':
-				manaCost[0]++;
-				break;
-			case 'U':
-				manaCost[1]++;
-				break;
-			case 'G':
-				manaCost[2]++;
-				break;
-			case 'R':
-				manaCost[3]++;
-				break;
-			case 'W':
-				manaCost[4]++;
-				break;
-			case '1':
-				manaCost[5]++;
-				break;
-			default:
-				break;
-			}
-		}
+		//I've found that having the card's mana cost by itself is a desirable thing, so I made a separate method for it.
+		
+		int[] manaCost = this.evaluateCardCost(c);
+		
+		
 		// Here I check each of the five colors, and ensure that I have enough
 		// mana open to pay for the colored costs.
 		for (int i = 0; i < 5; i++) {
@@ -301,6 +325,7 @@ public class Player {
 			// Checks to avoid array out of bounds errors.
 			if (playerIndex >= this.gameState.getNumPlayers()) {
 				playerIndex = 0;
+
 			}
 			creature.setDefendingPlayer(this.gameState.getPlayers().get(
 					playerIndex));
@@ -323,6 +348,14 @@ public class Player {
 
 	public void setPlayerNumber(int playerNumber) {
 		this.playerNumber = playerNumber;
+	}
+
+	public boolean isPlayedLand() {
+		return playedLand;
+	}
+
+	public void setPlayedLand(boolean playedLand) {
+		this.playedLand = playedLand;
 	}
 
 }

@@ -55,6 +55,7 @@ public class GameState {
 					+ "'s turn, and the turn number is " + this.turnNumber
 					+ ".");
 			this.activePlayer = this.players.get(activePlayerIndex);
+			this.activePlayer.setPlayedLand(false);
 			this.untap();
 			this.upkeep();
 			this.draw();
@@ -88,7 +89,7 @@ public class GameState {
 	private void endStep() {
 		ArrayList<Player> losingPlayers = new ArrayList<Player>();
 		for (Player p : this.players) {
-			if (p.loses()) {
+			if (p.checkHasLost()) {
 				System.out.println("Player " + p.getPlayerNumber()
 						+ " has lost the game.");
 				losingPlayers.add(p);
@@ -161,6 +162,12 @@ public class GameState {
 						-1 * creature.getPower());
 			}
 		}
+
+		for (Player p : this.players) {
+			if (p.getLife() < 1) {
+				p.setHasLost(true);
+			}
+		}
 	}
 
 	private void mainPhase(int phase) {
@@ -195,7 +202,7 @@ public class GameState {
 		String mana = "";
 		for (Card perm : this.permanents) {
 			if (perm.getTypes().equals("Land")
-					&& perm.getController().equals(player)) {
+					&& perm.getController().equals(player) && !perm.isTapped()) {
 				String cardName = perm.getName();
 				switch (cardName) {
 				case "Forest":
