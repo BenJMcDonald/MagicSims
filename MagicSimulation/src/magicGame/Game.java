@@ -36,10 +36,59 @@ public class Game {
 
 		}
 
-		int averageTurnFinished = turnFinishedCount / gamesToTest;
+		double averageTurnFinished = (double) turnFinishedCount
+				/ (double) gamesToTest;
+		System.out.println("Results of paired contest:");
 		System.out.println("After " + gamesToTest
 				+ " games, with an average length of " + averageTurnFinished
 				+ " turns, the surviving deck is:");
+		Game.printDeck(bestDeck);
+		System.out.println();
+		System.out
+				.println("Results of fish-bowl trials to optimize for fastest win time:  ");
+
+		// Makes a dummy deck to test against.
+		String[] deckOfAllLands = new String[60];
+		for (int i = 0; i < 60; i++) {
+			deckOfAllLands[i] = "Forest";
+		}
+
+		// This will be a random deck which is tested against the dummy deck.
+		String[] deckToTest;
+		int testCount = 200;
+		int decksToTest = 10000;
+		int endTurnCount = 0;
+		double bestAverageTurnWin = Integer.MAX_VALUE;
+
+		ArrayList<Object> results;
+		for (int i = 0; i < decksToTest; i++) {
+			deckToTest = Game.makeDeck();
+			decks = new ArrayList<String[]>();
+			decks.add(deckToTest);
+			decks.add(deckOfAllLands);
+			for (int j = 0; j < testCount; j++) {
+				GameState currentState = new GameState(2);
+				while (true) {
+					currentState = new GameState(2);
+					currentState.makePlayers(decks);
+					currentState.initializeGame();
+					results = currentState.playGame();
+					if (null != results.get(1)) {
+						break;
+					}
+				}
+				endTurnCount += (int) results.get(0);
+			}
+			double averageTurnWin = (double) endTurnCount / (double) testCount;
+			if (averageTurnWin < bestAverageTurnWin) {
+				bestAverageTurnWin = averageTurnWin;
+				bestDeck = deckToTest;
+			}
+
+		}
+
+		System.out.println("The fastest average turn win is "
+				+ bestAverageTurnWin + " turns, and the winning deck is:  ");
 		Game.printDeck(bestDeck);
 
 		// int finalTurn = currentState.getTurnNumber();

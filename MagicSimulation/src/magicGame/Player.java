@@ -51,6 +51,7 @@ public class Player {
 		for (int i = 0; i < numToDraw; i++) {
 			if (deck.size() == 0) {
 				this.hasLost = true;
+				this.gameState.setTurnNumber(Integer.MAX_VALUE -2);
 				return this.hasLost;
 			}
 			this.hand.add(this.deck.remove(0));
