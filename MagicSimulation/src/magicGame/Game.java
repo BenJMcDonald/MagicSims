@@ -8,88 +8,168 @@ public class Game {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ArrayList<String[]> decks = new ArrayList<String[]>();
-		for (int i = 0; i < 2; i++) {
-			decks.add(Game.makeDeck());
-		}
-		String[] bestDeck = {};
-		int turnFinishedCount = 0;
-		// This integer is a testing parameter. It can be changed at will.
-		int gamesToTest = 10000;
-
-		for (int i = 1; i < gamesToTest; i++) {
-			GameState currentState;
-			while (true) {
-				currentState = new GameState(2);
-				currentState.makePlayers(decks);
-				currentState.initializeGame();
-				ArrayList<Object> results = currentState.playGame();
-				if (null != results.get(1)) {
-					break;
-				}
-			}
-			bestDeck = currentState.getPlayers().get(0).getDeckList();
-			decks = new ArrayList<String[]>();
-			decks.add(bestDeck);
-			decks.add(Game.makeDeck());
-			turnFinishedCount += currentState.getTurnNumber();
-
-		}
-
-		double averageTurnFinished = (double) turnFinishedCount
-				/ (double) gamesToTest;
-		System.out.println("Results of paired contest:");
-		System.out.println("After " + gamesToTest
-				+ " games, with an average length of " + averageTurnFinished
-				+ " turns, the surviving deck is:");
-		Game.printDeck(bestDeck);
-		System.out.println();
-		System.out
-				.println("Results of fish-bowl trials to optimize for fastest win time:  ");
-
+		int poolSize = 2000;
+		int trials = 100;
+		ArrayList<String[]> generation = Game.makeGeneration(poolSize);
+		System.out.println("New pool of " + poolSize
+				+ " decks generated. \nThis is the first generation.");
+		int endingGeneration = 20;
 		// Makes a dummy deck to test against.
 		String[] deckOfAllLands = new String[60];
 		for (int i = 0; i < 60; i++) {
 			deckOfAllLands[i] = "Forest";
 		}
-
-		// This will be a random deck which is tested against the dummy deck.
-		String[] deckToTest;
-		int testCount = 200;
-		int decksToTest = 10000;
-		int endTurnCount = 0;
-		double bestAverageTurnWin = Integer.MAX_VALUE;
-
 		ArrayList<Object> results;
-		for (int i = 0; i < decksToTest; i++) {
-			deckToTest = Game.makeDeck();
-			decks = new ArrayList<String[]>();
-			decks.add(deckToTest);
-			decks.add(deckOfAllLands);
-			for (int j = 0; j < testCount; j++) {
-				GameState currentState = new GameState(2);
-				while (true) {
+		ArrayList<String[]> decks;
+		GameState currentState;
+		double bestAverageWinTime = Integer.MAX_VALUE;
+		// A silly initialization, but later stuff wants it initialized.
+		String[] bestDeck = deckOfAllLands;
+		double[] records = new double[poolSize];
+		double threshold;
+		for (int gen = 0; gen < endingGeneration; gen++) {
+			System.out.println("Begin generation " + (gen + 1) + " testing.");
+			
+			for (int i = 0; i < poolSize; i++) {
+				int turnCount = 0;
+				for (int j = 0; j < trials; j++) {
+
 					currentState = new GameState(2);
+					decks = new ArrayList<String[]>();
+					decks.add(generation.get(i));
+					decks.add(deckOfAllLands);
 					currentState.makePlayers(decks);
 					currentState.initializeGame();
 					results = currentState.playGame();
-					if (null != results.get(1)) {
-						break;
-					}
+					turnCount += (int) results.get(0);
 				}
-				endTurnCount += (int) results.get(0);
+				double averageWinTime = (double) turnCount
+						/ (2 * (double) trials);
+				records[i] = averageWinTime;
+				if (averageWinTime < bestAverageWinTime) {
+					bestDeck = generation.get(i);
+					bestAverageWinTime = averageWinTime;
+					System.out.println("New best deck is deck number " + gen
+							+ "-" + i + " , with an average win time of "
+							+ averageWinTime + " turns.");
+					System.out.println(bestDeck.length + " cards");
+					Game.printDeck(bestDeck);
+					System.out.println();
+				}
 			}
-			double averageTurnWin = (double) endTurnCount / (double) testCount;
-			if (averageTurnWin < bestAverageTurnWin) {
-				bestAverageTurnWin = averageTurnWin;
-				bestDeck = deckToTest;
+
+			System.out
+					.println("Finished testing generation "
+							+ (gen + 1)
+							+ ".  Now building next generation from most successful members of this generation.");
+			threshold = 0;
+			for (int j = 0; j < records.length; j++) {
+				threshold += records[j];
 			}
+			threshold = threshold / records.length;
+
+			ArrayList<String[]> nextGen = new ArrayList<String[]>();
+			for (int deckIndex = 0; deckIndex < poolSize; deckIndex++) {
+				if (records[deckIndex] > threshold) {
+					nextGen.add(Game.makeDeck(generation.get(deckIndex)));
+
+				} else {
+					nextGen.add(Game.makeDeck(bestDeck));
+				}
+
+			}
+
+			generation = nextGen;
 
 		}
 
-		System.out.println("The fastest average turn win is "
-				+ bestAverageTurnWin + " turns, and the winning deck is:  ");
-		Game.printDeck(bestDeck);
+		// TODO: make a makeGeneration function that takes the list of decks as
+		// an argument
+
+		// ArrayList<String[]> decks = new ArrayList<String[]>();
+		// for (int i = 0; i < 2; i++) {
+		// decks.add(Game.makeDeck());
+		// }
+		// String[] bestDeck = {};
+		// int turnFinishedCount = 0;
+		// int failedPairCount = 0;
+		// // This integer is a testing parameter. It can be changed at will.
+		// int gamesToTest = 50000;
+		// ArrayList<Object> results;
+		// for (int i = 1; i < gamesToTest; i++) {
+		// GameState currentState;
+		// currentState = new GameState(2);
+		// currentState.makePlayers(decks);
+		// currentState.initializeGame();
+		// results = currentState.playGame();
+		// decks = new ArrayList<String[]>();
+		// if (null != results.get(1)) {
+		//
+		// bestDeck = currentState.getPlayers().get(0).getDeckList();
+		// decks.add(bestDeck);
+		// decks.add(Game.makeDeck());
+		// turnFinishedCount += currentState.getTurnNumber();
+		// } else {
+		// failedPairCount++;
+		// decks.add(Game.makeDeck());
+		// decks.add(Game.makeDeck());
+		//
+		// System.out.println("Failure! " + i);
+		// }
+		//
+		// }
+		//
+		// double averageTurnFinished = (double) turnFinishedCount
+		// / (double) (gamesToTest - 2 * failedPairCount);
+		// System.out.println("Results of paired contest:");
+		// System.out.println("After " + gamesToTest + " games and "
+		// + failedPairCount * 2
+		// + " failed decks, with an average length of "
+		// + averageTurnFinished
+		// + " turns, the surviving deck, with a size of "
+		// + bestDeck.length + " is:");
+		// Game.printDeck(bestDeck);
+		// System.out.println();
+
+		// This will be a random deck which is tested against the dummy deck.
+		// String[] deckToTest;
+		// int testCount = 200;
+		// int decksToTest = 10000;
+		// int endTurnCount = 0;
+		// double bestAverageTurnWin = Integer.MAX_VALUE;
+		// System.out
+		// .println("Results of fish-bowl trials to optimize for fastest win time ("
+		// + (testCount * decksToTest) + " trials):  ");
+		// ArrayList<Object> results;
+		// for (int i = 0; i < decksToTest; i++) {
+		// deckToTest = Game.makeDeck();
+		// decks = new ArrayList<String[]>();
+		// decks.add(deckToTest);
+		// decks.add(deckOfAllLands);
+		// for (int j = 0; j < testCount; j++) {
+		// GameState currentState = new GameState(2);
+		// while (true) {
+		// currentState = new GameState(2);
+		// currentState.makePlayers(decks);
+		// currentState.initializeGame();
+		// results = currentState.playGame();
+		// if (null != results.get(1)) {
+		// break;
+		// }
+		// }
+		// endTurnCount += (int) results.get(0);
+		// }
+		// double averageTurnWin = (double) endTurnCount / (double) testCount;
+		// if (averageTurnWin < bestAverageTurnWin) {
+		// bestAverageTurnWin = averageTurnWin;
+		// bestDeck = deckToTest;
+		// }
+		//
+		// }
+		//
+		// System.out.println("The fastest average turn win is "
+		// + bestAverageTurnWin + " turns, and the winning deck is:  ");
+		// Game.printDeck(bestDeck);
 
 		// int finalTurn = currentState.getTurnNumber();
 		// System.out.println("The game has ended on turn " + finalTurn + "!");
@@ -127,6 +207,16 @@ public class Game {
 
 	}
 
+	private static ArrayList<String[]> makeGeneration(int poolSize) {
+		ArrayList<String[]> decks = new ArrayList<String[]>();
+		for (int i = 0; i < poolSize; i++) {
+			decks.add(Game.makeDeck());
+		}
+
+		return decks;
+
+	}
+
 	private static void printDeck(String[] bestDeck) {
 		for (String s : bestDeck) {
 			System.out.print(s + ", ");
@@ -141,25 +231,93 @@ public class Game {
 	private static String[] makeDeck() {
 		String[] cards = CardDB.getCards();
 		ArrayList<String> newDeck = new ArrayList<String>();
+		ArrayList<String> basicLands = new ArrayList<String>();
+		basicLands.add("Forest");
+		basicLands.add("Swamp");
+		basicLands.add("Mountain");
+		basicLands.add("Plains");
+		basicLands.add("Island");
 		for (String card : cards) {
-			if (!card.equals("Forest")) {
-				int number = (int) (5 * Math.random());
-				for (int i = 0; i < number; i++) {
-					newDeck.add(card);
-				}
+			int multiplier = 5;
+			if (basicLands.contains(card)) {
+				multiplier = 10;
 			}
+
+			int number = (int) (multiplier * Math.random());
+			for (int i = 0; i < number; i++) {
+				newDeck.add(card);
+			}
+
 		}
+		// Fill with forests if not full
 		int size = newDeck.size();
 		for (int i = 0; i < (60 - size); i++) {
 			newDeck.add("Forest");
 
 		}
-		String[] deck = new String[60];
-		for (int i = 0; i < 60; i++) {
+		String[] deck = new String[newDeck.size()];
+		for (int i = 0; i < newDeck.size(); i++) {
 			deck[i] = newDeck.get(i);
 		}
 
 		return deck;
+	}
+
+	private static String[] makeDeck(String[] parentDeck) {
+		// wip = work in progress. It was too hard to do with just string
+		// arrays.
+		ArrayList<String> wip = new ArrayList<String>();
+		for (String s : parentDeck) {
+			wip.add(s);
+		}
+		// TODO: Figure out how to do permutations. It may become necessary to
+		// change how decks are represented.
+
+		// mutate the deck 70% of the time. This is an arbitrary choice.
+		boolean mutate = false;
+		if (Math.random() > .3) {
+			mutate = true;
+		}
+		if (mutate) {
+			for (String card : parentDeck) {
+				// There will be three possibilities for each card already in
+				// the deck: Remove, replicate, or do nothing.
+				double mutationSelector = Math.random();
+				if (mutationSelector < 0.05) {
+					wip.remove(card);
+				} else if (mutationSelector > 0.95) {
+					wip.add(card);
+				}
+			}
+
+			for (String s : CardDB.getCards()) {
+				// For each card, there is a 2% chance that one will be randomly
+				// added to the deck.
+				if (Math.random() > .98) {
+					wip.add(s);
+				}
+			}
+
+			// Trim down to at most 70 cards.
+			while (wip.size() > 70) {
+				wip.remove((int) ((wip.size()) * Math.random()));
+			}
+
+			// Add forests up to 60 card minimum deck size.
+			if (wip.size() < 60) {
+				int defficit = 60 - wip.size();
+				for (int i = 0; i < defficit; i++) {
+					wip.add("Forest");
+				}
+			}
+		}
+
+		String[] childDeck = new String[wip.size()];
+		for (int i = 0; i < wip.size(); i++) {
+			childDeck[i] = wip.get(i);
+		}
+
+		return childDeck;
 	}
 
 }

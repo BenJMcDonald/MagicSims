@@ -2,20 +2,27 @@ package magicGame;
 
 public class CardDB {
 
-	private static String[] cards = { "Forest", "Axebane Stag", "Acidic Slime",
-			"Adaptive Snapjaw", "Ambush Viper", "Arbor Elf", "Archweaver",
-			"Avacyn's Pilgrim", "Axebane Guardian", "Bond Beetle",
-			"Borderland Ranger", "Briarpack Alpha", "Brushstrider",
-			"Centaur Courser", "Centaur's Herald", "Champion of Lambholt",
-			"Craterhoof Behemoth", "Crocanura", "Crowned Ceratok" };
+	private static String[] cards = { "Mountain", "Island", "Plains", "Swamp",
+			"Forest", "Axebane Stag", "Acidic Slime", "Adaptive Snapjaw",
+			"Ambush Viper", "Arbor Elf", "Archweaver", "Avacyn's Pilgrim",
+			"Axebane Guardian", "Bond Beetle", "Borderland Ranger",
+			"Briarpack Alpha", "Brushstrider", "Centaur Courser",
+			"Centaur's Herald", "Champion of Lambholt", "Craterhoof Behemoth",
+			"Crocanura", "Crowned Ceratok", "Darkthicket Wolf",
+			"Dawntreader Elk", "Daybreak Ranger", "Deadbridge Goliath",
+			"Deadly Recluse", "Deranged Outcast", "Diregraf Escort",
+			"Disciple of the Old Ways", "Drudge Beetle", "Druid's Familiar",
+			"Duskdale Wurm", "Elder of Laurels", "Elvish Archdruid",
+			"Elvish Visionary", "Essence of the Wild", "Experiment One",
+			"Elderscale Wurm" };
 
 	// TODO: put in full list of types, since String has a .contains(String)
 	// function.
 	public static Card getCard(String cardName, Player owner) {
+
 		switch (cardName) {
 		case "Forest":
 			return new Card("Forest", "", "Land", owner);
-			// TODO: add the other basic lands to the cards list.
 		case "Mountain":
 			return new Card("Mountain", "", "Land", owner);
 		case "Island":
@@ -66,8 +73,6 @@ public class CardDB {
 			return new Card("Crocanura", "11G", "Creature", owner, 1, 3);
 		case "Crowned Ceratok":
 			return new Card("Crowned Ceratok", "111G", "Creature", owner, 4, 3);
-			// TODO: Put creatures below this point on the creature list. Then,
-			// redo deck building to make reasonably sized decks.
 
 		case "Darkthicket Wolf":
 			return new Card("Darkthicket Wolf", "1G", "Creature", owner, 2, 2);
@@ -93,7 +98,10 @@ public class CardDB {
 			return new Card("Druid's Familiar", "111G", "Creature", owner, 2, 2);
 		case "Duskdale Wurm":
 			return new Card("Duskdale Wurm", "11111GG", "Creature", owner, 7, 7);
+
 		case "Elder of Laurels":
+			return new Card("Elder of Laurels", "11G", "Creature", owner, 2, 3);
+		case "Elderscale Wurm":
 			return new Card("Elderscale Wurm", "1111GGG", "Creature", owner, 7,
 					7);
 		case "Elvish Archdruid":
@@ -105,6 +113,9 @@ public class CardDB {
 					6, 6);
 		case "Experiment One":
 			return new Card("Experiment One", "G", "Creature", owner, 1, 1);
+			// TODO: Put creatures below this point on the creature list. Then,
+			// redo deck building to make reasonably sized decks.
+
 		case "Festerhide Boar":
 			return new Card("Festerhide Boar", "111G", "Creature", owner, 3, 3);
 		case "Flinthoof Boar":
@@ -144,6 +155,18 @@ public class CardDB {
 					4);
 		case "Gyre Sage":
 			return new Card("Gyre Sage", "1G", "Creature", owner, 1, 2);
+		case "Hamlet Captain":
+			return new Card("Hamlet Captain", "1G", "Creature", owner, 2, 2);
+		case "Hollowhenge Beast":
+			return new Card("Hollowhenge Beast", "111GG", "Creature", owner, 5,
+					5);
+		case "Hollowhenge Scavenger":
+			return new Card("Hollowhenge Scavenger", "111GG", "Creature",
+					owner, 4, 5);
+		case "Howlgeist":
+			return new Card("Howlgeist", "11111G", "Creature", owner, 4, 2);
+		case "Ivy Lane Denizen":
+			return new Card("Ivy Lane Denizen", "111G", "Creature", owner, 2, 3);
 
 		default:
 			return null;

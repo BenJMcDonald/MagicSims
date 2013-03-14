@@ -8,7 +8,7 @@ public class Player {
 	ArrayList<Card> deck;
 	ArrayList<Card> hand;
 	// Have I lost the game?
-	boolean hasLost;
+	boolean hasLost = false;
 	int life;
 	GameState gameState;
 	// Have I played a land this turn?
@@ -22,7 +22,6 @@ public class Player {
 	private ArrayList<Card> graveyard;
 
 	public Player(String[] newDeck, GameState gameState) {
-		this.hasLost = false;
 		playedLand = false;
 		this.life = 20;
 		this.deckList = newDeck;
@@ -49,7 +48,7 @@ public class Player {
 
 	public boolean draw(int numToDraw) {
 		for (int i = 0; i < numToDraw; i++) {
-			if (deck.size() == 0) {
+			if (deck.size() <= 0) {
 				this.hasLost = true;
 				return this.hasLost;
 			}
@@ -59,7 +58,7 @@ public class Player {
 	}
 
 	public boolean checkHasLost() {
-		return hasLost;
+		return this.hasLost;
 	}
 
 	public void setHasLost(boolean hasLost) {
@@ -175,6 +174,8 @@ public class Player {
 	// to be majorly overhaulled when I implement mana dorks and mana artifacts.
 	private void payCost(Card cardToPlay) {
 		int[] manaCost = this.evaluateCardCost(cardToPlay);
+		String[] possibleLands = { "Swamp", "Island", "Forest", "Mountain",
+				"Plains" };
 
 		int specificMana = 0;
 		for (int i = 0; i < 6; i++) {
@@ -182,35 +183,45 @@ public class Player {
 			switch (i) {
 			case 0:
 				for (int j = 0; j < specificMana; j++) {
-					this.gameState.getNextUntappedPerm("Swamp", this)
+					this.gameState.getNextUntappedPerm(possibleLands[i], this)
 							.setTapped(true);
 				}
 				break;
 			case 1:
 				for (int j = 0; j < specificMana; j++) {
-					this.gameState.getNextUntappedPerm("Island", this)
+					this.gameState.getNextUntappedPerm(possibleLands[i], this)
 							.setTapped(true);
 				}
 				break;
 			case 2:
 				for (int j = 0; j < specificMana; j++) {
-					this.gameState.getNextUntappedPerm("Forest", this)
+					this.gameState.getNextUntappedPerm(possibleLands[i], this)
 							.setTapped(true);
 				}
 				break;
 			case 3:
 				for (int j = 0; j < specificMana; j++) {
-					this.gameState.getNextUntappedPerm("Mountain", this)
+					this.gameState.getNextUntappedPerm(possibleLands[i], this)
 							.setTapped(true);
 				}
 				break;
 			case 4:
 				for (int j = 0; j < specificMana; j++) {
-					this.gameState.getNextUntappedPerm("Plains", this)
+					this.gameState.getNextUntappedPerm(possibleLands[i], this)
 							.setTapped(true);
 				}
 				break;
 			case 5:
+				for (int j = 0; j < specificMana; j++) {
+					for (String landName : possibleLands) {
+						if (!(null == this.gameState.getNextUntappedPerm(
+								landName, this))) {
+							this.gameState.getNextUntappedPerm(landName, this)
+									.setTapped(true);
+						}
+					}
+				}
+
 				break; // Some slightly complicated logic will end up going
 						// here. For now, I'm just going to tap the next
 						// avaliable land that I control, as bad an idea as that

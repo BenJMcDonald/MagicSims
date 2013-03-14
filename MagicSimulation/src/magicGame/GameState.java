@@ -51,9 +51,7 @@ public class GameState {
 		int activePlayerIndex = 0;
 		while (this.players.size() > 1) {
 			this.turnNumber++;
-//			System.out.println("It is now player " + activePlayerIndex
-//					+ "'s turn, and the turn number is " + this.turnNumber
-//					+ ".");
+
 			this.activePlayer = this.players.get(activePlayerIndex);
 			this.activePlayer.setPlayedLand(false);
 			for (Card perm : this.permanents) {
@@ -79,10 +77,9 @@ public class GameState {
 		Integer turnFinished = new Integer(this.turnNumber);
 		ArrayList<Object> results = new ArrayList<Object>();
 		results.add(turnFinished);
-		if(this.players.size()>0){
+		if (this.players.size() > 0) {
 			results.add(this.players.get(0));
-		}
-		else{
+		} else {
 			results.add(null);
 		}
 		return results;
@@ -99,8 +96,8 @@ public class GameState {
 		ArrayList<Player> losingPlayers = new ArrayList<Player>();
 		for (Player p : this.players) {
 			if (p.checkHasLost()) {
-//				System.out.println("Player " + p.getPlayerNumber()
-//						+ " has lost the game.");
+				// System.out.println("Player " + p.getPlayerNumber()
+				// + " has lost the game.");
 				losingPlayers.add(p);
 			}
 		}
@@ -167,7 +164,7 @@ public class GameState {
 			// here, as will any replacement effects for damage. Once these are
 			// implemented, I'll check for them.
 			else {
-				
+
 				creature.getDefendingPlayer().changeLife(
 						-1 * creature.getPower());
 			}

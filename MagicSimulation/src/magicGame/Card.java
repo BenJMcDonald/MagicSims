@@ -53,8 +53,6 @@ public class Card {
 	/**
 	 * The getters and setters live down here.
 	 */
-	
-	
 
 	public String getName() {
 		return name;
