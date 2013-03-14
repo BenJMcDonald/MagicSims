@@ -134,6 +134,10 @@ public class Game {
 
 	}
 
+	// TODO: make another deck constructor makeDeckFromSeed which uses
+	// Math.random() to permutate a deck by taking the random double and
+	// subtracting 0.5, then multiplying that by an interval size and changing
+	// the deck on a card by card basis this way.
 	private static String[] makeDeck() {
 		String[] cards = CardDB.getCards();
 		ArrayList<String> newDeck = new ArrayList<String>();
