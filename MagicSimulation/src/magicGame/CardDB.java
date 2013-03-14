@@ -6,7 +6,8 @@ public class CardDB {
 			"Adaptive Snapjaw", "Ambush Viper", "Arbor Elf", "Archweaver",
 			"Avacyn's Pilgrim", "Axebane Guardian", "Bond Beetle",
 			"Borderland Ranger", "Briarpack Alpha", "Brushstrider",
-			"Centaur Courser" };
+			"Centaur Courser", "Centaur's Herald", "Champion of Lambholt",
+			"Craterhoof Behemoth", "Crocanura", "Crowned Ceratok" };
 
 	// TODO: put in full list of types, since String has a .contains(String)
 	// function.
@@ -53,8 +54,6 @@ public class CardDB {
 			return new Card("Brushstrider", "1G", "Creature", owner, 3, 1);
 		case "Centaur Courser":
 			return new Card("Centaur Courser", "11G", "Creature", owner, 3, 3);
-			// TODO: Put creatures below this point on the creature list. Then,
-			// redo deck building to make reasonably sized decks.
 		case "Centaur's Herald":
 			return new Card("Centaur's Herald", "G", "Creature", owner, 0, 1);
 		case "Champion of Lambholt":
@@ -67,6 +66,9 @@ public class CardDB {
 			return new Card("Crocanura", "11G", "Creature", owner, 1, 3);
 		case "Crowned Ceratok":
 			return new Card("Crowned Ceratok", "111G", "Creature", owner, 4, 3);
+			// TODO: Put creatures below this point on the creature list. Then,
+			// redo deck building to make reasonably sized decks.
+
 		case "Darkthicket Wolf":
 			return new Card("Darkthicket Wolf", "1G", "Creature", owner, 2, 2);
 		case "Dawntreader Elk":
