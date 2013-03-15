@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <stdlib.h>
 
 //Deck is a deck concept, i.e. an unordered list with quantities.
 //Once particular instance of a deck is a library

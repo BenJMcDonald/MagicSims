@@ -58,6 +58,33 @@ int simulate(Deck* d, bool loud){
 		h->drop(c);
 	    }
 	}
+	
+	//Play the highest damage card we can afford
+	//until we can't
+	int mana = lands;
+	bool found = true;
+	while (found){
+	    found = false;
+	    LLnode* currC = h->first;
+	    Card* bestC = 0;
+	    int best = 0;
+	    while(currC-> next != 0){
+		currC = currC->next;
+		Card* c = currC->c;
+		if((c->type == burn) && (c->castingCost <= mana)){
+		    found = true;
+		    if(c->damage > best){
+			best = c->damage;
+			bestC = c;
+		    }
+		}
+	    }
+
+	    if(bestC != 0){
+		cout<<"Play"<<bestC->name<<'\n';
+	//TODO	
+
+
 
 	if(loud){
 	    cout<<"End turn "<<turn<<'\n';
