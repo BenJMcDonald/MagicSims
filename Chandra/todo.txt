@@ -1,0 +1,7 @@
+General refactoring (make Deck efficient)
+More cards
+Smarter AI
+Interface
+Threading
+
+Current: add green and blue mana
