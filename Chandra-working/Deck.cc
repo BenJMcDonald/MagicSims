@@ -1,10 +1,5 @@
 #include <iostream>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-//for randomization
-
 
 //Deck is a deck concept, i.e. an unordered list with quantities.
 //Once particular instance of a deck is a library

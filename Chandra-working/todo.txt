@@ -12,6 +12,11 @@ and define <, -, + on it
 
 Cards should overrite a virtual cast function
 
+This requires there to be objects of the sort that are targets-
+players, creatures. These have to know what they have and how to 
+do things- so we can have player->draw(), etc
+
+
 'damage' etc as it is on cards at the moment should be replaced
 by somehow organized "AI hints"- The AI should be able to get
 qualitative characteristics about the card through this.
