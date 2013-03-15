@@ -16,6 +16,7 @@ int main(){
     "Structural Collapse"};
 
     CardEnviron* StdB = new CardEnviron(StandardBurn, 13);
+    srand(time(NULL));
     Deck* D = new Deck(StdB);
     cout<<"Returned "<<simulate(D, true)<<'\n';
 }

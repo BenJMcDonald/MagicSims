@@ -43,6 +43,7 @@ int simulate(Deck* d, bool loud){
 		cout<<"Play mountain\n";
 	}
 	
+	/*
 	//Play the first card we can afford to play
 	//until we can't
 	int mana = lands;
@@ -58,7 +59,8 @@ int simulate(Deck* d, bool loud){
 		h->drop(c);
 	    }
 	}
-	
+	*/
+
 	//Play the highest damage card we can afford
 	//until we can't
 	int mana = lands;
@@ -76,13 +78,22 @@ int simulate(Deck* d, bool loud){
 		    if(c->damage > best){
 			best = c->damage;
 			bestC = c;
+			//In a tie, prefer the lower mana cost:
+			//We're more likely to have more mana next
+			//turn
+		    }else if((c->damage == best) && (c->castingCost < bestC->castingCost)){
+			bestC = c;
 		    }
 		}
 	    }
-
 	    if(bestC != 0){
-		cout<<"Play"<<bestC->name<<'\n';
-	//TODO	
+		if(loud)
+		    cout<<"Play "<<bestC->name<<'\n';
+		mana -= bestC->castingCost;
+		damageDealt+=bestC->damage;
+		h->drop(bestC);
+	    }
+	}
 
 
 
@@ -115,11 +126,3 @@ float simulate(Deck* d, int n){
     float avg = total/n;
     return avg;
 }
-
-
-
-
-
-
-
-
