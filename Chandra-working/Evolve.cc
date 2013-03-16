@@ -5,7 +5,9 @@ using namespace std;
 #include "Card.cc"
 #include "CardEnviron.cc"
 #include "Deck.cc"
+#include "LList.cc"
 #include "Hand.cc"
+#include "Player.cc"
 #include "Simulator.cc"
 
 int main(){
@@ -29,7 +31,7 @@ int main(){
     
     CardEnviron* StdB = new CardEnviron(StandardBurn, 13);
     //CardEnviron* StdB = new CardEnviron(AllBurn, 38);
-    const int genSize = 500;
+    const int genSize = 3;
     const int trials = 10000;
     const int mutation = 15;
     float globalMin = 600;

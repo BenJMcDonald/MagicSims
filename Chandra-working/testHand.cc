@@ -1,3 +1,5 @@
+#include "LList.cc"
+#include "Card.cc"
 #include "Hand.cc"
 
 int main(){
@@ -30,5 +32,3 @@ int main(){
     cout<<"Contains bolt- "<<h->contains(l)<<'\n';
     
 }
-    
-

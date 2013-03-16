@@ -11,33 +11,36 @@ int simulate(Deck* d, bool loud){
 	d->print();
     };
 
-    Library* l = new Library(d);
-    Hand* h = new Hand();
+    //Library* l = new Library(d);
+    //Hand* h = new Hand();
+    Player* p = new Player(d);
 
     //draw initial hand
     for(int i=0; i<6; i++){
-	h->add(l->draw());
+	//h->add(l->draw());
+	p->draw();
     };
 
     if(loud){
 	cout<<"Inital hand-\n";
-	h->print();
+	p->hand->print();
     };
 
     int turn = 0;
     int damageDealt = 0;
     int lands = 0;
 
-    while(l->size>0){
+    while(p->hasLost()==false){
 	turn++;
-	Card* draw = l->draw();
-	if(loud)
-	    cout<<"Card drawn- "<<draw->name<<"\n";
-	h->add(draw);
+	p->draw();
+	//Card* draw = l->draw();
+	//if(loud)
+	//    cout<<"Card drawn- "<<draw->name<<"\n";
+	//h->add(draw);
 	
 	//If we have a mountain, play it
 	Card* mtn = d->fetch("Mountain");
-	if(h->drop(mtn)){
+	if(p->hand->drop(mtn)){
 	    lands++;
 	    if(loud)
 		cout<<"Play mountain\n";
@@ -67,12 +70,12 @@ int simulate(Deck* d, bool loud){
 	bool found = true;
 	while (found){
 	    found = false;
-	    LLnode* currC = h->first;
+	    LLnode<Card*>* currC = p->hand->first;
 	    Card* bestC = 0;
 	    int best = 0;
 	    while(currC-> next != 0){
 		currC = currC->next;
-		Card* c = currC->c;
+		Card* c = currC->value();
 		if((c->type == burn) && (c->castingCost <= mana)){
 		    found = true;
 		    if(c->damage > best){
@@ -91,7 +94,7 @@ int simulate(Deck* d, bool loud){
 		    cout<<"Play "<<bestC->name<<'\n';
 		mana -= bestC->castingCost;
 		damageDealt+=bestC->damage;
-		h->drop(bestC);
+		p->hand->drop(bestC);
 	    }
 	}
 
@@ -102,17 +105,15 @@ int simulate(Deck* d, bool loud){
 	    cout<<"Mountains- "<<lands<<'\n';
 	    cout<<"Damage dealt- "<<damageDealt<<'\n';
 	    cout<<"Hand-\n";
-	    h->print();
+	    p->print();
 	    cout<<'\n';
 	}
 	if(damageDealt>=20){
-	    delete l;
-	    delete h;
+	    delete p;
 	    return turn;
 	}
     }
-    delete l;
-    delete h;
+    delete p;
     //600 is approximately never
     return 600;
 };

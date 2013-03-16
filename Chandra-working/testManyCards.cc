@@ -6,6 +6,7 @@ using namespace std;
 #include "CardEnviron.cc"
 #include "Deck.cc"
 #include "Hand.cc"
+#include "Player.cc"
 #include "Simulator.cc"
 
 int main(){
