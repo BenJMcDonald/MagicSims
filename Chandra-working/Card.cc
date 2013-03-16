@@ -6,15 +6,37 @@ enum CardType {land, burn};
 
 //Represents a single card. Only one instance of the same
 //card should exist.
-struct Card{
-    int castingCost;
-    int CMC;
-    CardType type;
-    int damage;
-    string name;
-    Card (CardType);
-    Card (string);
+class Card{
+    private:
+	Effect* E;
+	void setSimpleBurn(int, int);
+    public:
+	int castingCost;
+	int CMC;
+	CardType type;
+	int damage;
+	string name;
+	Card (CardType);
+	Card (string);
+	bool cast(LLnode<Player*>*);
+	~Card();
 };
+
+bool Card::cast(LLnode<Player*>* t){
+    return E->resolve(t);
+}
+
+void Card::setSimpleBurn(int c, int d){
+    castingCost = c;
+    CMC = c;
+    type = burn;
+    damage = d;
+    E = new Damage(d);
+}
+
+Card::~Card(){
+    delete E;
+}
 
 #include "cardDb.cc"
 //right now, this is a constructor with a giant if-else

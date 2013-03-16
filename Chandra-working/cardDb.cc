@@ -1,12 +1,7 @@
 Card::Card (string nameIn){
     name = nameIn;
     if(name == "Lightning Bolt")
-    {
-        castingCost = 1;
-        CMC = 1;
-        type = burn;
-        damage = 3;
-    }
+	this->setSimpleBurn(1, 3);
 
     else if(name == "Thunderbolt")
     {
