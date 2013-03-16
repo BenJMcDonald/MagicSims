@@ -17,6 +17,10 @@ For example, Damage extends Effect. Searing spear will instantiate
 a damage object with the quantity = 3, so when searing spear calls 
 ->resolve(targets) on its Effect object, each target is dealt three damage.
 
+a variable amount of damage (say, fireball) is a different class than
+fixed damage, and is called with a nested list containing the amount
+and the target(s).
+
 If the best implementation of a card is multiple basic effects, then  
 this is resolved by using a 'multiple' effect, which is instantiated
 by giving it several other basic effects, and so when it is called
@@ -29,7 +33,26 @@ but I don't see much point in doing that.
 class Effect{
     //return false if the effect failed
     //i.e. countered on resolution
-    bool resolve(LList<player*>*) = 0;
-}
+    public:
+	virtual bool resolve(LLnode<Player*>*) = 0;
+};
 
+class Damage: public Effect{
+    private:
+	int quantity;
+    public:
+	bool resolve(LLnode<Player*>*);
+	Damage(int);
+};
 
+bool Damage::resolve(LLnode<Player*>* t){
+    while(t->next != 0){
+	t = t->next;
+	t->value()->damage(quantity);
+    }
+    return true;
+};
+
+Damage::Damage(int q){
+    quantity = q;
+};
