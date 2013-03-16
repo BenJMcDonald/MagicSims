@@ -29,8 +29,8 @@ int main(){
     "Firebolt", "Glacial Ray", "Unstable Footing", "Punishing Force",
     "Urza's Rage", "Volt Charge", "Hammer of Bogardan", "Searing Wind"};
     
-    CardEnviron* StdB = new CardEnviron(StandardBurn, 13);
-    //CardEnviron* StdB = new CardEnviron(AllBurn, 38);
+    //CardEnviron* StdB = new CardEnviron(StandardBurn, 13);
+    CardEnviron* StdB = new CardEnviron(AllBurn, 38);
     const int genSize = 3;
     const int trials = 10000;
     const int mutation = 15;
@@ -41,6 +41,9 @@ int main(){
     
     float* Aperf = new float [genSize];
     float* invPerf = new float [genSize];
+
+    float nextGenPrint = 1;
+    float nextGenExp = 1.3;
 
     cout<<"Building initial decks \n";
 
@@ -53,7 +56,6 @@ int main(){
     int generation = 0;
     while(true){
 	generation++;
-	cout<<"\nSimulating generation "<<generation<<"\n";
 	float min = 100;
 	float max = 0;
 	float sum = 0;
@@ -75,18 +77,21 @@ int main(){
 		max = result;
 	    sum = sum + result;
 	}
-	cout<<"Done simulating-\n";
-	cout<<"  min "<<min<<'\n';
-	cout<<"  avg "<<(sum/genSize)<<'\n';
-	cout<<"  max "<<max<<'\n';
+	if(generation>nextGenPrint){
+	    cout<<"\nDone simulating generation "<<generation<<'\n';
+	    cout<<"  min "<<min<<'\n';
+	    cout<<"  avg "<<(sum/genSize)<<'\n';
+	    cout<<"  max "<<max<<'\n'<<'\n';
+	    nextGenPrint = nextGenPrint * nextGenExp;
+	}
 
 	if(Aperf[bestIndex] < globalMin){
 	    globalMin = Aperf[bestIndex];
-	    cout<<"New best deck"<<'\n';
+	    cout<<"\nNew best deck"<<'\n';
 	    Adecks[bestIndex]->print();
+	    cout<<'\n';
 	}
 
-	cout<<"Generating new decks";
 
 	//keep best deck
 	Bdecks[0] = Adecks[bestIndex];

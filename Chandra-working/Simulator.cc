@@ -21,6 +21,11 @@ int simulate(Deck* d, bool loud){
 	p->draw();
     };
 
+    //Randomize going first/second
+    if(rand() % 2 == 0){
+	p->draw();
+    };
+
     if(loud){
 	cout<<"Inital hand-\n";
 	p->hand->print();
