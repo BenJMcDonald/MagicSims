@@ -34,21 +34,22 @@ class Effect{
     //return false if the effect failed
     //i.e. countered on resolution
     public:
-	virtual bool resolve(LLnode<Player*>*) = 0;
+	virtual bool resolve(LLnodePl*) = 0;
 };
 
 class Damage: public Effect{
     private:
 	int quantity;
     public:
-	bool resolve(LLnode<Player*>*);
+	bool resolve(LLnodePl*);
 	Damage(int);
 };
 
-bool Damage::resolve(LLnode<Player*>* t){
+bool Damage::resolve(LLnodePl* t){
     while(t->next != 0){
 	t = t->next;
-	t->value()->damage(quantity);
+	Player* p = t->value();
+	p->damage(quantity);
     }
     return true;
 };
@@ -56,3 +57,4 @@ bool Damage::resolve(LLnode<Player*>* t){
 Damage::Damage(int q){
     quantity = q;
 };
+

@@ -25,7 +25,7 @@ class Hand{
     //Dummy node at head with null card
     public:
     int size;
-    LLnode<Card *> * first;
+    LLnodeCd * first;
     Hand ();
     ~Hand();
    
@@ -42,11 +42,11 @@ class Hand{
 
 Hand::Hand(){
     size = 0;
-    first = new LLnode<Card *>(0);
+    first = new LLnodeCd(0);
 }
 
 Hand::~Hand(){
-    LLnode<Card *>* c;
+    LLnodeCd* c;
     while(first != 0){
 	c = first;
 	first = first->next;
@@ -61,7 +61,7 @@ void Hand::add(Card* i){
 	//TODO: use exceptions
     }
 
-    LLnode<Card*> * n = new LLnode<Card*>(i);
+    LLnodeCd * n = new LLnodeCd(i);
     n->next = first->next;
     first->next = n;
     size++;
@@ -74,8 +74,8 @@ bool Hand::drop(Card* i){
 	//TODO: exceptions
     }
 
-    LLnode<Card*>* current = first;
-    LLnode<Card*>* nextN = first->next;
+    LLnodeCd* current = first;
+    LLnodeCd* nextN = first->next;
     while(nextN != 0){
 	if(nextN->value() == i){
 	    current->next = nextN->next;
@@ -94,8 +94,8 @@ bool Hand::contains(Card* i){
 	return false;
     }
 
-    LLnode<Card*>* current = first;
-    LLnode<Card*>* nextN = first->next;
+    LLnodeCd* current = first;
+    LLnodeCd* nextN = first->next;
     while(nextN != 0){
 	if(nextN->value() == i){
 	    return true;
@@ -111,7 +111,7 @@ void Hand::print(){
     cout<<"Hand-\n";
     cout<<"  Size- "<<size<<'\n';
     cout<<"  Cards-\n";
-    LLnode<Card*>* current = first->next;
+    LLnodeCd* current = first->next;
     while(current!=0){
 	cout<<"  "<<current->value()->name<<'\n';
 	current = current->next;

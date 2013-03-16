@@ -18,11 +18,11 @@ class Card{
 	string name;
 	Card (CardType);
 	Card (string);
-	bool cast(LLnode<Player*>*);
+	bool cast(LLnodePl*);
 	~Card();
 };
 
-bool Card::cast(LLnode<Player*>* t){
+bool Card::cast(LLnodePl* t){
     return E->resolve(t);
 }
 
