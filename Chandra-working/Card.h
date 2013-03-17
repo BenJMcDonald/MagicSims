@@ -5,7 +5,7 @@
 //and how to play it. This is, for now, a keyword:int map.
 
 #include <string>
-#include <unordered_map>
+#include <map>
 using namespace std;
 
 enum CardType {land, burn};
@@ -14,6 +14,7 @@ class Card{
     private:
 	Effect* E;
 	void setSimpleBurn(int, int);
+	std::map<string, int>* HintsMap;
     public:
 	int castingCost;
 	int CMC;
@@ -23,6 +24,8 @@ class Card{
 	Card (CardType);
 	Card (string);
 	bool cast(LLnodePl*);
+	bool hintHas(string);
+	int hintValue(string);
 	~Card();
 };
 

@@ -50,6 +50,7 @@ Card::Card (string nameIn){
 	CMC = 0;
 	type = land;
 	damage = 0;
+	HintsMap = new map<string, int>;
     }
     
     else if(name == "Fireblast")

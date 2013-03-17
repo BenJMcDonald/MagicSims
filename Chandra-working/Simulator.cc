@@ -84,15 +84,15 @@ int simulate(Deck* d, bool loud){
 	    while(currC-> next != 0){
 		currC = currC->next;
 		Card* c = currC->value();
-		if((c->type == burn) && (c->castingCost <= mana)){
+		if(c->hintHas("burn") && (c->castingCost <= mana)){
 		    found = true;
-		    if(c->damage > best){
-			best = c->damage;
+		    if(c->hintValue("burn") > best){
+			best = c->hintValue("burn");
 			bestC = c;
 			//In a tie, prefer the lower mana cost:
 			//We're more likely to have more mana next
 			//turn
-		    }else if((c->damage == best) && (c->castingCost < bestC->castingCost)){
+		    }else if((c->hintValue("burn") == best) && (c->castingCost < bestC->castingCost)){
 			bestC = c;
 		    }
 		}

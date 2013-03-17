@@ -7,19 +7,32 @@ using namespace std;
 
 bool Card::cast(LLnodePl* t){
     return E->resolve(t);
-}
+};
 
 void Card::setSimpleBurn(int c, int d){
     castingCost = c;
     CMC = c;
     type = burn;
-    damage = d;
+    //damage = d; -shouldn't- be necessary anymore
     E = new Damage(d);
-}
+    HintsMap = new map<string, int>();
+    HintsMap->insert(std::pair<string, int>("burn", d)); 
+};
 
 Card::~Card(){
     delete E;
-}
+    delete HintsMap;
+};
+
+bool Card::hintHas(string s){
+    return (HintsMap->count(s)>0);
+};
+
+int Card::hintValue(string s){
+    if(this->hintHas(s))
+	return (HintsMap->at(s));
+    return -1;
+};
 
 #include "cardDb.cc"
 //right now, this is a constructor with a giant if-else
