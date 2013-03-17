@@ -1,26 +1,9 @@
 #include <string>
+//#include "Card.h"
 using namespace std;
 
 
-enum CardType {land, burn};
 
-//Represents a single card. Only one instance of the same
-//card should exist.
-class Card{
-    private:
-	Effect* E;
-	void setSimpleBurn(int, int);
-    public:
-	int castingCost;
-	int CMC;
-	CardType type;
-	int damage;
-	string name;
-	Card (CardType);
-	Card (string);
-	bool cast(LLnodePl*);
-	~Card();
-};
 
 bool Card::cast(LLnodePl* t){
     return E->resolve(t);

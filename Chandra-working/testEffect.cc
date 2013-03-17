@@ -10,7 +10,7 @@ class Hand;
 */
 //include "LList.cc"
 
-class Damage;
+
 class Card;
 class LLnodeCd;
 class CardEnviron;
@@ -21,19 +21,32 @@ class Player;
 class LLnodePl;
 class Effect;
 
-#include "Player.cc"
-#include "Effect.cc"
-#include "Card.cc"
+#include "Card.h"
 #include "LListCard.cc"
+#include "CardEnviron.h"
+#include "Deck.h"
+#include "Library.h"
+#include "Hand.h"
+#include "Player.h"
+#include "LListPlayer.cc"
+#include "Effect.h"
+
+#include "Card.cc"
 #include "CardEnviron.cc"
 #include "Deck.cc"
+#include "Library.cc"
 #include "Hand.cc"
-#include "LListPlayer.cc"
+#include "Player.cc"
+#include "Effect.cc"
+
+using namespace std;
 
 int main(){
+     
+
     Effect* n = new Damage(5);
-    string strA [] = {"Lightning Bolt"};
-    CardEnviron* s = new CardEnviron(strA, 1);
+    string strA [] = {"Mountain", "Searing Spear", "Flames of the Firebrand", "Lightning Bolt"};
+    CardEnviron* s = new CardEnviron(strA, 4);
     Deck* d = new Deck(s);
     Player* p = new Player(d);
 
@@ -43,5 +56,7 @@ int main(){
     c->cast(pT);
     
     p->print();
+    
+    return 0;
 }
 

@@ -2,12 +2,7 @@
 #include <string>
 using namespace std;
 
-#include "Card.cc"
-#include "CardEnviron.cc"
-#include "Deck.cc"
-#include "Hand.cc"
-#include "Player.cc"
-#include "Simulator.cc"
+#include "generic.h"
 
 int main(){
     string StandardBurn [] = {"Mountain", "Thunderbolt", "Skullcrack",

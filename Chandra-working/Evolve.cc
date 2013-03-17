@@ -2,13 +2,7 @@
 #include <string>
 using namespace std;
 
-#include "Card.cc"
-#include "CardEnviron.cc"
-#include "Deck.cc"
-#include "LList.cc"
-#include "Hand.cc"
-#include "Player.cc"
-#include "Simulator.cc"
+#include "generic.h"
 
 int main(){
     string StandardBurn [] = {"Mountain", "Thunderbolt", "Skullcrack",
@@ -29,8 +23,8 @@ int main(){
     "Firebolt", "Glacial Ray", "Unstable Footing", "Punishing Force",
     "Urza's Rage", "Volt Charge", "Hammer of Bogardan", "Searing Wind"};
     
-    //CardEnviron* StdB = new CardEnviron(StandardBurn, 13);
-    CardEnviron* StdB = new CardEnviron(AllBurn, 38);
+    CardEnviron* StdB = new CardEnviron(StandardBurn, 13);
+    //CardEnviron* StdB = new CardEnviron(AllBurn, 38);
     const int genSize = 3;
     const int trials = 10000;
     const int mutation = 15;

@@ -4,112 +4,46 @@ Card::Card (string nameIn){
 	this->setSimpleBurn(1, 3);
 
     else if(name == "Thunderbolt")
-    {
-        castingCost = 2;
-        CMC = 2;
-        type = burn;
-        damage = 3;
-    }
+	this->setSimpleBurn(2, 3);
 
     else if(name == "Skullcrack")
-    {
-        castingCost = 2;
-        CMC = 2;
-        type = burn;
-        damage = 3;
-    }
+	this->setSimpleBurn(2, 3);
 
     else if(name == "Brimstone Volley")
-    {
-        castingCost = 3;
-        CMC = 3;
-        type = burn;
-        damage = 3;
-    }
+	this->setSimpleBurn(3, 3);
 	
 
     else if(name == "Thunderous Wrath")
-    {
-        castingCost = 6;
-        CMC = 6;
-        type = burn;
-        damage = 5;
+	this->setSimpleBurn(6, 5);
         //TODO miracle
-    }
 	
     else if(name == "Pillar of Flame")
-    {
-	castingCost = 1;
-	CMC = 1;
-	type = burn;
-	damage = 2;
-    }
+	this->setSimpleBurn(1, 2);
 
     else if(name == "Flames of the Firebrand")
-    {
-	castingCost = 3;
-	CMC = 3;
-	type = burn;
-	damage = 3;
-    }
+	this->setSimpleBurn(3, 3);
 	
     else if(name == "Searing Spear")
-    {
-	castingCost = 2;
-	CMC = 2;
-	type = burn;
-	damage = 3;
-    }
+	this->setSimpleBurn(2, 3);
 	
     else if(name == "Chandra's Fury")
-    {
-	castingCost = 5;
-	CMC = 5;
-	type = burn;
-	damage = 4;
-    }
+	this->setSimpleBurn(5, 4);
     
     else if(name == "Geistflame")
-    {
-	castingCost = 1;
-	CMC = 1;
-	type = burn;
-	damage = 1;
-	//TODO flashback
-    }
+	this->setSimpleBurn(1, 1);
 	
     else if(name == "Annihilating Fire")
-    {
-	castingCost = 3;
-	CMC = 3;
-	type = burn;
-	damage = 3;
-    }
+	this->setSimpleBurn(3, 3);
 	
     else if(name == "Explosive Impact")
-    {
-	castingCost = 6;
-	CMC = 6;
-	type = burn;
-	damage = 5;
-    }
+	this->setSimpleBurn(6, 5);
     
     else if(name == "Fires of Undeath")
-    {
-	castingCost = 3;
-	CMC = 3;
-	type = burn;
-	damage = 2;
+	this->setSimpleBurn(3, 2);
 	//TODO flashback (it's black)
-    }
     
     else if(name == "Structural Collapse")
-    {
-	castingCost = 6;
-	CMC = 6;
-	type = burn;
-	damage = 2;
-    }
+	this->setSimpleBurn(6, 2);
 
     else if(name == "Mountain"){
 	castingCost = 0;

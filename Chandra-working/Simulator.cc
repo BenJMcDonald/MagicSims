@@ -14,6 +14,9 @@ int simulate(Deck* d, bool loud){
     //Library* l = new Library(d);
     //Hand* h = new Hand();
     Player* p = new Player(d);
+    Player* p2 = new Player(d);
+    LLnodePl* usTarget = LLnodePl::newList(p);
+    LLnodePl* themTarget = LLnodePl::newList(p2);
 
     //draw initial hand
     for(int i=0; i<6; i++){
@@ -75,7 +78,7 @@ int simulate(Deck* d, bool loud){
 	bool found = true;
 	while (found){
 	    found = false;
-	    LLnode<Card*>* currC = p->hand->first;
+	    LLnodeCd* currC = p->hand->first;
 	    Card* bestC = 0;
 	    int best = 0;
 	    while(currC-> next != 0){
@@ -98,7 +101,7 @@ int simulate(Deck* d, bool loud){
 		if(loud)
 		    cout<<"Play "<<bestC->name<<'\n';
 		mana -= bestC->castingCost;
-		damageDealt+=bestC->damage;
+		bestC->cast(themTarget);
 		p->hand->drop(bestC);
 	    }
 	}
@@ -113,12 +116,20 @@ int simulate(Deck* d, bool loud){
 	    p->print();
 	    cout<<'\n';
 	}
-	if(damageDealt>=20){
+	if(p2->hasLost()){
 	    delete p;
+	    delete p2;
+	    delete usTarget->next;
+	    delete usTarget;
+	    delete themTarget->next;
+	    delete themTarget;
 	    return turn;
 	}
     }
     delete p;
+    delete p2;
+    delete usTarget;
+    delete themTarget;
     //600 is approximately never
     return 600;
 };

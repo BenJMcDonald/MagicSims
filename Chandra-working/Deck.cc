@@ -1,23 +1,11 @@
 #include <iostream>
 #include <stdlib.h>
 
+//#include "Deck.h"
 //Deck is a deck concept, i.e. an unordered list with quantities.
 //Once particular instance of a deck is a library
 
-class Deck{
-    //TODO: proper privacy policies everywhere
-    public:
-    Card** cards;
-    int* quantity;
-    int length;
-    int numCards;
-    Deck();
-    Deck(CardEnviron*);
-    Deck(CardEnviron*, Deck*, int);
-    ~Deck();
-    void print();
-    Card* fetch(string);
-};
+
 
 Deck::~Deck(){
     delete cards;
@@ -133,91 +121,3 @@ void Deck::print(){
     cout<<"End deck.\n";
 }
 
-//Library is a single instance of a deck, in a particular order.
-//This particularly needs a lot of refactoring.
-class Library{
-    //TODO: Should be kept in sorted order
-    //But, for now, higher priority is closer to top
-    //negative priority is not in the deck and is
-    //why this shouldn't be an array
-    //In case of a tie, card listed first is drawn first
-    //This isn't how it should be but is rare enough
-    //to be irrelevant.
-    public:
-    Card** cards;
-    int* priority;
-    int length;//length of the two arrays above
-    int size;//number of cards currently in deck
-    Library(Deck*);
-    ~Library();
-    int arraySum(int*, int);
-    Card* draw();//removes the top card from the deck and returns a pointer to it
-    void print();
-    //void shuffle();
-};
-
-//Creates a library for a deck.
-Library::Library(Deck* n){
-    length = arraySum(n->quantity, n->length);
-    cards = new Card* [length];
-    priority = new int[length];
-    int position = 0;
-    for(int i = 0; i<n->length; i++){
-	for(int j = 0; j<n->quantity[i]; j++){
-	    cards[position] = n->cards[i];
-	    priority[position] = rand();
-	    position++;
-	}
-    }
-    size = position;
-};
-
-Library::~Library(){
-    delete cards;
-    delete priority;
-}
-
-//Simple sum of values in an array. For calculating number of cards.
-int Library::arraySum(int* array, int length){
-    int result = 0;
-    for(int i=0; i<length; i++){
-	result += array[i];
-    }
-    return result;
-};
-
-//Draws the top card.
-Card* Library::draw(){
-    if(size < 1)
-	return 0;
-    int max = -1;
-    int position = -1;
-    for(int i=0; i<length; i++){
-	if (priority[i]>max){
-	    max = priority[i];
-	    position = i;
-	}
-    }
-    if(max < 0 || position < 0)
-	return 0;
-    Card* result = cards[position];
-    cards[position] = 0;
-    priority[position] = -1;
-    size--;
-    return result;
-};
-
-void Library::print(){
-    cout<<"Library:\n";
-    cout<<"  Arrays length- "<<length<<"\n";
-    cout<<"  Size- "<<size<<"\n";
-
-    cout<<"  Cards-\n";
-    for(int i=0; i<length; i++){
-	if(priority[i]>-1){
-	    cout<<"    "<<cards[i]->name<<'\n';
-	    cout<<"      Priority- "<<priority[i]<<'\n';
-	}
-    }
-    cout<<"End library.\n";
-}
