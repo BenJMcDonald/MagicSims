@@ -208,7 +208,7 @@ public class GameState {
 		// Currently only considers basic lands.
 		String mana = "";
 		for (Card perm : this.permanents) {
-			if (perm.getTypes().equals("Land")
+			if (perm.getTypes().contains("Land")
 					&& perm.getController().equals(player) && !perm.isTapped()) {
 				String cardName = perm.getName();
 				switch (cardName) {

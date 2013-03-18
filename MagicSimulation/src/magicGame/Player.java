@@ -119,7 +119,7 @@ public class Player {
 		Card c;
 		for (int i = 0; i < this.hand.size(); i++) {
 			c = this.hand.get(i);
-			if (c.getTypes().equals("Land") && this.playedLand == false) {
+			if (c.getTypes().contains("Land") && this.playedLand == false) {
 				this.playPermanentCard(i);
 				this.playedLand = true;
 				break;
@@ -137,7 +137,7 @@ public class Player {
 			int maxPower = -2;
 			for (int i = 0; i < this.hand.size(); i++) {
 				c = this.hand.get(i);
-				if (c.getTypes().equals("Creature")) {
+				if (c.getTypes().contains("Creature")) {
 					if ((c.getPower() > maxPower)
 							&& this.evaluateCardPlayable(c)) {
 

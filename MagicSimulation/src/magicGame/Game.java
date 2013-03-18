@@ -1,6 +1,7 @@
 package magicGame;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Game {
 
@@ -8,12 +9,12 @@ public class Game {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int poolSize = 2000;
-		int trials = 100;
+		int poolSize = 200;
+		int trials = 300;
 		ArrayList<String[]> generation = Game.makeGeneration(poolSize);
 		System.out.println("New pool of " + poolSize
 				+ " decks generated. \nThis is the first generation.");
-		int endingGeneration = 20;
+		int endingGeneration = 10000;
 		// Makes a dummy deck to test against.
 		String[] deckOfAllLands = new String[60];
 		for (int i = 0; i < 60; i++) {
@@ -29,7 +30,7 @@ public class Game {
 		double threshold;
 		for (int gen = 0; gen < endingGeneration; gen++) {
 			System.out.println("Begin generation " + (gen + 1) + " testing.");
-			
+
 			for (int i = 0; i < poolSize; i++) {
 				int turnCount = 0;
 				for (int j = 0; j < trials; j++) {
@@ -82,6 +83,13 @@ public class Game {
 			generation = nextGen;
 
 		}
+
+		System.out.println("After " + endingGeneration
+				+ " generations, the most successful deck is: ");
+		Game.printDeck(bestDeck);
+		System.out.println();
+		System.out.println(bestDeck.length + " cards, average winning turn of "
+				+ bestAverageWinTime + ".");
 
 		// TODO: make a makeGeneration function that takes the list of decks as
 		// an argument
@@ -240,14 +248,13 @@ public class Game {
 		for (String card : cards) {
 			int multiplier = 5;
 			if (basicLands.contains(card)) {
-				multiplier = 10;
+				multiplier = 15;
 			}
 
 			int number = (int) (multiplier * Math.random());
 			for (int i = 0; i < number; i++) {
 				newDeck.add(card);
 			}
-
 		}
 		// Fill with forests if not full
 		int size = newDeck.size();
@@ -264,13 +271,16 @@ public class Game {
 	}
 
 	private static String[] makeDeck(String[] parentDeck) {
+		// TODO: make it so that the "four of a card" rule is preserved.
+
 		// wip = work in progress. It was too hard to do with just string
 		// arrays.
 		ArrayList<String> wip = new ArrayList<String>();
 		for (String s : parentDeck) {
 			wip.add(s);
 		}
-		// TODO: Figure out how to do permutations. It may become necessary to
+		// TODO: Figure out how to do permutations better. It may become
+		// necessary to
 		// change how decks are represented.
 
 		// mutate the deck 70% of the time. This is an arbitrary choice.
@@ -285,8 +295,6 @@ public class Game {
 				double mutationSelector = Math.random();
 				if (mutationSelector < 0.05) {
 					wip.remove(card);
-				} else if (mutationSelector > 0.95) {
-					wip.add(card);
 				}
 			}
 
@@ -298,16 +306,57 @@ public class Game {
 				}
 			}
 
-			// Trim down to at most 70 cards.
-			while (wip.size() > 70) {
-				wip.remove((int) ((wip.size()) * Math.random()));
+			// This block of code makes sure that there aren't more than 4 of a
+			// given card in the mutated deck.
+			Collections.sort(wip);
+			// TODO: make more efficient sort happen, assuming that
+			// Collections.sort is not optimally efficient.
+
+			ArrayList<String> basicLands = new ArrayList<String>();
+			basicLands.add("Forest");
+			basicLands.add("Swamp");
+			basicLands.add("Mountain");
+			basicLands.add("Plains");
+			basicLands.add("Island");
+			int thingy = 0;
+			String card;
+			int cardCount = 0;
+			while (thingy < wip.size()) {
+				card = wip.get(thingy);
+				cardCount = 1;
+				int otherThingy = thingy + 1;
+				if (otherThingy < wip.size()) {
+					while (card.equals(wip.get(otherThingy))) {
+						cardCount++;
+						otherThingy++;
+						if (otherThingy == wip.size()) {
+							break;
+						}
+					}
+					if (cardCount > 4) {
+						if (!basicLands.contains(card)) {
+							for (int i = 3; i < cardCount; i++) {
+								wip.remove(card);
+							}
+							cardCount = 4;
+						}
+					}
+
+				}
+
+				thingy += cardCount;
 			}
+
+			// Trim down to at most 75 cards.
+			// while (wip.size() > 75) {
+			// wip.remove((int) ((wip.size()) * Math.random()));
+			// }
 
 			// Add forests up to 60 card minimum deck size.
 			if (wip.size() < 60) {
 				int defficit = 60 - wip.size();
 				for (int i = 0; i < defficit; i++) {
-					wip.add("Forest");
+					wip.add(CardDB.getCards()[(int) Math.random() * 5]);
 				}
 			}
 		}

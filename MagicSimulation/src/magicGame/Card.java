@@ -8,7 +8,7 @@ public class Card {
 	private String cost;
 	private int cmc;
 	// There are better ways to handle types, but I haven't figured out how to
-	// implement them yet.
+	// implement them yet. I should probably use inheritance to make that work.
 	private String types;
 	private int power = -2;
 	private int toughness = -2;
@@ -22,6 +22,8 @@ public class Card {
 	private int damageMarked = 0;
 	private Player defendingPlayer = null;
 	private Card blockedBy = null;
+	private String staticAbilities = "";
+	private String effects = "";
 
 	public Card(String cardName, String cardCost, String cardTypes,
 			Player player) {
@@ -37,6 +39,19 @@ public class Card {
 	}
 
 	public Card(String cardName, String cardCost, String cardTypes,
+			Player player, String effects) {
+
+		this.name = cardName;
+		this.cost = cardCost;
+		this.cmc = cardCost.length();
+		this.types = cardTypes;
+		this.controller = player;
+		this.owner = player;
+		this.tapped = false;
+		this.effects = effects;
+	}
+
+	public Card(String cardName, String cardCost, String cardTypes,
 			Player player, int newPower, int newToughness) {
 
 		this.name = cardName;
@@ -48,6 +63,22 @@ public class Card {
 		this.controller = player;
 		this.owner = player;
 		this.tapped = false;
+	}
+
+	public Card(String cardName, String cardCost, String cardTypes,
+			Player player, int newPower, int newToughness,
+			String newStaticAbilities) {
+
+		this.name = cardName;
+		this.cost = cardCost;
+		this.cmc = cardCost.length();
+		this.types = cardTypes;
+		this.power = newPower;
+		this.toughness = newToughness;
+		this.controller = player;
+		this.owner = player;
+		this.tapped = false;
+		this.staticAbilities = newStaticAbilities;
 	}
 
 	/**
@@ -188,6 +219,14 @@ public class Card {
 
 	public void setBlockedBy(Card blockedBy) {
 		this.blockedBy = blockedBy;
+	}
+
+	public String getStaticAbilities() {
+		return staticAbilities;
+	}
+
+	public void setStaticAbilities(String staticAbilities) {
+		this.staticAbilities = staticAbilities;
 	}
 
 }
