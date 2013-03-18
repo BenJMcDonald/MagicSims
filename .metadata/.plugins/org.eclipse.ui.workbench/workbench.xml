@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="32" version="2.0">
 <workbenchAdvisor/>
-<window height="767" maximized="true" width="1471" x="224" y="550">
+<window height="600" maximized="true" width="1471" x="488" y="-14">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -44,25 +44,25 @@
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/mcdonabj/MagicSims/Magic Simulation/src/magicGame/Player.java" title="Player.java" tooltip="Magic Simulation/src/magicGame/Player.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Magic Simulation/src/magicGame/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Card.java" partName="Card.java" path="C:/Users/mcdonabj/MagicSims/MagicSimulation/src/magicGame/Card.java" title="Card.java" tooltip="MagicSimulation/src/magicGame/Card.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MagicSimulation/src/magicGame/Card.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1190" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Card.java" partName="Card.java" path="C:/Users/mcdonabj/MagicSims/Magic Simulation/src/magicGame/Card.java" title="Card.java" tooltip="Magic Simulation/src/magicGame/Card.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Magic Simulation/src/magicGame/Card.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="C:/Users/mcdonabj/MagicSims/MagicSimulation/src/magicGame/Game.java" title="Game.java" tooltip="MagicSimulation/src/magicGame/Game.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MagicSimulation/src/magicGame/Game.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8509" selectionTopPixel="4736"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" partName="Game.java" path="C:/Users/mcdonabj/MagicSims/Magic Simulation/src/magicGame/Game.java" title="Game.java" tooltip="Magic Simulation/src/magicGame/Game.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Magic Simulation/src/magicGame/Game.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1432" selectionTopPixel="86"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CardDB.java" partName="CardDB.java" path="C:/Users/mcdonabj/MagicSims/MagicSimulation/src/magicGame/CardDB.java" title="CardDB.java" tooltip="MagicSimulation/src/magicGame/CardDB.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MagicSimulation/src/magicGame/CardDB.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1462" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameState.java" partName="GameState.java" path="C:/Users/mcdonabj/MagicSims/Magic Simulation/src/magicGame/GameState.java" title="GameState.java" tooltip="Magic Simulation/src/magicGame/GameState.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Magic Simulation/src/magicGame/GameState.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/mcdonabj/MagicSims/MagicSimulation/src/magicGame/Player.java" title="Player.java" tooltip="MagicSimulation/src/magicGame/Player.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MagicSimulation/src/magicGame/Player.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8494" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CardDB.java" partName="CardDB.java" path="C:/Users/mcdonabj/MagicSims/Magic Simulation/src/magicGame/CardDB.java" title="CardDB.java" tooltip="Magic Simulation/src/magicGame/CardDB.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Magic Simulation/src/magicGame/CardDB.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1813" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameState.java" partName="GameState.java" path="C:/Users/mcdonabj/MagicSims/MagicSimulation/src/magicGame/GameState.java" title="GameState.java" tooltip="MagicSimulation/src/magicGame/GameState.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MagicSimulation/src/magicGame/GameState.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2634" selectionTopPixel="1410"/>
 </editor>
 </editors>
 <views>
@@ -74,9 +74,6 @@
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Errors (1 item)"/>
-</expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
@@ -147,7 +144,7 @@
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -383,167 +380,166 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/GameState.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/CardDB.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/Game.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/GameState.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/Card.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/CardDB.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/GameState.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/Game.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/Magic Simulation/src/magicGame/Card.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/CardDB.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/Game.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/GameState.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/Card.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/Card.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/GameState.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/Player.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/CardDB.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/MagicSimulation/src/magicGame/Game.java"/>
 </editors>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="1633" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="17871" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="1671" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="17994" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="1665" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19334" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1580" y="6"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18127" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="1665" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18067" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1293" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19334" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="1665" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18253" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="1980" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19334" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1659" y="6"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18358" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="2583" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19334" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1932" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18430" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1934" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18488" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2280" y="6"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19334" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2322" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18560" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2363" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18620" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19334" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="18967" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19081" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19151" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19160" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19193" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19221" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19275" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="19281" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="0">
 <position/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2363" y="0"/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="10931" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2766" y="0"/>
+<item historyLabel="GameState.java" index="2">
+<position info="not_deleted" x="2634" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2727" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="1690" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1293" y="0"/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="9650" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2720" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="3830" y="0"/>
 </item>
-<item historyLabel="CardDB.java" index="2">
-<position info="not_deleted" x="326" y="0"/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="9650" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2762" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="3830" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1293" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="2914" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2374" y="0"/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="10877" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="1293" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="2520" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="2583" y="0"/>
+<item historyLabel="Card.java" index="3">
+<position info="not_deleted" x="4468" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="10903" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="2809" y="0"/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="2742" y="0"/>
 </item>
-<item historyLabel="CardDB.java" index="2">
-<position info="not_deleted" x="1733" y="0"/>
+<item historyLabel="Game.java" index="1">
+<position info="not_deleted" x="1131" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="2520" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="2284" y="0"/>
+<item historyLabel="CardDB.java" index="0">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="3621" y="0"/>
+<item historyLabel="Player.java" index="4">
+<position info="not_deleted" x="8494" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="1">
-<position info="not_deleted" x="2642" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="4190" y="0"/>
-</item>
-<item historyLabel="Game.java" index="3">
-<position info="not_deleted" x="1432" y="0"/>
-</item>
-<item historyLabel="GameState.java" index="4">
-<position info="not_deleted" x="2642" y="0"/>
-</item>
-<item historyLabel="Player.java" index="0">
-<position info="not_deleted" x="4190" y="0"/>
+<item historyLabel="Card.java" index="5">
+<position info="not_deleted" x="4880" y="0"/>
 </item>
 <item historyLabel="Card.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="4">
-<position info="not_deleted" x="2312" y="0"/>
+<item historyLabel="GameState.java" index="6">
+<position info="not_deleted" x="2634" y="0"/>
 </item>
-<item historyLabel="CardDB.java" index="6">
+<item historyLabel="Player.java" index="7">
+<position info="not_deleted" x="8494" y="0"/>
+</item>
+<item historyLabel="CardDB.java" index="8">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="7">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="Game.java" index="9">
+<position info="not_deleted" x="1131" y="0"/>
 </item>
-<item historyLabel="Game.java" index="8">
-<position info="not_deleted" x="1432" y="0"/>
+<item historyLabel="CardDB.java" index="8">
+<position info="not_deleted" x="1462" y="0"/>
 </item>
-<item historyLabel="GameState.java" index="7">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="GameState.java" index="7">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Player.java" index="9">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Player.java" index="9">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Card.java" index="10">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Game.java" index="8">
-<position info="not_deleted" x="1432" y="0"/>
-</item>
-<item active="true" historyLabel="CardDB.java" index="6">
-<position info="not_deleted" x="0" y="0"/>
+<item active="true" historyLabel="Game.java" index="9">
+<position info="not_deleted" x="1131" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -563,6 +559,21 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="GameState.java" tooltip="MagicSimulation/src/magicGame/GameState.java">
+<persistable path="/MagicSimulation/src/magicGame/GameState.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" tooltip="MagicSimulation/src/magicGame/Player.java">
+<persistable path="/MagicSimulation/src/magicGame/Player.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" tooltip="MagicSimulation/src/magicGame/Game.java">
+<persistable path="/MagicSimulation/src/magicGame/Game.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CardDB.java" tooltip="MagicSimulation/src/magicGame/CardDB.java">
+<persistable path="/MagicSimulation/src/magicGame/CardDB.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Card.java" tooltip="MagicSimulation/src/magicGame/Card.java">
+<persistable path="/MagicSimulation/src/magicGame/Card.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CardDB.java" tooltip="Magic Simulation/src/magicGame/CardDB.java">
 <persistable path="/Magic Simulation/src/magicGame/CardDB.java"/>
 </file>
@@ -589,15 +600,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Battlefield.java" tooltip="Magic Simulation/src/magicGame/Battlefield.java">
 <persistable path="/Magic Simulation/src/magicGame/Battlefield.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Library.java" tooltip="Magic Simulation/src/magicGame/Library.java">
-<persistable path="/Magic Simulation/src/magicGame/Library.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Hand.java" tooltip="Magic Simulation/src/magicGame/Hand.java">
-<persistable path="/Magic Simulation/src/magicGame/Hand.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Game.java" tooltip="Magic Simulation/src/Game.java">
-<persistable path="/Magic Simulation/src/Game.java"/>
 </file>
 </mruList>
 </workbench>
