@@ -23,7 +23,7 @@ public class Zegana{
 	try{
 	    Scanner in = new Scanner(new File(fn));
 	    while(in.hasNext()){
-		LegalCards.add(in.next());
+		LegalCards.add(in.nextLine());
 	    }
 	}catch(Exception e){
 	    System.out.println(e);
