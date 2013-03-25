@@ -9,7 +9,7 @@ public class Game {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int poolSize = 200;
+		int poolSize = 2;
 		int trials = 300;
 		ArrayList<String[]> generation = Game.makeGeneration(poolSize);
 		System.out.println("New pool of " + poolSize
