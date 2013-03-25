@@ -64,19 +64,21 @@ class Card{
 	    this.bLand();
 	    this.add("Black");
 	    break;
+	    }
+
 
 
 
     }
 
-    private bLand(){
+    private void bLand(){
 	this.cost = new Mana(0);
 	this.add("Basic");
 	this.add("Land");
 	this.add("Colorless");
     }
 
-    private vCreature(int p, int t){
+    private void vCreature(int p, int t){
 	this.add("Creature");
 	this.add("Power", p);
 	this.add("Toughness", t);

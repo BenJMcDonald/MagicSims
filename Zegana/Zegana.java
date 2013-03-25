@@ -38,6 +38,15 @@ public class Zegana{
 	System.out.println("Valid arguements:");
 	System.out.println("  -s        (generation size)");
     }
+    
+    //Modifies the given deck such that the portion of basic
+    //lands is equal to i
+    public static void useLands(float i){
+	int cards = 0;
+	int lands = 0;
+	int uniqueBasics = 0;
+
+    }
 }
 
 class Deck{

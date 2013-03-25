@@ -2,6 +2,8 @@ package Zegana;
 
 class testCard{
     public static void main(String[] args){
+	//None of this really makes sense with the way things are now
+	/*
 	Card c = new Card("Cardy", new Mana(1, 1, 1, 1, 2, 3), "do things");
 	c.add("Trample");
 	c.add("Devour", 2);
@@ -10,5 +12,6 @@ class testCard{
 	System.out.println(c.has("Miracle"));
 	System.out.println(c.has("Haste"));
 	System.out.println(c.cost.cmc());
+	*/
     }
 }
