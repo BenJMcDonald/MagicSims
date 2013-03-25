@@ -1,9 +1,11 @@
 package Zegana;
 import java.util.*;
 import java.io.*;
+import java.math.*;
 
 public class Zegana{
-    private static boolean verbose = true;
+    public static int deckCount = 1;
+    public static boolean verbose = true;
     private static ArrayList<String> LegalCards = new ArrayList<String>();
 
     public static void main(String [] args){
@@ -12,6 +14,7 @@ public class Zegana{
 	    return;
 	}
 	readCards("Zegana/standard.txt");
+	System.out.println(new Deck(LegalCards));
     }
 
     public static void readCards(String fn){
@@ -40,4 +43,32 @@ public class Zegana{
 class Deck{
     public ArrayList<String> cards;
     public ArrayList<Integer> quantity;
+    public String name;
+
+    public Deck(ArrayList<String> LegalCards){
+	if(Zegana.verbose)
+	    System.out.println("Generating new deck");
+	cards = new ArrayList<String>();
+	quantity = new ArrayList<Integer>();
+	for(int i=0; i<LegalCards.size(); i++){
+	    int r = (int) (Math.random()*5);
+	    if(r>0){
+		cards.add(LegalCards.get(i));
+		quantity.add(r);
+	    }
+	}
+	name = ""+Zegana.deckCount;
+	if(Zegana.verbose)
+	    System.out.println("Generated deck "+Zegana.deckCount);
+	Zegana.deckCount++;
+    }
+    
+    @Override
+    public String toString(){
+	String o = "Deck "+name+'\n';
+	for(int i=0; i<cards.size(); i++){
+	    o = o + quantity.get(i) + ' ' + cards.get(i) + '\n';
+	}
+	return o;
+    }
 }
