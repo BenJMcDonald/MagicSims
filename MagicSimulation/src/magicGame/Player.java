@@ -126,7 +126,14 @@ public class Player {
 					else if (types.contains("Sorcery")) {
 						this.playSorcery(i);
 					} else if (types.contains("Instant")) {
-						this.playInstant(i);
+						if (c.getEffects().contains("Target")) {
+							if (this.evaluateTargets(c)) {
+								this.playInstant(i);
+							}
+
+						} else {
+							this.playInstant(i);
+						}
 					}
 
 				}
@@ -170,6 +177,76 @@ public class Player {
 		// break;
 		// }
 		// }
+	}
+
+	// Checks if there is a valid target, and picks one. At some point this will
+	// not only pick a target, but pick the best target. Later, it will evaluate
+	// the worth of the targeting decision, and pass back to the main phase a
+	// tuple that is the recommended target and the value of using the card on
+	// that target. Returns true iff target chosen. For things that have a
+	// plural number of possible targets, or can target multiple types of
+	// things, I'm going to need a generic cost algorithm that decides the best
+	// target for the situation.
+	private boolean evaluateTargets(Card c) {
+		String effects = c.getEffects();
+		String[] effectList = effects.split(",");
+		String[] effect;
+		for (String s : effectList) {
+			effect = s.split(" ");
+			switch (effect[0]) {
+			case "Destroy":
+				switch (effect[1]) {
+				case "Target":
+					switch (effect[2]) {
+					case "Creature":
+						if (effect.length > 3) {
+							switch (effect[3]) {
+							// Nothing goes here right now, but I know some
+							// cards have strange conditions on them, so yeah. I
+							// may change this up at some point to iterate
+							// through the size of 'effect' and have switches
+							// for both the iterating integer and the words
+							// themselves.
+
+							}
+
+						}
+
+						else {
+							ArrayList<Card> creatures = this.gameState
+									.getCreatures();
+							int highestEnemyPower = -1;
+							Card target = null;
+							for (Card cr : creatures) {
+								if (!(cr.getOwner().equals(this))) {
+									if (cr.getPower() > highestEnemyPower) {
+										highestEnemyPower = cr.getPower();
+										target = cr;
+									}
+								}
+							}
+							if (null == target) {
+								return false;
+							} else {
+								c.setTarget(target);
+								return true;
+
+							}
+
+						}
+
+					}
+
+				}
+
+			default:
+				break;
+
+			}
+
+		}
+
+		return false;
 	}
 
 	// TODO: Same as with Sorceries - have them go on the stack, and make the

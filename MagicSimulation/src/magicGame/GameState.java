@@ -287,19 +287,31 @@ public class GameState {
 	}
 
 	public void boardWipe(String type) {
-		for(Card c : this.permanents){
-			if(c.getTypes().contains(type)){
+		for (Card c : this.permanents) {
+			if (c.getTypes().contains(type)) {
 				c.getOwner().destroy(c);
 				this.permanents.remove(c);
 			}
 		}
-		
+
 	}
-	
-	public void destroy(Card c){
+
+	public void destroy(Card c) {
 		this.permanents.remove(c);
 		c.getOwner().destroy(c);
 	}
-	
+
+	public ArrayList<Card> getCreatures() {
+		ArrayList<Card> creatures = new ArrayList<Card>();
+
+		for(Card c : this.permanents){
+			if(c.getTypes().contains("Creature")){
+				creatures.add(c);
+			}
+		}
+		
+		return creatures;
+
+	}
 
 }
