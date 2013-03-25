@@ -94,6 +94,9 @@ public class GameState {
 
 	// For the moment, I'll just check if players have lost in the end step.
 	// I'll fix this when I implement state-based actions.
+	// TODO: Implement discarding down to max hand size. This is a non-trivial
+	// problem if you want it done right, but for the moment you can just
+	// randomly discard.
 	private void endStep() {
 		ArrayList<Player> losingPlayers = new ArrayList<Player>();
 		for (Player p : this.players) {

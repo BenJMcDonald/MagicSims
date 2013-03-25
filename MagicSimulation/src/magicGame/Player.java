@@ -123,6 +123,8 @@ public class Player {
 
 					else if (types.contains("Sorcery")) {
 						this.playSorcery(i);
+					} else if (types.contains("Instant")) {
+						this.playInstant(i);
 					}
 
 				}
@@ -166,6 +168,51 @@ public class Player {
 		// break;
 		// }
 		// }
+	}
+
+	// TODO: Same as with Sorceries - have them go on the stack, and make the
+	// game state figure out what to do with them.
+	private void playInstant(int handIndex) {
+		Card c = this.hand.remove(handIndex);
+		this.payCost(c);
+		String effects = c.getEffects();
+		String[] effectList = effects.split(",");
+		String[] effect;
+		for (String s : effectList) {
+			effect = s.split(" ");
+			switch(effect[0]){
+			case "Draw":
+				this.draw(Integer.parseInt(effect[1]));
+				break;
+			
+			case "Destroy":
+				switch(effect[1]){
+				case "Target":
+					switch(effect[2]){
+					case "Creature":
+						
+					}
+				case "All":
+					switch(effect[2]){
+					case "Creatures":
+						
+					}
+					
+					
+					
+					
+				}
+			
+			
+			
+			}
+			
+			
+			
+			
+			
+		}
+
 	}
 
 	// TODO: Once the stack is a thing, have this put the card on the stack and

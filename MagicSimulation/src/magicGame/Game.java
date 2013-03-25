@@ -11,6 +11,11 @@ public class Game {
 	public static void main(String[] args) {
 		int poolSize = 2;
 		int trials = 300;
+		String[] cards = CardDB.getCards();
+		for(String s : cards){
+			System.out.println(s);
+		}
+		
 		ArrayList<String[]> generation = Game.makeGeneration(poolSize);
 		System.out.println("New pool of " + poolSize
 				+ " decks generated. \nThis is the first generation.");
