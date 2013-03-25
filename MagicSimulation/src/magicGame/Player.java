@@ -129,35 +129,63 @@ public class Player {
 
 		this.evaluateOpenMana();
 
-		// Evaluate playable cards, and play the creature with the most power,
-		// if possible. No creature in magic has a power less than or equal to
-		// -2, so we'll start with that default value.
 		while (true) {
-			int maxPowerIndex = -1;
-			int maxPower = -2;
 			for (int i = 0; i < this.hand.size(); i++) {
 				c = this.hand.get(i);
-				if (c.getTypes().contains("Creature")) {
-					if ((c.getPower() > maxPower)
-							&& this.evaluateCardPlayable(c)) {
+				if (this.evaluateCardPlayable(c)) {
+					String types = c.getTypes();
+					if (types.contains("Creature")
+							|| types.contains("Artifact")
+							|| types.contains("Enchantment")
+							|| types.contains("Planeswalker")) {
 
-						maxPower = c.getPower();
-						maxPowerIndex = i;
+						this.playPermanentCard(i);
+
 					}
+
+					// else if(types.contains("Sorcery")){
+					// this.playSorcery();
+					// }
 				}
 			}
 
-			// Makes sure we found a creature and plays it, then breaks the loop
-			// if we didn't find a creature to play. This is, of course,
-			// assuming that only creature cards are in the game. This will be
-			// fixable and generalizable later on.
-			if (maxPowerIndex > -1) {
-				this.playPermanentCard(maxPowerIndex);
-				this.evaluateOpenMana();
-			} else {
-				break;
-			}
 		}
+
+		// The current AI just plays creature cards. I need to make a cost/gain
+		// function for playing cards, and play the "best" card.
+
+		// TODO: Make the player make real decisions.
+
+		// Evaluate playable cards, and play the creature with the most power,
+		// if possible. No creature in magic has a power less than or equal to
+		// -2, so we'll start with that default value.
+
+		// while (true) {
+		// int maxPowerIndex = -1;
+		// int maxPower = -2;
+		// for (int i = 0; i < this.hand.size(); i++) {
+		// c = this.hand.get(i);
+		// if (c.getTypes().contains("Creature")) {
+		// if ((c.getPower() > maxPower)
+		// && this.evaluateCardPlayable(c)) {
+		//
+		// maxPower = c.getPower();
+		// maxPowerIndex = i;
+		// }
+		// }
+		// }
+		//
+		// // Makes sure we found a creature and plays it, then breaks the loop
+		// // if we didn't find a creature to play. This is, of course,
+		// // assuming that only creature cards are in the game. This will be
+		// // fixable and generalizable later on.
+		// if (maxPowerIndex > -1) {
+		// this.playPermanentCard(maxPowerIndex);
+		// this.evaluateOpenMana();
+		// } else {
+		// break;
+		// }
+		// }
 	}
 
 	private void playPermanentCard(int handIndex) {
