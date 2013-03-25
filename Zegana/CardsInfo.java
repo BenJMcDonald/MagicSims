@@ -39,21 +39,60 @@ class Card{
     //This basically needs to be a giant database
     public Card(String name){
 	this(name, null, "");
-	if(name.compareTo("fred")==0)
-	    this.add("trample");
+	switch (name){
+	    case "Mountain": 
+	    this.bLand();
+	    this.add("Red");
+	    break;
+	    
+	    case "Plains": 
+	    this.bLand();
+	    this.add("White");
+	    break;
+	    
+	    case "Island": 
+	    this.bLand();
+	    this.add("Blue");
+	    break;
+	    
+	    case "Forest": 
+	    this.bLand();
+	    this.add("Green");
+	    break;
+	    
+	    case "Swamp": 
+	    this.bLand();
+	    this.add("Black");
+	    break;
+
+
+
+    }
+
+    private bLand(){
+	this.cost = new Mana(0);
+	this.add("Basic");
+	this.add("Land");
+	this.add("Colorless");
+    }
+
+    private vCreature(int p, int t){
+	this.add("Creature");
+	this.add("Power", p);
+	this.add("Toughness", t);
     }
     
     //Adds a keyword
-    public void add(String s){
+    private void add(String s){
 	Keywords.add(s);
     }
 
-    public void add(String s, int a){
+    private void add(String s, int a){
 	Keywords.add(s);
 	KwdAmounts.put(s, a);
     }
 
-    public void add(String s, Mana c){
+    private void add(String s, Mana c){
 	Keywords.add(s);
 	KwdCosts.put(s, c);
     }
