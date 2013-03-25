@@ -107,6 +107,8 @@ public class Player {
 
 		this.evaluateOpenMana();
 
+		// TODO: make the player make actual decisions about playing cards,
+		// rather than just playing the first one in their hand.
 		while (true) {
 			for (int i = 0; i < this.hand.size(); i++) {
 				c = this.hand.get(i);
@@ -121,11 +123,13 @@ public class Player {
 
 					}
 
-					// TODO: Make targeting a thing. Right now the game will
-					// break when it tries to cast Murder.
 					else if (types.contains("Sorcery")) {
-						this.playSorcery(i);
+						if (this.evaluateTargets(c)) {
+							this.playSorcery(i);
+						}
 					} else if (types.contains("Instant")) {
+						// TODO: Switch the target back to null if the card
+						// doesn't get played.
 						if (c.getEffects().contains("Target")) {
 							if (this.evaluateTargets(c)) {
 								this.playInstant(i);
