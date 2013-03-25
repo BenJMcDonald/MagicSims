@@ -44,7 +44,8 @@ public class CardDB {
 			"Balustrade Spy", "Bane Alley Broker", "Basilica Guards",
 			"Basilica Screecher", "Batterhorn", "Battleflight Eagle",
 			"Battleground Geist", "Bazaar Krovod", "Beguiler of Wills",
-			"Bellows Lizard", "Biovisionary", "Bitterheart Witch", "Black Cat" };
+			"Bellows Lizard", "Biovisionary", "Bitterheart Witch", "Black Cat",
+			"Sanctuary Cat" };
 
 	// TODO: put vexing devil back in once he works right.
 
@@ -450,10 +451,11 @@ public class CardDB {
 					1, 1);
 
 		case "Urban Evolution":
-			return new Card("Urban Evolution", "111UG", "Sorcery", owner, "Draw 3, Extra Land");
-		
-		
-		
+			return new Card("Urban Evolution", "111UG", "Sorcery", owner,
+					"Draw 3, Extra Land");
+		case "Sanctuary Cat":
+			return new Card("Sanctuary Cat", "W", "Creature - Cat", owner, 1, 2);
+
 		default:
 			return null;
 

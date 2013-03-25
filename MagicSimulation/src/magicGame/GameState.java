@@ -1,6 +1,7 @@
 package magicGame;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class GameState {
 
@@ -9,6 +10,7 @@ public class GameState {
 	private ArrayList<Card> permanents;
 	private Player activePlayer;
 	private int turnNumber;
+	private LinkedList<Card> stack;
 
 	public GameState(int numberPlayers) {
 		this.numPlayers = numberPlayers;
@@ -266,6 +268,19 @@ public class GameState {
 		}
 
 		return null;
+	}
+
+	public void addToStack(Card c) {
+		this.stack.add(c);
+	}
+
+	public void resolveStack() {
+		// TODO: Make this Charlie Foxtrot work.
+
+	}
+
+	public LinkedList<Card> getStack() {
+		return this.stack;
 	}
 
 }
