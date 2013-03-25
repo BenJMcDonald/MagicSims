@@ -229,4 +229,12 @@ public class Card {
 		this.staticAbilities = staticAbilities;
 	}
 
+	public String getEffects() {
+		return effects;
+	}
+
+	public void setEffects(String effects) {
+		this.effects = effects;
+	}
+
 }

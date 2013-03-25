@@ -14,6 +14,11 @@ public class Player {
 	// Have I played a land this turn?
 	boolean playedLand;
 	int playerNumber;
+	// I'm going to use a simple integer to indicate player AI style. For now, 0
+	// means that the player simply blocks to prevent damage dealt to him, while
+	// 1 means that the player tries to gain a creature advantage through
+	// blocking.
+	int playerStyle;
 
 	// Mana open is a length 6 int array that stores avaliable mana in
 	// alphabetical color order, with colorless last. The specific order is
@@ -30,6 +35,7 @@ public class Player {
 		this.gameState = gameState;
 		this.manaOpen = new int[6];
 		this.graveyard = new ArrayList<Card>();
+		this.playerStyle = (int) Math.random() * 2;
 
 		for (String cardName : this.deckList) {
 			Card card = CardDB.getCard(cardName, this);
@@ -81,34 +87,6 @@ public class Player {
 		return this.life;
 	}
 
-	// For now, this is just going to declare a creature blocking for each
-	// attacking creature, in order from greatest attacking power to least. It
-	// will consider things like optimal combat outcome later, after I've tested
-	// the basic code.
-	public void chooseBlockers(ArrayList<Card> controlledCreatures,
-			ArrayList<Card> creaturesAttackingMe) {
-		// TODO Make blocking actually make good decisions.
-		// TODO: Edit creatures so that they know who they are attacking and
-		// blocking, so that GameState can do damage resolution better.
-		int highestAttackingPower = -2;
-		Card highestPowerAttacker = null;
-		while (creaturesAttackingMe.size() > 0
-				&& controlledCreatures.size() > 0) {
-			for (Card creature : creaturesAttackingMe) {
-				if (creature.getPower() > highestAttackingPower) {
-					highestAttackingPower = creature.getPower();
-					highestPowerAttacker = creature;
-				}
-			}
-			Card creature = controlledCreatures.remove(0);
-			highestPowerAttacker.setBlockedBy(creature);
-			creature.setBlocking(highestPowerAttacker);
-			highestPowerAttacker.setBlocked(true);
-			creaturesAttackingMe.remove(highestPowerAttacker);
-		}
-
-	}
-
 	// the main phase is where most stuff happens, like playing lands and
 	// casting creature cards and other spells. Right now, all it does is play
 	// lands and creatures - in the future, Sorcery speed cards will be played
@@ -143,10 +121,12 @@ public class Player {
 
 					}
 
-					// else if(types.contains("Sorcery")){
-					// this.playSorcery();
-					// }
+					else if (types.contains("Sorcery")) {
+						this.playSorcery(i);
+					}
+
 				}
+
 			}
 
 		}
@@ -188,9 +168,26 @@ public class Player {
 		// }
 	}
 
+	// TODO: Once the stack is a thing, have this put the card on the stack and
+	// let the game state figure it out.
+	private void playSorcery(int handIndex) {
+		Card c = this.hand.remove(handIndex);
+		this.payCost(c);
+		String effects = c.getEffects();
+		String[] effectList = effects.split(",");
+		String[] effect;
+		for (String s : effectList) {
+			effect = s.split(" ");
+			if (effect[0].equals("Draw")) {
+				this.draw(Integer.parseInt(effect[1]));
+			}
+		}
+	}
+
 	private void playPermanentCard(int handIndex) {
 		Card cardToPlay = this.hand.remove(handIndex);
 		this.payCost(cardToPlay);
+		// TODO: check ETB effects, or make the game deal with them.
 		this.gameState.addPermanent(cardToPlay);
 		// System.out.println("Player " + this.playerNumber + " has played "
 		// + cardToPlay.getName() + ".");
@@ -422,6 +419,117 @@ public class Player {
 		// TODO: create real logic for attacking
 		return attackingCreatures;
 
+	}
+
+	// For now, this is just going to declare a creature blocking for each
+	// attacking creature, in order from greatest attacking power to least. It
+	// will consider things like optimal combat outcome later, after I've tested
+	// the basic code.
+	public void chooseBlockers(ArrayList<Card> controlledCreatures,
+			ArrayList<Card> creaturesAttackingMe) {
+		// TODO Make blocking actually make good decisions.
+		// TODO: Edit creatures so that they can have multiple blockers, and
+		// then edit GameState to handle those properly, and have Player assign
+		// them properly.
+		switch (this.playerStyle) {
+		case 0:
+
+			// The goal with Style 0 is to prevent as much damage as possible,
+			// regardless of if it destroys our creatures. This does not account
+			// for trample.
+			int highestAttackingPower = -1;
+			Card highestPowerAttacker = null;
+			while (creaturesAttackingMe.size() > 0
+					&& controlledCreatures.size() > 0) {
+				for (Card creature : creaturesAttackingMe) {
+					if (creature.getPower() > highestAttackingPower) {
+						highestAttackingPower = creature.getPower();
+						highestPowerAttacker = creature;
+					}
+				}
+				Card creature = controlledCreatures.remove(0);
+				highestPowerAttacker.setBlockedBy(creature);
+				creature.setBlocking(highestPowerAttacker);
+				highestPowerAttacker.setBlocked(true);
+				creaturesAttackingMe.remove(highestPowerAttacker);
+			}
+			break;
+
+		case 1:
+			// Our goal with style 1 is to destroy enemy creatures via blocking.
+			// A secondary goal is to block remaining creatures a la style 0.
+			Card lowestToughnessAttacker = null;
+			int lowestAttackingToughness = Integer.MAX_VALUE;
+			while (creaturesAttackingMe.size() > 0
+					&& controlledCreatures.size() > 0) {
+				for (Card creature : creaturesAttackingMe) {
+					if (creature.getToughness() < lowestAttackingToughness) {
+						lowestAttackingToughness = creature.getToughness();
+						lowestToughnessAttacker = creature;
+					}
+					// May as well have a bit of smart prioritizing, eliminating
+					// higher power creatures if they have the same toughness.
+					else if (creature.getToughness() == lowestAttackingToughness) {
+						if (creature.getToughness() > lowestToughnessAttacker
+								.getToughness()) {
+							lowestAttackingToughness = creature.getToughness();
+							lowestToughnessAttacker = creature;
+
+						}
+					}
+				}
+
+				// Here is some tricky logic, because we want to block with the
+				// creature that has power closest to the attacking creature's
+				// toughness, without being under it. The secondary condition
+				// for an even pairing will be to preserve my creature if
+				// possible. In the event that both creatures of the two
+				// compared would be sacrificed, it sacrifices the one with the
+				// lowest toughness.
+				Card closestMatchingBlocker = controlledCreatures.get(0);
+				int closestMatchingPower = closestMatchingBlocker.getPower();
+
+				for (Card c : controlledCreatures) {
+					if (c.getPower() >= lowestAttackingToughness) {
+						if ((c.getPower() - lowestAttackingToughness) < (closestMatchingPower - lowestAttackingToughness)) {
+
+							closestMatchingBlocker = c;
+							closestMatchingPower = c.getPower();
+
+						} else if ((c.getPower() - lowestAttackingToughness) == (closestMatchingPower - lowestAttackingToughness)) {
+							if (c.getToughness() > lowestToughnessAttacker
+									.getPower()
+									&& closestMatchingBlocker.getToughness() < lowestToughnessAttacker
+											.getPower()) {
+
+								closestMatchingBlocker = c;
+								closestMatchingPower = c.getPower();
+							}
+						}
+					}
+				}
+
+				Card creature = closestMatchingBlocker;
+				controlledCreatures.remove(closestMatchingBlocker);
+				lowestToughnessAttacker.setBlockedBy(creature);
+				creature.setBlocking(lowestToughnessAttacker);
+				lowestToughnessAttacker.setBlocked(true);
+				creaturesAttackingMe.remove(lowestToughnessAttacker);
+
+			}
+
+			break;
+
+		case 2:
+			// Style 2 is going to be a more comprehensive one that aims to
+			// maximize a potential life heuristic.
+
+			break;
+
+		default:
+			break;
+
+		}
 	}
 
 	public void destroy(Card creature) {
