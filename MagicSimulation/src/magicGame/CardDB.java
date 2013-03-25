@@ -45,7 +45,8 @@ public class CardDB {
 			"Basilica Screecher", "Batterhorn", "Battleflight Eagle",
 			"Battleground Geist", "Bazaar Krovod", "Beguiler of Wills",
 			"Bellows Lizard", "Biovisionary", "Bitterheart Witch", "Black Cat",
-			"Sanctuary Cat" };
+			"Sanctuary Cat", "Urban Evolution", "Think Twice", "Murder",
+			"Supreme Verdict" };
 
 	// TODO: put vexing devil back in once he works right.
 
@@ -55,15 +56,15 @@ public class CardDB {
 
 		switch (cardName) {
 		case "Forest":
-			return new Card("Forest", "", "Land", owner);
+			return new Card("Forest", "", "Basic Land - Forest", owner);
 		case "Mountain":
-			return new Card("Mountain", "", "Land", owner);
+			return new Card("Mountain", "", "Basic Land - Mountain", owner);
 		case "Island":
-			return new Card("Island", "", "Land", owner);
+			return new Card("Island", "", "Basic Land - Island", owner);
 		case "Plains":
-			return new Card("Plains", "", "Land", owner);
+			return new Card("Plains", "", "Basic Land - Plains", owner);
 		case "Swamp":
-			return new Card("Swamp", "", "Land", owner);
+			return new Card("Swamp", "", "Basic Land - Swamp", owner);
 		case "Axebane Stag":
 			return new Card("Axebane Stag", "111111G", "Creature - Elk", owner,
 					6, 7);
@@ -455,6 +456,17 @@ public class CardDB {
 					"Draw 3, Extra Land");
 		case "Sanctuary Cat":
 			return new Card("Sanctuary Cat", "W", "Creature - Cat", owner, 1, 2);
+
+			// TODO: implement flashback so that Think Twice isn't just a 2-cost
+			// draw.
+		case "Think Twice":
+			return new Card("Think Twice", "1U", "Instant", owner, "Draw 1");
+		case "Murder":
+			return new Card("Murder", "1BB", "Instant", owner,
+					"Destroy Target Creature");
+		case "Supreme Verdict":
+			return new Card("Supreme Verdict", "1WWU", "Sorcery", owner,
+					"Destroy All Creatures");
 
 		default:
 			return null;
