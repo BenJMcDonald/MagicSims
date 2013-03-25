@@ -1,6 +1,12 @@
 package Zegana;
 import java.util.*;
 
+
+//TODO: Scratch all this. This essentially needs to be a library of
+//static methods that tell you things about cards by name. 
+//the point being, the mutator can look at what cards do and, for example,
+//try including more cards that do the same thing. Or, it can look at what
+//colors the cards it has are and include appropriate lands.
 public class Card{
     public String name;
     public Mana cost;
@@ -16,6 +22,10 @@ public class Card{
 	this.Keywords =  new TreeSet<String>();
 	this.KwdAmounts = new TreeMap<String, Integer>();
 	this.KwdCosts = new TreeMap<String, Mana>();
+    }
+
+    public Card(String name){
+	this(name, null, "");
     }
     
     //Adds a keyword
