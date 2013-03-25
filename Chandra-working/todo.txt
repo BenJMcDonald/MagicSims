@@ -1,0 +1,23 @@
+General refactoring (make Deck efficient)
+More cards
+Smarter AI
+Interface
+Threading
+
+Current: add green and blue mana
+
+casting cost should be an object of some sort
+make a generic Mana object that represents multiple colors
+and define <, -, + on it
+
+Cards should overrite a virtual cast function
+
+This requires there to be objects of the sort that are targets-
+players, creatures. These have to know what they have and how to 
+do things- so we can have player->draw(), etc
+
+
+'damage' etc as it is on cards at the moment should be replaced
+by somehow organized "AI hints"- The AI should be able to get
+qualitative characteristics about the card through this.
+
