@@ -31,7 +31,7 @@ public class Zegana{
     }
 
     public static void printUsage(){
-	System.out.println("usage: Zegana.Zegana [command] [-arguements] [input file] [output file]");
+	System.out.println("usage: java Zegana.Zegana [command] [-arguements] [input file] [output file]");
 	System.out.println("Valid commands:");
 	System.out.println("  new      (make new decks)");
 	System.out.println("  evolve   (make new decks from a given generation file)");
