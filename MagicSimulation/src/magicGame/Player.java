@@ -121,6 +121,8 @@ public class Player {
 
 					}
 
+					// TODO: Make targeting a thing. Right now the game will
+					// break when it tries to cast Murder.
 					else if (types.contains("Sorcery")) {
 						this.playSorcery(i);
 					} else if (types.contains("Instant")) {
@@ -180,37 +182,55 @@ public class Player {
 		String[] effect;
 		for (String s : effectList) {
 			effect = s.split(" ");
-			switch(effect[0]){
+			switch (effect[0]) {
 			case "Draw":
 				this.draw(Integer.parseInt(effect[1]));
 				break;
-			
+
 			case "Destroy":
-				switch(effect[1]){
+				switch (effect[1]) {
 				case "Target":
-					switch(effect[2]){
+					// After some though, I've determined that the card should
+					// know its target[s] and that they will be determined
+					// before we get here. All the rest of the code will be
+					// assuming that the target is pre-determined.
+
+					switch (effect[2]) {
 					case "Creature":
-						
+						this.gameState.destroy(c.getTarget());
 					}
 				case "All":
-					switch(effect[2]){
+					switch (effect[2]) {
 					case "Creatures":
-						
+						this.gameState.boardWipe("Creatures");
+						break;
+					case "Artifacts":
+						this.gameState.boardWipe("Artifacts");
+						break;
+					case "Lands":
+						this.gameState.boardWipe("Lands");
+						break;
+					case "Enchantments":
+						this.gameState.boardWipe("Enchantments");
+						break;
+					case "Planeswalkers":
+						this.gameState.boardWipe("Planeswalkers");
+						break;
+					case "Nonland":
+						switch (effect[3]) {
+						case "Permanents":
+							this.gameState.boardWipe("Creatures");
+							this.gameState.boardWipe("Artifacts");
+							this.gameState.boardWipe("Enchantments");
+							this.gameState.boardWipe("Planeswalkers");
+							break;
+						}
 					}
-					
-					
-					
-					
+
 				}
-			
-			
-			
+
 			}
-			
-			
-			
-			
-			
+
 		}
 
 	}
@@ -225,8 +245,59 @@ public class Player {
 		String[] effect;
 		for (String s : effectList) {
 			effect = s.split(" ");
-			if (effect[0].equals("Draw")) {
+			switch (effect[0]) {
+			case "Draw":
 				this.draw(Integer.parseInt(effect[1]));
+				break;
+
+			case "Destroy":
+				switch (effect[1]) {
+				case "Target":
+					// After some though, I've determined that the card should
+					// know its target[s] and that they will be determined
+					// before we get here. All the rest of the code will be
+					// assuming that the target is pre-determined.
+
+					switch (effect[2]) {
+					case "Creature":
+						this.gameState.destroy(c.getTarget());
+						if (effect.length > 3) {
+							// TODO: put possible cases in here for stuff that
+							// has multiple destroys. Else, treat each instance
+							// as a separate ability, and have the targets thing
+							// work on it accordingly.
+						}
+					}
+				case "All":
+					switch (effect[2]) {
+					case "Creatures":
+						this.gameState.boardWipe("Creatures");
+						break;
+					case "Artifacts":
+						this.gameState.boardWipe("Artifacts");
+						break;
+					case "Lands":
+						this.gameState.boardWipe("Lands");
+						break;
+					case "Enchantments":
+						this.gameState.boardWipe("Enchantments");
+						break;
+					case "Planeswalkers":
+						this.gameState.boardWipe("Planeswalkers");
+						break;
+					case "Nonland":
+						switch (effect[3]) {
+						case "Permanents":
+							this.gameState.boardWipe("Creatures");
+							this.gameState.boardWipe("Artifacts");
+							this.gameState.boardWipe("Enchantments");
+							this.gameState.boardWipe("Planeswalkers");
+							break;
+						}
+					}
+
+				}
+
 			}
 		}
 	}
@@ -579,8 +650,8 @@ public class Player {
 		}
 	}
 
-	public void destroy(Card creature) {
-		this.graveyard.add(creature);
+	public void destroy(Card c) {
+		this.graveyard.add(c);
 		// System.out.println("Player " + this.playerNumber + "'s "
 		// + creature.getName() + " has been destroyed.");
 

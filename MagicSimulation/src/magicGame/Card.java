@@ -24,6 +24,8 @@ public class Card {
 	private Card blockedBy = null;
 	private String staticAbilities = "";
 	private String effects = "";
+	private Card target;
+	private Player targetPlayer;
 
 	public Card(String cardName, String cardCost, String cardTypes,
 			Player player) {
@@ -236,5 +238,22 @@ public class Card {
 	public void setEffects(String effects) {
 		this.effects = effects;
 	}
+
+	public Card getTarget() {
+		return this.target;
+	}
+	public void setTarget(Card c){
+		this.target = c;
+	}
+
+	public Player getTargetPlayer() {
+		return targetPlayer;
+	}
+
+	public void setTargetPlayer(Player targetPlayer) {
+		this.targetPlayer = targetPlayer;
+	}
+	
+	
 
 }

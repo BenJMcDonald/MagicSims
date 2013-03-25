@@ -286,4 +286,20 @@ public class GameState {
 		return this.stack;
 	}
 
+	public void boardWipe(String type) {
+		for(Card c : this.permanents){
+			if(c.getTypes().contains(type)){
+				c.getOwner().destroy(c);
+				this.permanents.remove(c);
+			}
+		}
+		
+	}
+	
+	public void destroy(Card c){
+		this.permanents.remove(c);
+		c.getOwner().destroy(c);
+	}
+	
+
 }
