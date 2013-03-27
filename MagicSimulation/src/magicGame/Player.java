@@ -109,6 +109,17 @@ public class Player {
 
 		// TODO: make the player make actual decisions about playing cards,
 		// rather than just playing the first one in their hand.
+
+		// So, for prioritizing actions, we have a few basic categories for
+		// decisions: winning, losing, and close match. If we're winning, we
+		// want to maintain the lead while preparing to prevent an opponent's
+		// come back. If we're losing, the first priority is to not lose, and
+		// the second priority is to regain the lead. If the game is close, we
+		// function similarly to the winning situation, keeping some reserve to
+		// control the opponent, but try and gain a lead as in the losing case.
+
+		String position = this.evaluatePosition();
+
 		while (true) {
 			for (int i = 0; i < this.hand.size(); i++) {
 				c = this.hand.get(i);
@@ -181,6 +192,98 @@ public class Player {
 		// break;
 		// }
 		// }
+	}
+
+	// This method evaluates the player's relative position. For now, it will
+	// assume that there are only two players. All of the logic is highly
+	// simplified, using basic generalized heuristics instead of the kind of
+	// precise evaluation that a human player would make. The result is that the
+	// AI is sub-par, but it is a considerable step forward from the previous
+	// implementation.
+	private String evaluatePosition() {
+
+		// Evaluate life, cards in library, board position, and hand sizes.
+		// Well, at least it will eventually. For now, I'm just looking at
+		// damage stuffs.
+		int maxOpponentLife = this.gameState.maxOpponentLife(this);
+		ArrayList<Card> creatures = this.gameState.getCreatures();
+		int opponentCreatures = 0;
+		int opponentPower = 0;
+		int myCreatures = 0;
+		int myPower = 0;
+
+		for (Card c : creatures) {
+			if (c.getOwner().equals(this)) {
+				myCreatures++;
+				myPower += c.getPower();
+			} else {
+				opponentCreatures++;
+				opponentPower += c.getPower();
+
+			}
+		}
+
+		int lifeMargin = this.life - maxOpponentLife;
+
+		if (this.life <= 5) {
+			// Danger Zone!!!
+			if (lifeMargin <= 0) {
+				if (opponentCreatures > myCreatures) {
+					if (opponentPower >= myPower) {
+						return "Losing";
+					} else {
+						// Basically checks to see if the game is somewhat
+						// close.
+						if (lifeMargin > -3
+								&& (opponentCreatures - myCreatures) < 2) {
+							return "Close";
+						} else {
+							return "Losing";
+						}
+					}
+				}
+
+				else {
+					// Checks to see if I have enough board state to overcome
+					// the life differential.
+					if (lifeMargin > (opponentPower - myPower)) {
+						return "Close";
+
+					} else {
+						return "Losing";
+					}
+				}
+
+			}
+
+			else {
+				// This is the case that the opponent is in the danger zone.
+				if (opponentCreatures < myCreatures) {
+					if (opponentPower < myPower) {
+						return "Winning";
+					} else {
+						return "Close";
+					}
+				} else {
+					// The opposite situation of this is called close, but I
+					// want
+					// to be conservative in the danger zone, so if the opponent
+					// has a larger threat than me, I call it losing.
+					if (opponentPower > myPower) {
+						return "Losing";
+					} else {
+						return "Close";
+					}
+				}
+			}
+		}
+
+		else {
+			// Not in the danger zone. This will be the majority of the time.
+
+		}
+
+		return "Close";
 	}
 
 	// Checks if there is a valid target, and picks one. At some point this will

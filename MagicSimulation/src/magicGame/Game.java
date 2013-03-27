@@ -46,7 +46,7 @@ public class Game {
 					decks.add(deckOfAllLands);
 					currentState.makePlayers(decks);
 					currentState.initializeGame();
-					results = currentState.playGame();
+					results = currentState.playGame("Com");
 					turnCount += (int) results.get(0);
 				}
 				double averageWinTime = (double) turnCount

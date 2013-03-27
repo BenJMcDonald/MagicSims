@@ -47,44 +47,48 @@ public class GameState {
 	 * actually play a game of Magic. It returns the finishing turn in Integer
 	 * form, and the winning player, stored in an ArrayList<Object>.
 	 * 
-	 * @return winning player
+	 * @return finishing turn, winning player
 	 */
-	public ArrayList<Object> playGame() {
-		int activePlayerIndex = 0;
-		while (this.players.size() > 1) {
-			this.turnNumber++;
+	public ArrayList<Object> playGame(String gameType) {
+		ArrayList<Object> results = new ArrayList<Object>();
+		if (gameType.equals("Com")) {
+			int activePlayerIndex = 0;
+			while (this.players.size() > 1) {
+				this.turnNumber++;
 
-			this.activePlayer = this.players.get(activePlayerIndex);
-			this.activePlayer.setPlayedLand(false);
-			for (Card perm : this.permanents) {
-				if (perm.getController().equals(this.activePlayer)) {
-					perm.setSummoningSickness(false);
+				this.activePlayer = this.players.get(activePlayerIndex);
+				this.activePlayer.setPlayedLand(false);
+				for (Card perm : this.permanents) {
+					if (perm.getController().equals(this.activePlayer)) {
+						perm.setSummoningSickness(false);
+					}
+				}
+				this.untap();
+				this.upkeep();
+				this.draw();
+				this.mainPhase(1);
+				this.combat();
+				this.mainPhase(2);
+				// TODO: implement cleanup on end step.
+				this.endStep();
+				if (activePlayerIndex < this.players.size() - 1) {
+					activePlayerIndex++;
+				} else {
+					activePlayerIndex = 0;
 				}
 			}
-			this.untap();
-			this.upkeep();
-			this.draw();
-			this.mainPhase(1);
-			this.combat();
-			this.mainPhase(2);
-			// TODO: implement cleanup on end step.
-			this.endStep();
-			if (activePlayerIndex < this.players.size() - 1) {
-				activePlayerIndex++;
+
+			Integer turnFinished = new Integer(this.turnNumber);
+
+			results.add(turnFinished);
+			if (this.players.size() > 0) {
+				results.add(this.players.get(0));
 			} else {
-				activePlayerIndex = 0;
+				results.add(null);
 			}
 		}
-
-		Integer turnFinished = new Integer(this.turnNumber);
-		ArrayList<Object> results = new ArrayList<Object>();
-		results.add(turnFinished);
-		if (this.players.size() > 0) {
-			results.add(this.players.get(0));
-		} else {
-			results.add(null);
-		}
 		return results;
+
 	}
 
 	private void draw() {
@@ -304,14 +308,24 @@ public class GameState {
 	public ArrayList<Card> getCreatures() {
 		ArrayList<Card> creatures = new ArrayList<Card>();
 
-		for(Card c : this.permanents){
-			if(c.getTypes().contains("Creature")){
+		for (Card c : this.permanents) {
+			if (c.getTypes().contains("Creature")) {
 				creatures.add(c);
 			}
 		}
-		
+
 		return creatures;
 
+	}
+
+	public int maxOpponentLife(Player player) {
+		int life = 0;
+		for (Player p : this.players) {
+			if ((!p.equals(player)) && p.getLife() > life) {
+				life = p.getLife();
+			}
+		}
+		return life;
 	}
 
 }
