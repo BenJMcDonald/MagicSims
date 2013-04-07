@@ -97,6 +97,7 @@ public class Player {
 		Card c;
 		for (int i = 0; i < this.hand.size(); i++) {
 			c = this.hand.get(i);
+			System.out.print(c.getName() + " ");
 			if (c.getTypes().contains("Land") && this.playedLand == false) {
 				this.playPermanentCard(i);
 				this.playedLand = true;
@@ -104,6 +105,7 @@ public class Player {
 			}
 
 		}
+		System.out.println();
 
 		this.evaluateOpenMana();
 
@@ -120,59 +122,58 @@ public class Player {
 
 		String position = this.evaluatePosition();
 
-		if (position.equals("Close") || position.equals("Winning")) {
+		// if (position.equals("Close") || position.equals("Winning")) {
+		//
+		// } else {
 
-		} else {
+		// I couldn't think of a good way to make this while loop work,
+		// other than to check if it played a card each time through the for
+		// loop.
+		boolean cardPlayed = true;
+		while (cardPlayed) {
+			cardPlayed = false;
+			int bestCard = 0;
+			int bestGain = 0;
+			for (int i = 0; i < this.hand.size(); i++) {
+				c = this.hand.get(i);
+				if (this.evaluateCardPlayable(c)) {
 
-			// I couldn't think of a good way to make this while loop work,
-			// other than to check if it played a card each time through the for
-			// loop.
-			boolean cardPlayed = true;
-			while (cardPlayed) {
-				cardPlayed = false;
-				int bestCard = 0;
-				int bestGain = 0;
-				for (int i = 0; i < this.hand.size(); i++) {
-					c = this.hand.get(i);
-					if (this.evaluateCardPlayable(c)) {
+					String types = c.getTypes();
+					if (types.contains("Creature")
+							|| types.contains("Artifact")
+							|| types.contains("Enchantment")
+							|| types.contains("Planeswalker")) {
 
-						String types = c.getTypes();
-						if (types.contains("Creature")
-								|| types.contains("Artifact")
-								|| types.contains("Enchantment")
-								|| types.contains("Planeswalker")) {
+						this.playPermanentCard(i);
+						cardPlayed = true;
+						break;
 
-							this.playPermanentCard(i);
+					}
+
+					else if (types.contains("Sorcery")) {
+						if (this.evaluateTargets(c)) {
+							this.playSorcery(i);
 							cardPlayed = true;
 							break;
-
 						}
-
-						else if (types.contains("Sorcery")) {
+					} else if (types.contains("Instant")) {
+						// TODO: Switch the target back to null if the card
+						// doesn't get played.
+						if (c.getEffects().contains("Target")) {
 							if (this.evaluateTargets(c)) {
-								this.playSorcery(i);
-								cardPlayed = true;
-								break;
-							}
-						} else if (types.contains("Instant")) {
-							// TODO: Switch the target back to null if the card
-							// doesn't get played.
-							if (c.getEffects().contains("Target")) {
-								if (this.evaluateTargets(c)) {
-									this.playInstant(i);
-									cardPlayed = true;
-									break;
-								}
-
-							} else {
 								this.playInstant(i);
 								cardPlayed = true;
 								break;
 							}
-						}
 
+						} else {
+							this.playInstant(i);
+							cardPlayed = true;
+							break;
+						}
 					}
 
+					// }
 				}
 			}
 		}
@@ -476,8 +477,9 @@ public class Player {
 		this.payCost(cardToPlay);
 		// TODO: check ETB effects, or make the game deal with them.
 		this.gameState.addPermanent(cardToPlay);
-		// System.out.println("Player " + this.playerNumber + " has played "
-		// + cardToPlay.getName() + ".");
+
+		System.out.println("\nPlayer " + this.playerNumber + " has played "
+				+ cardToPlay.getName() + ".");
 
 	}
 
