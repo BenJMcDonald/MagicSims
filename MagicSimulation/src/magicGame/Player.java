@@ -97,7 +97,7 @@ public class Player {
 		Card c;
 		for (int i = 0; i < this.hand.size(); i++) {
 			c = this.hand.get(i);
-			System.out.print(c.getName() + " ");
+			//System.out.print(c.getName() + " ");
 			if (c.getTypes().contains("Land") && this.playedLand == false) {
 				this.playPermanentCard(i);
 				this.playedLand = true;
@@ -105,7 +105,7 @@ public class Player {
 			}
 
 		}
-		System.out.println();
+		//System.out.println();
 
 		this.evaluateOpenMana();
 
@@ -478,8 +478,8 @@ public class Player {
 		// TODO: check ETB effects, or make the game deal with them.
 		this.gameState.addPermanent(cardToPlay);
 
-		System.out.println("\nPlayer " + this.playerNumber + " has played "
-				+ cardToPlay.getName() + ".");
+		// System.out.println("\nPlayer " + this.playerNumber + " has played "
+		// + cardToPlay.getName() + ".");
 
 	}
 
