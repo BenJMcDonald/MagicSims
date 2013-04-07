@@ -7,7 +7,7 @@ import java.util.*;
 //the point being, the mutator can look at what cards do and, for example,
 //try including more cards that do the same thing. Or, it can look at what
 //colors the cards it has are and include appropriate lands.
-public class Card{
+/*public class Card{
     public String name;
     public Mana cost;
     public String rulesText;
@@ -46,4 +46,4 @@ public class Card{
     public boolean has(String s){
 	return Keywords.contains(s);
     }
-}
+}*/

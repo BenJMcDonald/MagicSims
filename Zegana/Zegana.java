@@ -26,7 +26,7 @@ public class Zegana{
 	Zegana.useLands(a, 0.31);
 	Deck b = new Deck(LegalCards);
 	Zegana.useLands(b, 0.31);
-	for(int i = 0; i< 100; i++)	
+	for(int i = 0; i< trials; i++)	
 	    Connect.simulate(a, b);
     }
 

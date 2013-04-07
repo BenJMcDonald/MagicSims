@@ -7,7 +7,7 @@ public class Connect{
 	magicGame.GameState gs = new magicGame.GameState(2);
 	ArrayList<String[]> players = new ArrayList<String[]>();
 	players.add(format(a));
-	players.add(formatEmpty());
+	players.add(format(b));
 	gs.makePlayers(players);
 	gs.initializeGame();
 	ArrayList<Object> result = gs.playGame("Com");
