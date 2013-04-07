@@ -14,11 +14,13 @@ public class Zegana{
 	    printUsage();
 	    return;
 	}
-	new magicGame.Player(null, null);
 	readCards("Zegana/standard.txt");
-	Deck d = new Deck(LegalCards);
-	Zegana.useLands(d, 0.31);
-	System.out.println(d);
+	Deck a = new Deck(LegalCards);
+	Zegana.useLands(a, 0.31);
+	Deck b = new Deck(LegalCards);
+	Zegana.useLands(b, 0.31);
+	for(int i = 0; i< 100; i++)	
+	    Connect.simulate(a, b);
     }
 
     public static void readCards(String fn){
