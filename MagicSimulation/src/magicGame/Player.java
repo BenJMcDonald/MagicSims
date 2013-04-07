@@ -121,9 +121,12 @@ public class Player {
 		String position = this.evaluatePosition();
 
 		while (true) {
+			int bestCard = 0;
+			int bestGain = 0;
 			for (int i = 0; i < this.hand.size(); i++) {
 				c = this.hand.get(i);
 				if (this.evaluateCardPlayable(c)) {
+
 					String types = c.getTypes();
 					if (types.contains("Creature")
 							|| types.contains("Artifact")
@@ -131,12 +134,14 @@ public class Player {
 							|| types.contains("Planeswalker")) {
 
 						this.playPermanentCard(i);
+						break;
 
 					}
 
 					else if (types.contains("Sorcery")) {
 						if (this.evaluateTargets(c)) {
 							this.playSorcery(i);
+							break;
 						}
 					} else if (types.contains("Instant")) {
 						// TODO: Switch the target back to null if the card
@@ -144,10 +149,12 @@ public class Player {
 						if (c.getEffects().contains("Target")) {
 							if (this.evaluateTargets(c)) {
 								this.playInstant(i);
+								break;
 							}
 
 						} else {
 							this.playInstant(i);
+							break;
 						}
 					}
 
@@ -157,41 +164,6 @@ public class Player {
 
 		}
 
-		// The current AI just plays creature cards. I need to make a cost/gain
-		// function for playing cards, and play the "best" card.
-
-		// TODO: Make the player make real decisions.
-
-		// Evaluate playable cards, and play the creature with the most power,
-		// if possible. No creature in magic has a power less than or equal to
-		// -2, so we'll start with that default value.
-
-		// while (true) {
-		// int maxPowerIndex = -1;
-		// int maxPower = -2;
-		// for (int i = 0; i < this.hand.size(); i++) {
-		// c = this.hand.get(i);
-		// if (c.getTypes().contains("Creature")) {
-		// if ((c.getPower() > maxPower)
-		// && this.evaluateCardPlayable(c)) {
-		//
-		// maxPower = c.getPower();
-		// maxPowerIndex = i;
-		// }
-		// }
-		// }
-		//
-		// // Makes sure we found a creature and plays it, then breaks the loop
-		// // if we didn't find a creature to play. This is, of course,
-		// // assuming that only creature cards are in the game. This will be
-		// // fixable and generalizable later on.
-		// if (maxPowerIndex > -1) {
-		// this.playPermanentCard(maxPowerIndex);
-		// this.evaluateOpenMana();
-		// } else {
-		// break;
-		// }
-		// }
 	}
 
 	// This method evaluates the player's relative position. For now, it will
@@ -266,9 +238,9 @@ public class Player {
 					}
 				} else {
 					// The opposite situation of this is called close, but I
-					// want
-					// to be conservative in the danger zone, so if the opponent
-					// has a larger threat than me, I call it losing.
+					// want to be conservative in the danger zone, so if the
+					// opponent has a larger threat than me, I call it losing.
+
 					if (opponentPower > myPower) {
 						return "Losing";
 					} else {
