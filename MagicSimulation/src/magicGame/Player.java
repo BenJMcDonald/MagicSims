@@ -161,6 +161,7 @@ public class Player {
 				}
 
 			}
+			break;
 
 		}
 
