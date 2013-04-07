@@ -97,7 +97,7 @@ public class Player {
 		Card c;
 		for (int i = 0; i < this.hand.size(); i++) {
 			c = this.hand.get(i);
-			//System.out.print(c.getName() + " ");
+			// System.out.print(c.getName() + " ");
 			if (c.getTypes().contains("Land") && this.playedLand == false) {
 				this.playPermanentCard(i);
 				this.playedLand = true;
@@ -105,7 +105,7 @@ public class Player {
 			}
 
 		}
-		//System.out.println();
+		// System.out.println();
 
 		this.evaluateOpenMana();
 
@@ -145,6 +145,7 @@ public class Player {
 							|| types.contains("Planeswalker")) {
 
 						this.playPermanentCard(i);
+						this.evaluateOpenMana();
 						cardPlayed = true;
 						break;
 
@@ -153,6 +154,7 @@ public class Player {
 					else if (types.contains("Sorcery")) {
 						if (this.evaluateTargets(c)) {
 							this.playSorcery(i);
+							this.evaluateOpenMana();
 							cardPlayed = true;
 							break;
 						}
@@ -162,12 +164,14 @@ public class Player {
 						if (c.getEffects().contains("Target")) {
 							if (this.evaluateTargets(c)) {
 								this.playInstant(i);
+								this.evaluateOpenMana();
 								cardPlayed = true;
 								break;
 							}
 
 						} else {
 							this.playInstant(i);
+							this.evaluateOpenMana();
 							cardPlayed = true;
 							break;
 						}
