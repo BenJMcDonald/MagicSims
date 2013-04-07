@@ -5,8 +5,12 @@ import java.math.*;
 import magicGame.*;
 
 public class Zegana{
-    public static int deckCount = 1;
-    public static boolean verbose = true;
+    public static int genSize = 100;
+    public static int trials = 100;
+    public static char sa = 't';
+    public static char xa = '0';
+    public static int deckCount;
+    public static boolean verbose = false;
     private static ArrayList<String> LegalCards = new ArrayList<String>();
 
     public static void main(String [] args){
@@ -14,6 +18,9 @@ public class Zegana{
 	    printUsage();
 	    return;
 	}
+
+	Zegana.parseArguements(args);
+
 	readCards("Zegana/standard.txt");
 	Deck a = new Deck(LegalCards);
 	Zegana.useLands(a, 0.31);
@@ -40,9 +47,44 @@ public class Zegana{
 	System.out.println("usage: java Zegana.Zegana [command] [-arguements] [input file] [output file]");
 	System.out.println("Valid commands:");
 	System.out.println("  new      (make new decks)");
-	System.out.println("  evolve   (make new decks from a given generation file)");
+	System.out.println("  evolve   (make new decks from a given generation file) (todo)");
 	System.out.println("Valid arguements:");
-	System.out.println("  -s        (generation size)");
+	System.out.println("  -s       (generation size)");
+	System.out.println("  -t       (repetitions of each simulation)");
+	System.out.println("  -v       (verbose)");
+	System.out.println("  -sa (n)  (selection algorithm) (todo)");
+	System.out.println("           Valid algorithms: r (roulette wheel) (todo), t (tournament) (todo)");
+	System.out.println("  -xa (n)  (mutation algorithm) (todo)");
+	System.out.println("           Valid algorithms: err...");
+    }
+
+    public static void parseArguements(String[] args){
+	for(int position = 1; position < args.length; position++){
+	    if(args[position].equals("-s")){
+		Zegana.genSize = Integer.parseInt(args[position+1]);
+		position++;
+	    }
+	    
+	    else if(args[position].equals("-t")){
+		Zegana.trials = Integer.parseInt(args[position+1]);
+		position++;
+	    }
+
+
+	    else if(args[position].equals("-v")){
+		Zegana.verbose = true;
+	    }
+
+	    else if(args[position].equals("-sa")){
+		Zegana.sa = args[position+1].charAt(0);
+		position++;
+	    }
+
+	    else if(args[position].equals("-xa")){
+		Zegana.xa = args[position+1].charAt(0);
+		position++;
+	    }
+	}
     }
     
     //Modifies the given deck such that the portion of basic

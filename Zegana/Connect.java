@@ -7,7 +7,7 @@ public class Connect{
 	magicGame.GameState gs = new magicGame.GameState(2);
 	ArrayList<String[]> players = new ArrayList<String[]>();
 	players.add(format(a));
-	players.add(format(b));
+	players.add(formatEmpty());
 	gs.makePlayers(players);
 	gs.initializeGame();
 	ArrayList<Object> result = gs.playGame("Com");
@@ -39,6 +39,15 @@ public class Connect{
 	    }
 	}
 
+	return cards;
+    }
+    
+    //Makes a deck of forests, formatted for the simulator
+    private static String[] formatEmpty(){
+	String[] cards = new String[60];
+	for(int i=0; i<60; i++){
+	    cards[i]="Forest";
+	}
 	return cards;
     }
 }
