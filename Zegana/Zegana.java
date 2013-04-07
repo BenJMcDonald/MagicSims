@@ -2,6 +2,7 @@ package Zegana;
 import java.util.*;
 import java.io.*;
 import java.math.*;
+import magicGame.*;
 
 public class Zegana{
     public static int deckCount = 1;
@@ -13,8 +14,11 @@ public class Zegana{
 	    printUsage();
 	    return;
 	}
+	new magicGame.Player(null, null);
 	readCards("Zegana/standard.txt");
-	System.out.println(new Deck(LegalCards));
+	Deck d = new Deck(LegalCards);
+	Zegana.useLands(d, 0.31);
+	System.out.println(d);
     }
 
     public static void readCards(String fn){
@@ -41,11 +45,29 @@ public class Zegana{
     
     //Modifies the given deck such that the portion of basic
     //lands is equal to i
-    public static void useLands(float i){
+    public static void useLands(Deck d, double r){
 	int cards = 0;
 	int lands = 0;
 	int uniqueBasics = 0;
-
+	for(int i=0; i<d.cards.size(); i++){
+	    cards += d.quantity.get(i);
+	    String s = d.cards.get(i);
+	    if(CardsInfo.has(s, "Basic")){
+		uniqueBasics++;
+		lands += d.quantity.get(i);
+	    }
+	}
+	if(uniqueBasics != 0){
+	    int add = (int) (((cards*r) - lands)/uniqueBasics);
+	    for(int i = 0; i<d.cards.size(); i++){
+		if(CardsInfo.has(d.cards.get(i), "Basic"))
+		    d.quantity.set(i, d.quantity.get(i)+add);
+	    }
+	}else{
+	    int add = (int) ((cards*r) - lands);
+	    d.cards.add("Forest");
+	    d.quantity.add(add);
+	}
     }
 }
 
