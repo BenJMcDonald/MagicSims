@@ -128,21 +128,19 @@ public class GameState {
 		ArrayList<Card> attackingCreatures = this.activePlayer
 				.chooseAttackers(activePlayerCreatures);
 
-		// For now, I'm only doing 2-player games, so creatures don't know which
-		// player they're attacking. This will be something that creatures know
-		// once multiplayer is implemented.
 		for (Player player : this.players) {
 			ArrayList<Card> defendingPlayerCreatures = new ArrayList<Card>();
 			if (!(player.equals(this.activePlayer))) {
 				for (Card perm : this.permanents) {
 					if (perm.getTypes().contains("Creature")
-							&& perm.getController().equals(player)) {
+							&& perm.getController().equals(player)
+							&& !perm.isTapped()) {
 						defendingPlayerCreatures.add(perm);
 					}
 				}
 
 				player.chooseBlockers(defendingPlayerCreatures,
-						activePlayerCreatures);
+						attackingCreatures);
 			}
 		}
 		Card blocker = null;
@@ -178,6 +176,7 @@ public class GameState {
 				creature.getDefendingPlayer().changeLife(
 						-1 * creature.getPower());
 			}
+
 		}
 
 		for (Player p : this.players) {
