@@ -138,51 +138,59 @@ public class GameState {
 						defendingPlayerCreatures.add(perm);
 					}
 				}
-				
-				player.chooseBlockers(defendingPlayerCreatures,
-						(ArrayList<Card>) attackingCreatures.clone());
-			}
-		}
-		Card blocker = null;
-		for (Card creature : attackingCreatures) {
-			if (creature.isBlocked()) {
-				// Figure out blocker and have the creatures exchange damage
-				blocker = creature.getBlockedBy();
-				blocker.dealDamage(creature.getPower());
-				creature.dealDamage(blocker.getPower());
+				try {
+					player.chooseBlockers(defendingPlayerCreatures,
+							(ArrayList<Card>) attackingCreatures.clone());
+				} catch (Exception e) {
 
-				// Destroy creatures with damage equal to their toughness makred
-				// on them. In the final version, this should be handled in
-				// state-based actions. Also, I currently have the owner
-				// destroying the creatures. This is fine and good, but bear in
-				// mind that the destroy function will have to trigger on-death
-				// effects for the controller, not itself.
-				if (creature.getDamageMarked() >= creature.getToughness()) {
-					creature.getOwner().destroy(creature);
-					this.permanents.remove(creature);
 				}
-				if (blocker.getDamageMarked() >= blocker.getToughness()) {
-					blocker.getOwner().destroy(blocker);
-					this.permanents.remove(blocker);
+			}
+			Card blocker = null;
+			for (Card creature : attackingCreatures) {
+				if (creature.isBlocked()) {
+					// Figure out blocker and have the creatures exchange damage
+					blocker = creature.getBlockedBy();
+					blocker.dealDamage(creature.getPower());
+					creature.dealDamage(blocker.getPower());
+
+					// Destroy creatures with damage equal to their toughness
+					// makred
+					// on them. In the final version, this should be handled in
+					// state-based actions. Also, I currently have the owner
+					// destroying the creatures. This is fine and good, but bear
+					// in
+					// mind that the destroy function will have to trigger
+					// on-death
+					// effects for the controller, not itself.
+					if (creature.getDamageMarked() >= creature.getToughness()) {
+						creature.getOwner().destroy(creature);
+						this.permanents.remove(creature);
+					}
+					if (blocker.getDamageMarked() >= blocker.getToughness()) {
+						blocker.getOwner().destroy(blocker);
+						this.permanents.remove(blocker);
+					}
+					creature.setBlocked(false);
+					creature.setBlockedBy(null);
 				}
-				creature.setBlocked(false);
-				creature.setBlockedBy(null);
+				// If the creature isn't blocked, have the defending player lose
+				// life equal to its power. "Damage to player" effects will
+				// trigger
+				// here, as will any replacement effects for damage. Once these
+				// are
+				// implemented, I'll check for them.
+				else {
+
+					creature.getDefendingPlayer().changeLife(
+							-1 * creature.getPower());
+				}
+
 			}
-			// If the creature isn't blocked, have the defending player lose
-			// life equal to its power. "Damage to player" effects will trigger
-			// here, as will any replacement effects for damage. Once these are
-			// implemented, I'll check for them.
-			else {
 
-				creature.getDefendingPlayer().changeLife(
-						-1 * creature.getPower());
-			}
-
-		}
-
-		for (Player p : this.players) {
-			if (p.getLife() < 1) {
-				p.setHasLost(true);
+			for (Player p : this.players) {
+				if (p.getLife() < 1) {
+					p.setHasLost(true);
+				}
 			}
 		}
 	}
