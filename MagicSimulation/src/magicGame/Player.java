@@ -198,8 +198,6 @@ public class Player {
 			boolean cardPlayed = true;
 			while (cardPlayed) {
 				cardPlayed = false;
-				int bestCard = 0;
-				int bestGain = 0;
 				for (int i = 0; i < this.hand.size(); i++) {
 					c = this.hand.get(i);
 					if (this.evaluateCardPlayable(c)) {
@@ -437,7 +435,12 @@ public class Player {
 
 					switch (effect[2]) {
 					case "Creature":
-						this.gameState.destroy(c.getTarget());
+						if (effect.length > 3) {
+							// Put stuff here
+
+						} else {
+							this.gameState.destroy(c.getTarget());
+						}
 					}
 				case "All":
 					switch (effect[2]) {
