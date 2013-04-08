@@ -16,18 +16,20 @@ public class Zegana{
     private static ArrayList<String> LegalCards = new ArrayList<String>();
 
     public static void main(String [] args){
+		
 	if(args.length == 0){
 	    printUsage();
 	    return;
 	}
 	Zegana.parseArguements(args);
 
+	int genCount = 0;
+
 	if(Zegana.verbose)
 	    System.out.println("Reading card list");
 	readCards("Zegana/standard.txt");
 
 	Deck[] currentGen = new Deck[genSize];
-	Deck[] lastGen = new Deck[genSize];
 
 	if(Zegana.verbose)
 	    System.out.println("Generating new random decks");
@@ -37,7 +39,30 @@ public class Zegana{
 	    Zegana.useLands(currentGen[i], 0.3);
 	}
 
-	Zegana.sim(currentGen);
+	float[] performance = Zegana.sim(currentGen);
+	genCount++;
+
+	if(Zegana.verbose){
+	    System.out.println("Done simulating generation "+genCount);
+	    Deck best = currentGen[0];
+	    float bestP = performance[0];
+	    for(int i=1; i<performance.length; i++){
+		if(performance[i]>bestP){
+		    bestP = performance[i];
+		    best = currentGen[i];
+		}
+	    }
+	    System.out.println("Best deck:");
+	    System.out.println(best);
+	}
+
+	currentGen = Zegana.select(currentGen, performance);
+
+	for(int i=0; i<currentGen.length; i++){
+	    if(Math.random()>0.9)
+		Zegana.twiddle(currentGen[i]);
+	}
+
 
 	/*
 	Deck a = new Deck(LegalCards);
@@ -47,7 +72,71 @@ public class Zegana{
 	for(int i = 0; i< trials; i++)	
 	    Connect.simulate(a, b);
 	    */
+
     }
+    
+    /*
+    public static void crossover(Deck a, Deck b){
+	int start = 0;
+	int end = Math.max(a.cards.size(), b.cards.size());
+	if(math.Random()>0.5)
+	    start = (int) (Math.random()*end);
+	if(math.Random()>0.5)
+	    end = end - ((int) Math.random()*(end-start));
+    */
+    
+    public static void twiddle(Deck in){
+	for(int i=0; i< in.cards.size(); i++){
+	    while(Math.random()>0.7){
+		int mod = ((int) (Math.random()*3)-1);
+		in.quantity.set(i, in.quantity.get(i)+mod);
+		if(in.quantity.get(i) < 0)
+		    in.quantity.set(i, 0);
+		if(in.quantity.get(i) > 4){
+		    if(! CardsInfo.has(in.cards.get(i), "Basic")){
+			in.quantity.set(i, 4);
+		    }
+		}
+		if(in.quantity.get(i) == 0){
+		    in.cards.remove(i);
+		    in.quantity.remove(i);
+		}
+	    }
+	}
+	while(Math.random()>0.9){
+	    int tries = 10;
+	    while(tries > 0){
+		String newCard = LegalCards.get((int) (Math.random()*LegalCards.size()));
+		if(in.cards.contains(newCard)){
+		    tries--;
+		}else{
+		    in.cards.add(newCard);
+		    in.quantity.add(2);
+		}
+	    }
+	}
+    }
+
+    public static Deck[] select(Deck[] old, float[] perf){
+	float total = 0;
+	Deck[] result = new Deck[old.length];
+	for(int i=0; i<perf.length; i++){
+	    total += perf[i];
+	}
+	for(int i=0; i<old.length; i++){
+	    float target = ((float) Math.random())*total;
+	    float running = 0;
+	    for(int j=0; j<perf.length; j++){
+		running += perf[j];
+		if(running > target){
+		    result[i] = new Deck(old[j]);
+		    break;
+		}
+	    }
+	}
+	return result;
+    }
+
 
     //Generates floats representing the performance of each deck.
     //Guarentees only that higher values are better.
@@ -68,8 +157,11 @@ public class Zegana{
 		    //balance[target] += result;
 		}
 	    }
-	    for(int i=0; i<balance.length; i++){
-		System.out.println(balance[i]);
+	    if(Zegana.verbose){
+		System.out.println("Performance array:");
+		for(int i=0; i<balance.length; i++){
+		    System.out.println(balance[i]);
+		}
 	    }
 	    return balance;
 	}
@@ -193,7 +285,14 @@ class Deck{
 	    System.out.println("Generated deck "+Zegana.deckCount);
 	Zegana.deckCount++;
     }
-    
+
+    //copy constructor
+    public Deck(Deck in){
+	name = in.name;
+	cards = new ArrayList<String>(in.cards);
+	quantity = new ArrayList<Integer>(in.quantity);
+    }
+
     @Override
     public String toString(){
 	String o = "Deck "+name+'\n';
