@@ -60,7 +60,7 @@ public class Zegana{
 	    currentGen = Zegana.select(currentGen, performance);
 
 	    for(int i=0; i<currentGen.length; i++){
-		if(Math.random()>0.9)
+		if(Math.random()>0.2)
 		    Zegana.twiddle(currentGen[i]);
 	    }
 	}
@@ -105,7 +105,7 @@ public class Zegana{
 		in.quantity.remove(i);
 	    }
 	}
-	while(Math.random()>0.9){
+	while(Math.random()>0.7){
 	    int tries = 10;
 	    while(tries > 0){
 		String newCard = LegalCards.get((int) (Math.random()*LegalCards.size()));
@@ -114,6 +114,7 @@ public class Zegana{
 		}else{
 		    in.cards.add(newCard);
 		    in.quantity.add(2);
+		    break;
 		}
 	    }
 	}
