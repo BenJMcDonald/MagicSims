@@ -803,10 +803,11 @@ public class Player {
 			// The goal with Style 0 is to prevent as much damage as possible,
 			// regardless of if it destroys our creatures. This does not account
 			// for trample.
-			int highestAttackingPower = -1;
-			Card highestPowerAttacker = null;
+
 			while (creaturesAttackingMe.size() > 0
 					&& controlledCreatures.size() > 0) {
+				int highestAttackingPower = -1;
+				Card highestPowerAttacker = null;
 				for (Card creature : creaturesAttackingMe) {
 					if (creature.getPower() > highestAttackingPower) {
 						highestAttackingPower = creature.getPower();
