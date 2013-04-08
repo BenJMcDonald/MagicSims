@@ -131,7 +131,7 @@ public class Zegana{
 	    float running = 0;
 	    for(int j=0; j<perf.length; j++){
 		running += perf[j];
-		if(running > target){
+		if((running > target) || (j == perf.length)){
 		    result[i] = new Deck(old[j]);
 		    break;
 		}
