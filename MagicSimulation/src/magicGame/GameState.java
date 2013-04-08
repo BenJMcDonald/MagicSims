@@ -92,8 +92,9 @@ public class GameState {
 	}
 
 	private void draw() {
-		this.activePlayer.draw(1);
-
+		if (this.turnNumber > 1) {
+			this.activePlayer.draw(1);
+		}
 	}
 
 	// For the moment, I'll just check if players have lost in the end step.
@@ -293,8 +294,7 @@ public class GameState {
 	public void boardWipe(String type) {
 		for (Card c : this.permanents) {
 			if (c.getTypes().contains(type)) {
-				c.getOwner().destroy(c);
-				this.permanents.remove(c);
+				this.destroy(c);
 			}
 		}
 
@@ -327,8 +327,8 @@ public class GameState {
 		}
 		return life;
 	}
-	
-	public ArrayList<Card> getPermanents(){
+
+	public ArrayList<Card> getPermanents() {
 		return this.permanents;
 	}
 

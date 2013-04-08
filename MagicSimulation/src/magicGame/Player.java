@@ -35,8 +35,9 @@ public class Player {
 		this.gameState = gameState;
 		this.manaOpen = new int[6];
 		this.graveyard = new ArrayList<Card>();
-		this.playerStyle = (int) Math.random() * 2;
-
+		//this.playerStyle = (int) Math.random() * 2;
+		this.playerStyle = 0;
+		
 		for (String cardName : this.deckList) {
 			Card card = CardDB.getCard(cardName, this);
 			this.deck.add(card);
@@ -64,6 +65,9 @@ public class Player {
 	}
 
 	public boolean checkHasLost() {
+		if(this.life < 1){
+			return true;
+		}
 		return this.hasLost;
 	}
 
@@ -923,6 +927,10 @@ public class Player {
 
 	public void setDeckList(String[] deckList) {
 		this.deckList = deckList;
+	}
+
+	public ArrayList<Card> getGraveyard() {
+		return this.graveyard;
 	}
 
 }
