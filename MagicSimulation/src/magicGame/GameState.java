@@ -138,9 +138,9 @@ public class GameState {
 						defendingPlayerCreatures.add(perm);
 					}
 				}
-
+				
 				player.chooseBlockers(defendingPlayerCreatures,
-						attackingCreatures);
+						(ArrayList<Card>) attackingCreatures.clone());
 			}
 		}
 		Card blocker = null;
@@ -165,7 +165,8 @@ public class GameState {
 					blocker.getOwner().destroy(blocker);
 					this.permanents.remove(blocker);
 				}
-
+				creature.setBlocked(false);
+				creature.setBlockedBy(null);
 			}
 			// If the creature isn't blocked, have the defending player lose
 			// life equal to its power. "Damage to player" effects will trigger

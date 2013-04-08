@@ -116,15 +116,17 @@ public class Tests extends TestCase {
 		decks.add(activeCreatures);
 		decks.add(activeCreatures);
 		game.makePlayers(decks);
+		game.initializeGame();
 		// By setting the players' life to something obscenely high, I ensure
 		// that there will always eventually be an instance of one creature
 		// blocking another creature, so I know that combat damage will be
 		// assigned to creatures, and since it happens to be a number larger
 		// than their toughness, they should be destroyed at end of combat.
 		for (Player p : game.getPlayers()) {
-			p.setLife(2000);
-			p.draw(40);
+			p.setLife(20000);
+			p.draw(10);
 		}
+		game.playGame("Com");
 		ArrayList<Card> winnerGraveyard = game.getPlayers().get(0)
 				.getGraveyard();
 		String graveyard = "";
@@ -134,6 +136,86 @@ public class Tests extends TestCase {
 
 		assertTrue(graveyard.contains("Brushstrider"));
 
+	}
+	
+	//todo: swap the values of the assertEquals statements so they make sense
+	public void testAttackBlock(){
+		ArrayList<Card> creatureList1 = new ArrayList<Card>();
+		ArrayList<Card> creatureList2 = new ArrayList<Card>();
+
+		Player p1 = new Player(activeCreatures, game);
+		Player p2 = new Player(activeCreatures, game);
+		
+		decks.add(activeCreatures);
+		decks.add(activeCreatures);
+		
+		game.makePlayers(decks);
+		
+		Card elk1 = new Card("Dawntreader Elk", "1G", "Creature - Elk", p1, 2, 2);
+		
+		Card elk2 = new Card("Dawntreader Elk", "1G", "Creature - Elk", p2, 2, 2);
+		
+		Card elk3 = new Card("Buff Dawntreader Elk", "1G", "Creature - Elk", p2, 4, 4);
+		
+		elk1.setSummoningSickness(true);
+		elk2.setSummoningSickness(false);
+		elk3.setSummoningSickness(false);
+		
+		creatureList1.add(elk1);
+		creatureList2.add(elk2);
+		creatureList2.add(elk3);
+		
+		creatureList1 = p1.chooseAttackers(creatureList1);
+		creatureList2 = p2.chooseAttackers(creatureList2);
+		
+		assertEquals(creatureList1.size(), 0);
+		assertEquals(creatureList2.size(), 2);
+		
+		creatureList1.clear();
+		creatureList2.clear();
+		
+		creatureList1.add(elk1);
+		creatureList2.add(elk2);
+		
+		p1.chooseBlockers(creatureList1, creatureList2);
+		
+		assertEquals(creatureList2.size(), 0);
+		
+		creatureList1.clear();
+		creatureList2.clear();
+		
+		creatureList1.add(elk1);
+		creatureList2.add(elk2);
+		creatureList2.add(elk2);
+		
+		p1.chooseBlockers(creatureList1, creatureList2);
+		
+		assertEquals(creatureList2.size(), 1);
+		assertEquals(creatureList2.get(0).getName(), "Dawntreader Elk");
+		
+		creatureList1.clear();
+		creatureList2.clear();
+		
+		creatureList1.add(elk1);
+		creatureList1.add(elk1);
+		creatureList2.add(elk2);
+		creatureList2.add(elk3);
+		
+		p1.chooseBlockers(creatureList1, creatureList2);
+		
+		assertEquals(0, creatureList2.size());
+		
+		creatureList1.add(elk1);
+		creatureList1.add(elk1);
+		creatureList2.add(elk3);
+		creatureList2.add(elk2);
+		creatureList2.add(elk3);
+		
+		
+		p1.chooseBlockers(creatureList1, creatureList2);
+		
+		assertEquals(1, creatureList2.size());
+		assertEquals("Dawntreader Elk", creatureList2.get(0).getName());
 	}
 
 }
