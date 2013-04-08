@@ -38,12 +38,13 @@ public class Zegana{
 	    currentGen[i] = new Deck(LegalCards);
 	    Zegana.useLands(currentGen[i], 0.3);
 	}
+	
+	while(genCount != end){
+	    float[] performance = Zegana.sim(currentGen);
+	    genCount++;
 
-	float[] performance = Zegana.sim(currentGen);
-	genCount++;
-
-	if(Zegana.verbose){
-	    System.out.println("Done simulating generation "+genCount);
+	    if(Zegana.verbose)
+		System.out.println("Done simulating generation "+genCount);
 	    Deck best = currentGen[0];
 	    float bestP = performance[0];
 	    for(int i=1; i<performance.length; i++){
@@ -52,15 +53,16 @@ public class Zegana{
 		    best = currentGen[i];
 		}
 	    }
-	    System.out.println("Best deck:");
+	    System.out.println("New deck:");
 	    System.out.println(best);
-	}
+	    System.out.println("Performance: \n"+bestP);
 
-	currentGen = Zegana.select(currentGen, performance);
+	    currentGen = Zegana.select(currentGen, performance);
 
-	for(int i=0; i<currentGen.length; i++){
-	    if(Math.random()>0.9)
-		Zegana.twiddle(currentGen[i]);
+	    for(int i=0; i<currentGen.length; i++){
+		if(Math.random()>0.9)
+		    Zegana.twiddle(currentGen[i]);
+	    }
 	}
 
 
@@ -90,17 +92,17 @@ public class Zegana{
 	    while(Math.random()>0.7){
 		int mod = ((int) (Math.random()*3)-1);
 		in.quantity.set(i, in.quantity.get(i)+mod);
-		if(in.quantity.get(i) < 0)
-		    in.quantity.set(i, 0);
-		if(in.quantity.get(i) > 4){
-		    if(! CardsInfo.has(in.cards.get(i), "Basic")){
-			in.quantity.set(i, 4);
-		    }
+	    }
+	    if(in.quantity.get(i) < 0)
+		in.quantity.set(i, 0);
+	    if(in.quantity.get(i) > 4){
+		if(! CardsInfo.has(in.cards.get(i), "Basic")){
+		    in.quantity.set(i, 4);
 		}
-		if(in.quantity.get(i) == 0){
-		    in.cards.remove(i);
-		    in.quantity.remove(i);
-		}
+	    }
+	    if(in.quantity.get(i) == 0){
+		in.cards.remove(i);
+		in.quantity.remove(i);
 	    }
 	}
 	while(Math.random()>0.9){
@@ -296,9 +298,12 @@ class Deck{
     @Override
     public String toString(){
 	String o = "Deck "+name+'\n';
+	int count = 0;
 	for(int i=0; i<cards.size(); i++){
 	    o = o + quantity.get(i) + ' ' + cards.get(i) + '\n';
+	    count += quantity.get(i);
 	}
+	o = o +"Cards: "+count+'\n';
 	return o;
     }
 }
