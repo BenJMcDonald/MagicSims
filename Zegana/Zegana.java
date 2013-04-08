@@ -9,7 +9,9 @@ public class Zegana{
     public static int trials = 100;
     public static char sa = 't';
     public static char xa = '0';
+    public static int end = -1;
     public static int deckCount;
+    public static boolean fish = false;
     public static boolean verbose = false;
     private static ArrayList<String> LegalCards = new ArrayList<String>();
 
@@ -18,16 +20,59 @@ public class Zegana{
 	    printUsage();
 	    return;
 	}
-
 	Zegana.parseArguements(args);
 
+	if(Zegana.verbose)
+	    System.out.println("Reading card list");
 	readCards("Zegana/standard.txt");
+
+	Deck[] currentGen = new Deck[genSize];
+	Deck[] lastGen = new Deck[genSize];
+
+	if(Zegana.verbose)
+	    System.out.println("Generating new random decks");
+	
+	for(int i=0; i<genSize; i++){
+	    currentGen[i] = new Deck(LegalCards);
+	    Zegana.useLands(currentGen[i], 0.3);
+	}
+
+	Zegana.sim(currentGen);
+
+	/*
 	Deck a = new Deck(LegalCards);
 	Zegana.useLands(a, 0.31);
 	Deck b = new Deck(LegalCards);
 	Zegana.useLands(b, 0.31);
 	for(int i = 0; i< trials; i++)	
 	    Connect.simulate(a, b);
+	    */
+    }
+
+    //Generates floats representing the performance of each deck.
+    //Guarentees only that higher values are better.
+    public static float[] sim(Deck[] gen){
+	float[] balance = new float[gen.length];
+	if(fish){
+	    return null;
+	}else{
+	    for(int i = 0; i<gen.length; i++){
+		for(int j = 0; j<trials; j++){
+		    int target = (int) (Math.random() * gen.length);
+		    int result = Connect.simulate(gen[i], gen[target]);
+		    if(result == 0)
+			result = 1;
+		    else
+			result = 0;
+		    balance[i] += result;
+		    //balance[target] += result;
+		}
+	    }
+	    for(int i=0; i<balance.length; i++){
+		System.out.println(balance[i]);
+	    }
+	    return balance;
+	}
     }
 
     public static void readCards(String fn){
@@ -52,6 +97,8 @@ public class Zegana{
 	System.out.println("  -s       (generation size)");
 	System.out.println("  -t       (repetitions of each simulation)");
 	System.out.println("  -v       (verbose)");
+	System.out.println("  -f       (one sided games) (todo)");
+	System.out.println("  -e       (number of generations");
 	System.out.println("  -sa (n)  (selection algorithm) (todo)");
 	System.out.println("           Valid algorithms: r (roulette wheel) (todo), t (tournament) (todo)");
 	System.out.println("  -xa (n)  (mutation algorithm) (todo)");
@@ -74,6 +121,10 @@ public class Zegana{
 	    else if(args[position].equals("-v")){
 		Zegana.verbose = true;
 	    }
+	    
+	    else if(args[position].equals("-f")){
+		Zegana.fish = true;
+	    }
 
 	    else if(args[position].equals("-sa")){
 		Zegana.sa = args[position+1].charAt(0);
@@ -82,6 +133,11 @@ public class Zegana{
 
 	    else if(args[position].equals("-xa")){
 		Zegana.xa = args[position+1].charAt(0);
+		position++;
+	    }
+
+	    else if(args[position].equals("-e")){
+		Zegana.end = Integer.parseInt(args[position+1]);
 		position++;
 	    }
 	}

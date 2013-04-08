@@ -11,7 +11,7 @@ public class Connect{
 	gs.makePlayers(players);
 	gs.initializeGame();
 	ArrayList<Object> result = gs.playGame("Com");
-	System.out.println("Player " + ((magicGame.Player) result.get(1)).getPlayerNumber() + " wins in " + (int) result.get(0) + "turns.");
+	//System.out.println("Player " + ((magicGame.Player) result.get(1)).getPlayerNumber() + " wins in " + (int) result.get(0) + "turns.");
 	return ((magicGame.Player) result.get(1)).getPlayerNumber();
     }
 
