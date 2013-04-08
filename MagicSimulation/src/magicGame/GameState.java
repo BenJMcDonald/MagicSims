@@ -327,5 +327,9 @@ public class GameState {
 		}
 		return life;
 	}
+	
+	public ArrayList<Card> getPermanents(){
+		return this.permanents;
+	}
 
 }
