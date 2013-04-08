@@ -117,6 +117,7 @@ public class GameState {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void combat() {
 		ArrayList<Card> activePlayerCreatures = new ArrayList<Card>();
 		for (Card perm : this.permanents) {
