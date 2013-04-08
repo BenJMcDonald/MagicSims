@@ -122,62 +122,128 @@ public class Player {
 
 		String position = this.evaluatePosition();
 
-		// if (position.equals("Close") || position.equals("Winning")) {
-		//
-		// } else {
+		if (position.equals("Close") || position.equals("Winning")) {
+			boolean cardPlayed = true;
+			while (cardPlayed) {
+				cardPlayed = false;
+				int bestCard = -1;
+				int bestGain = -1;
+				for (int i = 0; i < this.hand.size(); i++) {
+					c = this.hand.get(i);
+					if (this.evaluateCardPlayable(c)) {
 
-		// I couldn't think of a good way to make this while loop work,
-		// other than to check if it played a card each time through the for
-		// loop.
-		boolean cardPlayed = true;
-		while (cardPlayed) {
-			cardPlayed = false;
-			int bestCard = 0;
-			int bestGain = 0;
-			for (int i = 0; i < this.hand.size(); i++) {
-				c = this.hand.get(i);
-				if (this.evaluateCardPlayable(c)) {
+						String types = c.getTypes();
 
-					String types = c.getTypes();
-					if (types.contains("Creature")
-							|| types.contains("Artifact")
-							|| types.contains("Enchantment")
-							|| types.contains("Planeswalker")) {
+						if (types.contains("Creature")) {
 
-						this.playPermanentCard(i);
-						this.evaluateOpenMana();
-						cardPlayed = true;
-						break;
+							int gain = c.getPower();
+							if (gain > bestGain) {
+								bestGain = gain;
+								bestCard = i;
+							}
+						}
+
+						// Not sure how to evaluate instants and sorceries right
+						// now, so they'll just have a value of 0.
+
+						else if (evaluateTargets(c)) {
+							// The best implementation I can think of for
+							// removal cards, aside from maybe handling them in
+							// the CardDB class, is to just make them a string
+							// that I can use .contains on.
+							// TODO handle removal cards in the CardDB class
+							String removalCards = "Murder, ";
+							if (removalCards.contains(c.getName())) {
+								int gain = c.getTarget().getPower();
+								if (gain > bestGain) {
+									bestGain = gain;
+									bestCard = i;
+								}
+							}
+
+							else if (bestGain < 0) {
+								bestGain = 0;
+								bestCard = i;
+							}
+						}
 
 					}
+				}
 
-					else if (types.contains("Sorcery")) {
-						if (this.evaluateTargets(c)) {
-							this.playSorcery(i);
+				// Play the best card found.
+
+				if (bestCard >= 0) {
+					cardPlayed = true;
+					if (this.hand.get(bestCard).getTypes().contains("Instant")) {
+						this.playInstant(bestCard);
+					} else if (this.hand.get(bestCard).getTypes()
+							.contains("Sorcery")) {
+						this.playSorcery(bestCard);
+					}
+					// If it isn't an instant or sorcery, it must be a
+					// permanent.
+					else {
+						this.playPermanentCard(bestCard);
+					}
+					this.evaluateOpenMana();
+
+				}
+
+			}
+		} else {
+
+			// I couldn't think of a good way to make this while loop work,
+			// other than to check if it played a card each time through the for
+			// loop.
+			boolean cardPlayed = true;
+			while (cardPlayed) {
+				cardPlayed = false;
+				int bestCard = 0;
+				int bestGain = 0;
+				for (int i = 0; i < this.hand.size(); i++) {
+					c = this.hand.get(i);
+					if (this.evaluateCardPlayable(c)) {
+
+						String types = c.getTypes();
+						if (types.contains("Creature")
+								|| types.contains("Artifact")
+								|| types.contains("Enchantment")
+								|| types.contains("Planeswalker")) {
+
+							this.playPermanentCard(i);
 							this.evaluateOpenMana();
 							cardPlayed = true;
 							break;
+
 						}
-					} else if (types.contains("Instant")) {
-						// TODO: Switch the target back to null if the card
-						// doesn't get played.
-						if (c.getEffects().contains("Target")) {
+
+						else if (types.contains("Sorcery")) {
 							if (this.evaluateTargets(c)) {
+								this.playSorcery(i);
+								this.evaluateOpenMana();
+								cardPlayed = true;
+								break;
+							}
+						} else if (types.contains("Instant")) {
+							// TODO: Switch the target back to null if the card
+							// doesn't get played.
+							if (c.getEffects().contains("Target")) {
+								if (this.evaluateTargets(c)) {
+									this.playInstant(i);
+									this.evaluateOpenMana();
+									cardPlayed = true;
+									break;
+								}
+
+							} else {
 								this.playInstant(i);
 								this.evaluateOpenMana();
 								cardPlayed = true;
 								break;
 							}
-
-						} else {
-							this.playInstant(i);
-							this.evaluateOpenMana();
-							cardPlayed = true;
-							break;
 						}
-					}
 
-					// }
+					}
 				}
 			}
 		}
