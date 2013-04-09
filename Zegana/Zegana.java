@@ -62,6 +62,7 @@ public class Zegana{
 	    for(int i=0; i<currentGen.length; i++){
 		if(Math.random()>0.2)
 		    Zegana.twiddle(currentGen[i]);
+		    minSize(currentGen[i]);
 	    }
 	}
 
@@ -234,6 +235,40 @@ public class Zegana{
 	    else if(args[position].equals("-e")){
 		Zegana.end = Integer.parseInt(args[position+1]);
 		position++;
+	    }
+	}
+    }
+
+    //Modifies the given deck such that it has 60 cards by adding basic lands
+    //equal amounts of each type
+    public static void minSize(Deck d){
+	int cards = 0;
+	int uniqueBasics = 0;
+	for(int i=0; i<d.cards.size(); i++){
+	    cards += d.quantity.get(i);
+	    String s = d.cards.get(i);
+	    if(CardsInfo.has(s, "Basic")){
+		uniqueBasics++;
+	    }
+	}
+	if(cards<60){
+	    int add =60 - cards;
+	    if(uniqueBasics != 0){
+		int addPer = add/uniqueBasics;
+		for(int i = 0; i<d.cards.size(); i++){
+		    if(CardsInfo.has(d.cards.get(i), "Basic")){
+			if(uniqueBasics==1){
+			    d.quantity.set(i, d.quantity.get(i)+add);
+			}else{
+			    d.quantity.set(i, d.quantity.get(i)+addPer);
+			    add-=addPer;
+			    uniqueBasics--;
+			}
+		    }
+		}
+	    }else{
+		d.cards.add("Forest");
+		d.quantity.add(add);
 	    }
 	}
     }

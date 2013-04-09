@@ -13,10 +13,9 @@ public class Connect{
 	ArrayList<Object> result = gs.playGame("Com");
 	//System.out.println("Player " + ((magicGame.Player) result.get(1)).getPlayerNumber() + " wins in " + (int) result.get(0) + "turns.");
 	if(result.get(1) == null){
-	    System.out.println("Sim returned null player as victor");
-	    System.out.println("Win turn: "+(int) result.get(0));
-	    System.out.println(a);
-	    System.out.println(b);
+	    //Some player won and lost on the same turn and the simulator does not handle this.
+	    //Treating it as a draw.
+	    return 0;
 	}
 	return ((magicGame.Player) result.get(1)).getPlayerNumber();
     }
