@@ -28,7 +28,7 @@ public class Zegana{
 	if(Zegana.verbose)
 	    System.out.println("Reading card list");
 	readCards("Zegana/standard.txt");
-
+	
 	Deck[] currentGen = new Deck[genSize];
 
 	if(Zegana.verbose)
@@ -305,17 +305,31 @@ class Deck{
     public ArrayList<String> cards;
     public ArrayList<Integer> quantity;
     public String name;
+    private boolean repeated;
 
     public Deck(ArrayList<String> LegalCards){
+	this(LegalCards, true);
+    }
+
+    public Deck(ArrayList<String> LegalCards, boolean rep){
 	if(Zegana.verbose)
 	    System.out.println("Generating new deck");
 	cards = new ArrayList<String>();
-	quantity = new ArrayList<Integer>();
+	this.repeated = rep;
+	if(rep)
+	    quantity = new ArrayList<Integer>();
 	for(int i=0; i<LegalCards.size(); i++){
 	    int r = (int) (Math.random()*5);
-	    if(r>0){
-		cards.add(LegalCards.get(i));
-		quantity.add(r);
+	    if(rep){
+		if(r>0){
+		    cards.add(LegalCards.get(i));
+		    quantity.add(r);
+		}
+	    }else{
+		while(r>0){
+		    cards.add(LegalCards.get(i));
+		    r--;
+		}
 	    }
 	}
 	name = ""+Zegana.deckCount;
@@ -329,16 +343,25 @@ class Deck{
 	name = in.name;
 	cards = new ArrayList<String>(in.cards);
 	quantity = new ArrayList<Integer>(in.quantity);
+	repeated = in.repeated;
     }
 
     @Override
     public String toString(){
 	String o = "Deck "+name+'\n';
 	int count = 0;
-	for(int i=0; i<cards.size(); i++){
-	    o = o + quantity.get(i) + ' ' + cards.get(i) + '\n';
-	    count += quantity.get(i);
+	if(this.repeated){
+	    for(int i=0; i<cards.size(); i++){
+		o = o + quantity.get(i) + ' ' + cards.get(i) + '\n';
+		count += quantity.get(i);
+	    }
+	}else{
+	    for(int i=0; i<cards.size(); i++){
+		o = o + cards.get(i) + '\n';
+	    }
 	}
+	if(!this.repeated)
+	    count = cards.size();
 	o = o +"Cards: "+count+'\n';
 	return o;
     }

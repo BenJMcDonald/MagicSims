@@ -1,4 +1,4 @@
-    As I see it, the problem is divided into three main sub-problems:
+   As I see it, the problem is divided into three main sub-problems:
     
     1- Selecting a way to represent decks in the mutator program
 	(Zegana) and devising a mutation/reproduction algorithm
