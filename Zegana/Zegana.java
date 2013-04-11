@@ -89,6 +89,10 @@ public class Zegana{
     */
     
     public static void twiddle(Deck in){
+	if(!in.repeated){
+	    System.out.println("Can't twiddle a non-repeated deck");
+	    return;
+	}
 	for(int i=0; i< in.cards.size(); i++){
 	    while(Math.random()>0.7){
 		int mod = ((int) (Math.random()*3)-1);
@@ -276,6 +280,10 @@ public class Zegana{
     //Modifies the given deck such that the portion of basic
     //lands is equal to i
     public static void useLands(Deck d, double r){
+	if(!d.repeated){
+	    System.out.println("Uselands does not support decks without repetition");
+	    return;
+	}
 	int cards = 0;
 	int lands = 0;
 	int uniqueBasics = 0;
@@ -305,7 +313,7 @@ class Deck{
     public ArrayList<String> cards;
     public ArrayList<Integer> quantity;
     public String name;
-    private boolean repeated;
+    public boolean repeated;
 
     public Deck(ArrayList<String> LegalCards){
 	this(LegalCards, true);
