@@ -1,0 +1,74 @@
+    As I see it, the problem is divided into three main sub-problems:
+    
+    1- Selecting a way to represent decks in the mutator program
+	(Zegana) and devising a mutation/reproduction algorithm
+	that makes sense in light of that choice
+    2- Selecting the environment in which to perform the simulation
+	and how to measure performance - i.e. what parameters
+	we give to the simulator and what results we look at to
+	determine which individuals reproduce
+    3- Performing mathematical transformations on the raw fitness
+	values to turn them into values porportional to reproduction
+	chance.
+
+As such, in the long term I plan for Zegana to have command line 
+options to allow the user to independently select algorithms for
+each of these sub-problems.
+
+    Genetic algorithms differ from basic evolutionary algorithms
+in that they use a reproduction process that is in some way an
+imitation of nature's. The literatire I read mainly discussed 
+how to make this process more realisticly copy nature in order
+to achieve better results.
+
+    Genetic algorithms generally use crossover- that is, where
+individuals a and b are strings, interchanging a random substring
+of a and the corresponding substring of b in order to generate
+an offspring from two parents. Most problems are dissimilar from
+nature in that the position of an element in the string is very
+important in determining what that string does. In nature, by
+contrast, sequences of DNA do not care where they are on the strand-
+though related functions are often grouped.
+
+    Our problem, however, does not have this discrepancy. I plan
+to take advantage of this in my solution to sub-problem 1.
+The decks will be a simple list of cards with repetition. Then,
+in order to create new individuals, I copy two old individuals
+and possibly randomly interchange a substring, followed by possible
+mutations. The key, however, is that the decks exist in a particular
+order and one of the possible mutations will be to reverse the order
+of a substring of the deck. This will not effect the performance
+of the deck in the simulator, however, if it happens to have the
+effect of grouping cards that depend on each other, that permuation
+of the deck will be more likely to have its children survive, because
+crossover is less likely to seperate interdependant cards. In this
+way, groups of related cards will eventually group together, and the
+process of crossover becomes the mixing and matching of these groups.
+
+    I also plan to explore the concept of having the random mutation
+process prefferentially add and delete from one end of the deck, so
+that decks might learn to shift the extremely important cards to the
+opposite end.
+
+    The literatire also warned of using the raw fitness value as
+an individual's proportional chance to reproduce. There tend to be
+a small number of individuals in the first few generations with 
+vastly superior fitness, and so all individuals are soon decendants
+of those individuals and most of the search space is not explored.
+Instead, I plan to have an individual's reproduction chance to be
+their number of standard devations above the mean plus some constant.
+In this way, the selection pressure is relatively constant over time:
+The early generations are not dominated by a few individuals, and late
+generations still have selectoin pressure despite the individuals
+all having similar fitness values.
+
+    As for the environment, I plan to explore the idea of having
+the decks being evolved tested against some fixed set of decks.
+Having them battle each other, as we have been doing, seems like a
+bad idea both because it widens the search space ("Make the best deck"
+as opposed to "Make a deck that beats this specific deck") and
+because it makes it difficult to measure the progress- when the decks
+compete against each other, the best of each generation always has
+a 70%-80% win rate, but the only real way we can see improvement
+is if it learns to not use cards that are strictly worse than other
+cards.

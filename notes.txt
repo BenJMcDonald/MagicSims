@@ -1,0 +1,37 @@
+GA is good at optimizing for niches in environment
+suggests we have a constant environment rather than a tournament
+
+Specialize into rock paper scissors mode- optimize to beat one particular deck.
+Book says use an encoding that makes sense, and devise an algorithm that works on that encoding.
+
+We want funcitonally related information to be localized, so crossover works better.
+possibility-decks are ordered, and some mutations change the ordering?
+Those decks that have mutually useful cards next to each other are the same performance 
+as reordered decks, but more of their crossover'd offspring survive.
+
+Possibility - crossover introduces illegal decks, ignore excess copies of a card?
+This allows the information that it -really- likes that card to be carried along, because
+those with lots of extra copies keep more of them when mutation happens. It's also an easy
+solution to the problem.
+
+Mutation- delete and add preferentially at locations of the string? That way it can know where to keep
+important things.
+
+seperate scaling algorithms from mutation algoritms, always use roulette wheel?
+
+give selection chance proportional to the # of standard deviations away from the mean
+scale the effects of this over time?
+ranking
+
+
+eliteism- retain some best individuals always
+
+gene doubling?
+
+
+Divide the problem into modular sub-problems
+
+simulation parameters/environment
+Representation/crossover/mutation
+reproduction wieghting
+
