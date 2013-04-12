@@ -24,7 +24,7 @@ public class Zegana{
 	int genCount = 0;
 	
 	while(genCount != end){
-	    float[] performance = Zegana.sim(currentGen);
+	    simulate();
 	    genCount++;
 
 	    if(Zegana.verbose)
@@ -76,10 +76,6 @@ public class Zegana{
 	Zegana.performance = new float[genSize];
     }
 	
-    public static void simulate(){
-    
-    }
-    
     public static void evaluate(){
 
     }
@@ -89,6 +85,28 @@ public class Zegana{
     }
 
 
+    //Generates floats representing the performance of each deck.
+    //Guarentees only that higher values are better.
+    public static void simulate(){
+	for(int i = 0; i<Zegana.currentGen.length; i++){
+	    Zegana.performance[i] = 0;
+	    for(int j = 0; j<trials; j++){
+		int target = (int) (Math.random() * Zegana.currentGen.length);
+		int result = Connect.simulate(Zegana.currentGen[i], Zegana.currentGen[target]);
+		if(result == 0)
+		    result = 1;
+		else
+		    result = 0;
+		Zegana.performance[i] += result;
+	    }
+	}
+	if(Zegana.verbose){
+	    System.out.println("Performance array:");
+	    for(int i=0; i<Zegana.performance.length; i++){
+		System.out.println(Zegana.performance[i]);
+	    }
+	}
+    }
 	/*
 	Deck a = new Deck(LegalCards);
 	Zegana.useLands(a, 0.31);
@@ -168,34 +186,6 @@ public class Zegana{
     }
 
 
-    //Generates floats representing the performance of each deck.
-    //Guarentees only that higher values are better.
-    public static float[] sim(Deck[] gen){
-	float[] balance = new float[gen.length];
-	if(fish){
-	    return null;
-	}else{
-	    for(int i = 0; i<gen.length; i++){
-		for(int j = 0; j<trials; j++){
-		    int target = (int) (Math.random() * gen.length);
-		    int result = Connect.simulate(gen[i], gen[target]);
-		    if(result == 0)
-			result = 1;
-		    else
-			result = 0;
-		    balance[i] += result;
-		    //balance[target] += result;
-		}
-	    }
-	    if(Zegana.verbose){
-		System.out.println("Performance array:");
-		for(int i=0; i<balance.length; i++){
-		    System.out.println(balance[i]);
-		}
-	    }
-	    return balance;
-	}
-    }
 
     public static void readCards(String fn){
 	if(verbose)
