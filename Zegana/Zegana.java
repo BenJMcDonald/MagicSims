@@ -7,37 +7,21 @@ import magicGame.*;
 public class Zegana{
     public static int genSize = 100;
     public static int trials = 100;
-    public static char sa = 't';
-    public static char xa = '0';
+    public static char sa = 'r'; //Preformance evaluation algorithm- r: raw, s: standard deviation
+    public static char xa = 't'; //Mutation/representatoin algorithm- t: twiddle, i: crossover/inversion
+    public static char env = 't';//Environment- t: tournament style
     public static int end = -1;
     public static int deckCount;
     public static boolean fish = false;
     public static boolean verbose = false;
     private static ArrayList<String> LegalCards = new ArrayList<String>();
+    private static Deck[] currentGen = null;
+    private static float[] performance = null;
 
     public static void main(String [] args){
 		
-	if(args.length == 0){
-	    printUsage();
-	    return;
-	}
-	Zegana.parseArguements(args);
-
+	Zegana.initalize(args);
 	int genCount = 0;
-
-	if(Zegana.verbose)
-	    System.out.println("Reading card list");
-	readCards("Zegana/standard.txt");
-	
-	Deck[] currentGen = new Deck[genSize];
-
-	if(Zegana.verbose)
-	    System.out.println("Generating new random decks");
-	
-	for(int i=0; i<genSize; i++){
-	    currentGen[i] = new Deck(LegalCards);
-	    Zegana.useLands(currentGen[i], 0.3);
-	}
 	
 	while(genCount != end){
 	    float[] performance = Zegana.sim(currentGen);
@@ -65,6 +49,44 @@ public class Zegana{
 		    minSize(currentGen[i]);
 	    }
 	}
+    }
+
+    public static void initalize(String[] args){
+	if(args.length == 0){
+	    printUsage();
+	    System.out.println("Running with default arguements");
+	    return;
+	}
+	Zegana.parseArguements(args);
+    
+	if(Zegana.verbose)
+	    System.out.println("Reading card list");
+	Zegana.readCards("Zegana/standard.txt");
+	
+	Zegana.currentGen = new Deck[genSize];
+
+	if(Zegana.verbose)
+	    System.out.println("Generating new random decks");
+	
+	for(int i=0; i<Zegana.genSize; i++){
+	    Zegana.currentGen[i] = new Deck(LegalCards);
+	    Zegana.useLands(currentGen[i], 0.3);
+	}
+
+	Zegana.performance = new float[genSize];
+    }
+	
+    public static void simulate(){
+    
+    }
+    
+    public static void evaluate(){
+
+    }
+
+    public static void populate(){
+
+    }
 
 
 	/*
@@ -76,7 +98,7 @@ public class Zegana{
 	    Connect.simulate(a, b);
 	    */
 
-    }
+    
     
     /*
     public static void crossover(Deck a, Deck b){
