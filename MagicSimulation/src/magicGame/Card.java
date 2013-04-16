@@ -254,6 +254,21 @@ public class Card {
 		this.targetPlayer = targetPlayer;
 	}
 	
-	
+	public boolean similarColors(Card c2){
+		boolean result = false;
+		
+		String cost1 = this.cost + "1";
+		String cost2 = c2.getCost() + "1";
+		
+		for(char c : cost1.toCharArray())
+			if(c != 1 && cost2.indexOf(c) != -1)
+				result = true;
+		
+		for(char c : cost2.toCharArray())
+			if(cost1.indexOf(c) == -1)
+				result = false;
+		
+		return result;
+	}
 
 }

@@ -217,5 +217,56 @@ public class Tests extends TestCase {
 		assertEquals(1, creatureList2.size());
 		assertEquals("Dawntreader Elk", creatureList2.get(0).getName());
 	}
+	
+//	public void testMutate(){
+//		DebicccdGA g = new DebicccdGA("");
+//		
+//		String curds = g.mutateCard("Supreme Verdict", "color");
+//		
+//		System.out.print(curds);
+//	}
+//	
+//	public void testCrossover(){
+//		DebicccdGA g = new DebicccdGA("");
+//		
+//		String[] d1 = {"1","2","3","4"};
+//		String[] d2 = {"5","6","7","8","9","0"};
+//		
+//		ArrayList<String[]> cross = g.crossover(d1, d2, "simple");
+//		
+//		for(String[] d : cross){
+//			for(String s : d)
+//				System.out.print(s);
+//			System.out.println();
+//		}
+//	}
+//	
+//	public void testDeckGen(){
+//		DebicccdGA g = new DebicccdGA("");
+//		
+//		String[] deck = g.generateDeck("random");
+//		
+//		for(String s : deck)
+//			System.out.println(s);
+//	}
+//	
+	public void testNextPopulation(){
+		DebicccdGA g = new DebicccdGA("");
+		
+		g.fitness = new Double[15];
+		g.population = new String[15][];
+		
+		for(int i = 0; i < 15; i++){
+			String[] temp = {String.valueOf(i),String.valueOf(i)};
+			g.fitness[i] = 1.0;
+			g.population[i] = temp;
+		}
+		
+		g.generateNextPopulation("roulette");
+		
+		for(String[] s : g.population)
+			System.out.print(s[0] + ":");
+	}
+	
 
 }

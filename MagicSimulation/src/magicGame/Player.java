@@ -44,6 +44,10 @@ public class Player {
 		}
 
 	}
+	
+	public static Player blankPlayer(){
+		return new Player(new String[0], new GameState(2));
+	}
 
 	public ArrayList<Card> getDeck() {
 		return this.deck;
