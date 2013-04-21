@@ -19,6 +19,11 @@ public class Zegana{
     private static Deck[] currentGen = null;
     private static float[] performance = null;
 
+    public static final double crossoverChance = 0.6;
+    public static final double mutationChance = 0.4;
+    public static final double inversionChance = 0.3;
+    public static final int minSize = 60;
+
     public static void main(String [] args){
 		
 	Zegana.initalize(args);
@@ -30,7 +35,6 @@ public class Zegana{
 	    genCount++;
 
 	    simulate();
-	    printBest();
 	    populate();
 	    }
 	}
@@ -88,14 +92,110 @@ public class Zegana{
     }
 
     public static void populate(){
-	Zegana.currentGen = Zegana.select(Zegana.currentGen, Zegana.performance);
+	if(Zegana.xa == 't'){
+	    Zegana.currentGen = Zegana.select(Zegana.currentGen, Zegana.performance);
 
-	for(int i=0; i<currentGen.length; i++){
-	    if(Math.random()>0.2)
-		Zegana.twiddle(currentGen[i]);
+	    for(int i=0; i<currentGen.length; i++){
+		if(Math.random()< Zegana.mutationChance)
+		    Zegana.twiddle(currentGen[i]);
+	    }
+	}else if(Zegana.xa == 'i'){
+	    Deck[] newGen = new Deck[currentGen.length];
+	    float total = arraySum(Zegana.performance);
+
+	    for(int i=0; i<newGen.length; i+=2){
+		crossover(newGen, i, Zegana.currentGen, Zegana.performance, total);
+	    }
+
+	    for(int i=0; i<newGen.length; i++){
+		if(Math.random() < Zegana.mutationChance){
+		    newGen[i].cards.add(LegalCards.get((int) (Math.random()*LegalCards.size())));
+		}
+		if((Math.random() < Zegana.mutationChance) && (newGen[i].cards.size() > Zegana.minSize)){
+		    newGen[i].cards.remove( (int) Math.random() * newGen[i].cards.size());
+		}
+		if(Math.random() < Zegana.inversionChance){
+		    inversion(newGen[i]);
+		}
+	    }
+
+	    Zegana.currentGen = newGen;
+
+	}   
+    }
+    
+    //reverses the order of a random substring of input
+    public static void inversion(Deck in){
+	int pos1 = (int) (Math.random() * (1+in.cards.size()));
+	int pos2 = (int) (Math.random() * (1+in.cards.size()));
+	
+	if(pos1>pos2){
+	    int temp = pos1;
+	    pos1 = pos2;
+	    pos2 = temp;
+	}
+	
+	String temp;
+	int j = pos2;
+	for(int i=pos1; i<(j-1); i++){
+	    j--;
+	    temp = in.cards.get(i);
+	    in.cards.set(i, in.cards.get(j));
+	    in.cards.set(j, temp);
 	}
     }
 
+    //Generates two new decks by crossover, chosing parents from source according to perf/total.
+    //puts them at result[i] and result[i+1].
+    public static void crossover(Deck[] result, int position, Deck[] source, float[] perf, float total){
+	Deck a = selectOne(source, perf, total);
+	Deck b = selectOne(source, perf, total);
+	
+	if(Math.random() < Zegana.crossoverChance){
+	    //We want to interchange the substring posa1:posa2 (inclusive) in a
+	    //with the corresponding substring in b.
+	    int posa1 = (int) (Math.random() * (1+a.cards.size()));
+	    int posa2 = (int) (Math.random() * (1+a.cards.size()));
+	    int posb1 = (int) (Math.random() * (1+b.cards.size()));
+	    int posb2 = (int) (Math.random() * (1+b.cards.size()));
+	    if(posa1>posa2){
+		int temp = posa1;
+		posa1 = posa2;
+		posa2 = temp;
+	    }
+	    if(posb1>posb2){
+		int temp = posb1;
+		posb1 = posb2;
+		posb2 = temp;
+	    }
+
+	    List<String> prefa = a.cards.subList(0, posa1);
+	    List<String> midla = a.cards.subList(posa1, posa2);
+	    List<String> sufxa = a.cards.subList(posa2, a.cards.size());
+	    
+	    List<String> prefb = b.cards.subList(0, posb1);
+	    List<String> midlb = b.cards.subList(posb1, posb2);
+	    List<String> sufxb = b.cards.subList(posb2, b.cards.size());
+
+	    List<String> an = new ArrayList<String>();
+	    an.addAll(prefa);
+	    an.addAll(midlb);
+	    an.addAll(sufxa);
+	    a.cards = an;
+
+	    List<String> bn = new ArrayList<String>();
+	    bn.addAll(prefb);
+	    bn.addAll(midla);
+	    bn.addAll(sufxb);
+	    b.cards = bn;
+	}
+
+	result[position] = a;
+	if(position+1 < result.length)
+	    result[position+1] = b;
+	
+	return;
+    }
 
     //Generates floats representing the performance of each deck.
     //Guarentees only that higher values are better.
@@ -120,6 +220,8 @@ public class Zegana{
 	}
 	if(Zegana.verbose)
 	    System.out.println("Done simulating generation "+Zegana.genCount);
+    
+	printBest();
     }
 	/*
 	Deck a = new Deck(LegalCards);
@@ -198,6 +300,8 @@ public class Zegana{
 	return total;
     }
 
+    //Selects a deck from old in accordance with perf/total.
+    //Returns a copy of this deck.
     public static Deck selectOne(Deck[] old, float[] perf, float total){
 	
 	float target = ((float) Math.random())*total;
@@ -282,7 +386,7 @@ public class Zegana{
     }
 
     //Modifies the given deck such that it has 60 cards by adding basic lands
-    //equal amounts of each type
+    //equal amounts of each type. In non-repeated decks, instead adds basics randomly.
     public static void minSize(Deck d){
 	int cards = 0;
 	int uniqueBasics = 0;
@@ -348,8 +452,8 @@ public class Zegana{
 }
 
 class Deck{
-    public ArrayList<String> cards;
-    public ArrayList<Integer> quantity;
+    public List<String> cards;
+    public List<Integer> quantity;
     public String name;
     public boolean repeated;
 
