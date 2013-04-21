@@ -22,7 +22,7 @@ public class Zegana{
     public static final double crossoverChance = 0.6;
     public static final double mutationChance = 0.4;
     public static final double inversionChance = 0.3;
-    public static final int minSize = 60;
+    public static final int minCards = 60;
 
     public static void main(String [] args){
 		
@@ -111,12 +111,13 @@ public class Zegana{
 		if(Math.random() < Zegana.mutationChance){
 		    newGen[i].cards.add(LegalCards.get((int) (Math.random()*LegalCards.size())));
 		}
-		if((Math.random() < Zegana.mutationChance) && (newGen[i].cards.size() > Zegana.minSize)){
+		if((Math.random() < Zegana.mutationChance) && (newGen[i].cards.size() > Zegana.minCards)){
 		    newGen[i].cards.remove( (int) Math.random() * newGen[i].cards.size());
 		}
 		if(Math.random() < Zegana.inversionChance){
 		    inversion(newGen[i]);
 		}
+		minSize(newGen[i]);
 	    }
 
 	    Zegana.currentGen = newGen;
@@ -388,33 +389,43 @@ public class Zegana{
     //Modifies the given deck such that it has 60 cards by adding basic lands
     //equal amounts of each type. In non-repeated decks, instead adds basics randomly.
     public static void minSize(Deck d){
-	int cards = 0;
-	int uniqueBasics = 0;
-	for(int i=0; i<d.cards.size(); i++){
-	    cards += d.quantity.get(i);
-	    String s = d.cards.get(i);
-	    if(CardsInfo.has(s, "Basic")){
-		uniqueBasics++;
+	if(d.repeated){
+	    int cards = 0;
+	    int uniqueBasics = 0;
+	    for(int i=0; i<d.cards.size(); i++){
+		cards += d.quantity.get(i);
+		String s = d.cards.get(i);
+		if(CardsInfo.has(s, "Basic")){
+		    uniqueBasics++;
+		}
 	    }
-	}
-	if(cards<60){
-	    int add =60 - cards;
-	    if(uniqueBasics != 0){
-		int addPer = add/uniqueBasics;
-		for(int i = 0; i<d.cards.size(); i++){
-		    if(CardsInfo.has(d.cards.get(i), "Basic")){
-			if(uniqueBasics==1){
-			    d.quantity.set(i, d.quantity.get(i)+add);
-			}else{
-			    d.quantity.set(i, d.quantity.get(i)+addPer);
-			    add-=addPer;
-			    uniqueBasics--;
+	    if(cards<60){
+		int add =60 - cards;
+		if(uniqueBasics != 0){
+		    int addPer = add/uniqueBasics;
+		    for(int i = 0; i<d.cards.size(); i++){
+			if(CardsInfo.has(d.cards.get(i), "Basic")){
+			    if(uniqueBasics==1){
+				d.quantity.set(i, d.quantity.get(i)+add);
+			    }else{
+				d.quantity.set(i, d.quantity.get(i)+addPer);
+				add-=addPer;
+				uniqueBasics--;
+			    }
 			}
 		    }
+		}else{
+		    d.cards.add("Forest");
+		    d.quantity.add(add);
 		}
-	    }else{
-		d.cards.add("Forest");
-		d.quantity.add(add);
+	    }
+	}
+	else{
+	    int toAdd = Zegana.minCards-d.cards.size();
+	    String[] basics = {"Forest", "Plains", "Swamp", "Island", "Mountain"};
+	    while(toAdd > 0){
+		d.cards.add(basics[(int) (Math.random()*5)]);
+		toAdd--;
 	    }
 	}
     }
