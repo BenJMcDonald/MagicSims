@@ -118,8 +118,8 @@ public class Zegana{
 		if(Math.random() < Zegana.inversionChance){
 		    inversion(newGen[i]);
 		}
-		minSize(newGen[i]);
 		maxCopies(newGen[i]);
+		minSize(newGen[i]);
 	    }
 
 	    Zegana.currentGen = newGen;
