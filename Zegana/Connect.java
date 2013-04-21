@@ -4,10 +4,14 @@ import java.util.*;
 public class Connect{
 
     public static int simulate(Deck a, Deck b){
+	return simulate(format(a), format(b));
+    }
+
+    public static int simulate(String[] a, String[] b){
 	magicGame.GameState gs = new magicGame.GameState(2);
 	ArrayList<String[]> players = new ArrayList<String[]>();
-	players.add(format(a));
-	players.add(format(b));
+	players.add(a);
+	players.add(b);
 	gs.makePlayers(players);
 	gs.initializeGame();
 	ArrayList<Object> result = gs.playGame("Com");
@@ -20,10 +24,15 @@ public class Connect{
 	return ((magicGame.Player) result.get(1)).getPlayerNumber();
     }
 
+
     //Turns a deck object as Zegana understands it into an
     //array of card names with repetition, which is the format
     //the simulator understands decks in
     private static String[] format(Deck in){
+	if(!in.repeated){
+	    return in.cards.toArray(new String[0]);
+	}
+	
 	int size = 0;
 	
 	for(int i = 0; i<in.quantity.size(); i++){
