@@ -191,6 +191,13 @@ public class Zegana{
 	    bn.addAll(midla);
 	    bn.addAll(sufxb);
 	    b.cards = bn;
+
+	    String tempa = a.name;
+	    String tempb = b.name;
+
+	    a.name = '('+tempa+'.'+tempb+')';
+	    b.name = '('+tempb+'.'+tempa+')';
+
 	}
 
 	result[position] = a;
