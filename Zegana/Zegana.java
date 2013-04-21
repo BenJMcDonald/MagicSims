@@ -198,6 +198,12 @@ public class Zegana{
 	    a.name = '('+tempa+'.'+tempb+')';
 	    b.name = '('+tempb+'.'+tempa+')';
 
+	    if(a.name.length() > 1000)
+		a.name = 'r' + Integer.toString((int ) (Math.random()*100)) + '-' + a.name.length();
+
+
+	    if(b.name.length() > 1000)
+		b.name = 'r' + Integer.toString((int ) (Math.random()*100)) + '-' + b.name.length();
 	}
 
 	result[position] = a;
