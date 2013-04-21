@@ -23,6 +23,7 @@ public class Zegana{
     public static final double mutationChance = 0.4;
     public static final double inversionChance = 0.3;
     public static final int minCards = 60;
+    public static final int maxCopies = 4;
 
     public static void main(String [] args){
 		
@@ -118,6 +119,7 @@ public class Zegana{
 		    inversion(newGen[i]);
 		}
 		minSize(newGen[i]);
+		maxCopies(newGen[i]);
 	    }
 
 	    Zegana.currentGen = newGen;
@@ -429,6 +431,31 @@ public class Zegana{
 	    }
 	}
     }
+
+    public static void maxCopies(Deck d){
+	if(d.repeated){
+	    System.out.println("maxCopies doesn't deal with repeated decks yet");
+	}else{
+	    Map<String, Integer> copies = new TreeMap<String, Integer>();
+	    for(int i=0; i<d.cards.size(); i++){
+		String s = d.cards.get(i);
+		if(! CardsInfo.has(s, "Basic")){
+		    if(copies.containsKey(s)){
+			int n = copies.get(s);
+			if(n>=Zegana.maxCopies){
+			    d.cards.remove(i);
+			    i--;
+			}else{
+			    copies.put(s, n+1);
+			}
+		    }else{
+			copies.put(s, 1);
+		    }
+		}
+	    }
+	}
+    }
+
     
     //Modifies the given deck such that the portion of basic
     //lands is equal to i
