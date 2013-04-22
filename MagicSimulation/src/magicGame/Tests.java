@@ -250,23 +250,67 @@ public class Tests extends TestCase {
 //			System.out.println(s);
 //	}
 //	
-	public void testNextPopulation(){
+//	public void testNextPopulation(){
+//		DebicccdGA g = new DebicccdGA("");
+//		
+//		g.fitness = new Double[15];
+//		g.population = new String[15][];
+//		
+//		for(int i = 0; i < 15; i++){
+//			String[] temp = {String.valueOf(i),String.valueOf(i)};
+//			g.fitness[i] = 1.0;
+//			g.population[i] = temp;
+//		}
+//		
+//		g.generateNextPopulation("roulette");
+//		
+//		for(String[] s : g.population)
+//			System.out.print(s[0] + ":");
+//	}
+	
+//	public void testToStringGA(){
+//		DebicccdGA g = new DebicccdGA("");
+//		
+//		g.fitness = new Double[15];
+//		g.population = new String[15][];
+//		
+//		for(int i = 0; i < 15; i++){
+//			String[] temp = {String.valueOf(i),String.valueOf(i)};
+//			g.fitness[i] = 1.0 / (i + 1.0);
+//			g.population[i] = temp;
+//		}
+//		
+//		System.out.print(g);
+//	}
+	
+	public void testSimulate(){
 		DebicccdGA g = new DebicccdGA("");
 		
-		g.fitness = new Double[15];
-		g.population = new String[15][];
+		g.generateInitialPopulation(6);
 		
-		for(int i = 0; i < 15; i++){
-			String[] temp = {String.valueOf(i),String.valueOf(i)};
-			g.fitness[i] = 1.0;
-			g.population[i] = temp;
-		}
+		g.printPopulation();
 		
+		g.simulatePopulation("");
 		g.generateNextPopulation("roulette");
 		
-		for(String[] s : g.population)
-			System.out.print(s[0] + ":");
-	}
-	
+		System.out.println();
+		
+		for(Double d : g.fitness)
+			System.out.print(d + " : ");
+		
+		
+		for(int i = 0; i < 1000; i++){
+			g.simulatePopulation("");
+			g.generateNextPopulation("roulette");
+		}
+		
+		System.out.println();
+		
+		for(Double d : g.fitness)
+			System.out.print(d + " : ");
 
+		System.out.println();
+		g.printPrevPopulation();
+
+	}
 }
