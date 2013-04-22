@@ -9,7 +9,7 @@ public class Zegana{
     public static int trials = 100;
     public static char sa = 'r'; //Preformance evaluation algorithm- r: raw, s: standard deviation
     public static char xa = 't'; //Mutation/representatoin algorithm- t: twiddle, i: crossover/inversion
-    public static char env = 't';//Environment- t: tournament style
+    public static char env = 't';//Environment- t: tournament style, -f against forests, -v agianst x/xs for x
     public static int end = -1;
     public static int deckCount;
     public static boolean verbose = false;
@@ -18,6 +18,7 @@ public class Zegana{
     private static ArrayList<String> LegalCards = new ArrayList<String>();
     private static Deck[] currentGen = null;
     private static float[] performance = null;
+    private static Deck opponent; //declared here so it only gets generated once
 
     public static final double crossoverChance = 0.6;
     public static final double mutationChance = 0.4;
@@ -52,7 +53,13 @@ public class Zegana{
 	}
 	System.out.println("New deck:");
 	System.out.println(best);
-	System.out.println("Performance: \n"+bestP);
+	if(Zegana.env == 't'){
+	    System.out.println("Win rate: \n"+bestP);
+	}
+	else if(Zegana.env == 'f'){
+	    System.out.println("Average win turn: \n"+(1/bestP));
+	}
+	
     }
 
     public static void initalize(String[] args){
@@ -218,14 +225,28 @@ public class Zegana{
     public static void simulate(){
 	for(int i = 0; i<Zegana.currentGen.length; i++){
 	    Zegana.performance[i] = 0;
-	    for(int j = 0; j<trials; j++){
-		int target = (int) (Math.random() * Zegana.currentGen.length);
-		int result = Connect.simulate(Zegana.currentGen[i], Zegana.currentGen[target]);
-		if(result == 0)
-		    result = 1;
-		else
-		    result = 0;
-		Zegana.performance[i] += result;
+	    if(Zegana.env == 't'){
+		for(int j = 0; j<trials; j++){
+		    int target = (int) (Math.random() * Zegana.currentGen.length);
+		    int result = Connect.simulate(Zegana.currentGen[i], Zegana.currentGen[target]);
+		    if(result == 0)
+			result = 1;
+		    else
+			result = 0;
+		    Zegana.performance[i] += result;
+		}
+	    }else if(Zegana.env == 'f'){
+		if(Zegana.opponent == null){
+		    Zegana.opponent = new Deck(false);
+		    for(int k=0; k<Zegana.minCards; k++){
+			Zegana.opponent.cards.add("Forest");
+		    }
+		}
+		for(int j=0; j<trials; j++){
+		    int [] result = Connect.simulateTurns(Zegana.currentGen[i], Zegana.opponent);
+		    Zegana.performance[i] += result[1];
+		}
+		Zegana.performance[i] = trials/Zegana.performance[i];
 	    }
 	}
 	if(Zegana.verbose){
@@ -359,7 +380,7 @@ public class Zegana{
 	System.out.println("  -xa (n)  (mutation algorithm)");
 	System.out.println("           t (twiddle), i (crossover/inversion)");
 	System.out.println("  -env (n) (environment)");
-	System.out.println("           t (tournament style) f (no opponent)");
+	System.out.println("           t (tournament style) f (no opponent) v (against simple deck)");
     }
 
     public static void parseArguements(String[] args){
@@ -537,6 +558,15 @@ class Deck{
 	if(Zegana.verbose)
 	    System.out.println("Generated deck "+Zegana.deckCount);
 	Zegana.deckCount++;
+    }
+    
+    //empty deck constructor
+    public Deck(boolean rep){
+	this.cards = new ArrayList<String>();
+	this.name = "blank";
+	this.repeated = rep;
+	if(!rep)
+	    this.quantity = new ArrayList<Integer>();
     }
 
     //copy constructor

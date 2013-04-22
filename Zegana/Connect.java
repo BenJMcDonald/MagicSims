@@ -23,6 +23,28 @@ public class Connect{
 	}
 	return ((magicGame.Player) result.get(1)).getPlayerNumber();
     }
+    
+    public static int [] simulateTurns(Deck a, Deck b){
+	return simulateTurns(format(a), format(b));
+    }
+
+    //Same as above, except it returns [winner, #turns]
+    public static int [] simulateTurns(String[] a, String[] b){
+	magicGame.GameState gs = new magicGame.GameState(2);
+	ArrayList<String[]> players = new ArrayList<String[]>();
+	players.add(a);
+	players.add(b);
+	gs.makePlayers(players);
+	gs.initializeGame();
+	ArrayList<Object> result = gs.playGame("Com");
+	if(result.get(1) == null){
+	    //Some player won and lost on the same turn and the simulator does not handle this.
+	    //Treating it as a draw.
+	    return new int[]{0, (int) result.get(0)};
+	}
+	int winner = ((magicGame.Player) result.get(1)).getPlayerNumber();
+	return new int[]{winner, (int) result.get(0)};
+    }
 
 
     //Turns a deck object as Zegana understands it into an
