@@ -20,6 +20,7 @@ public class Zegana{
     private static float[] performance = null;
     private static Deck opponent; //declared here so it only gets generated once
 
+    private static float elitePerf = 0;
     public static final double crossoverChance = 0.6;
     public static final double mutationChance = 0.4;
     public static final double inversionChance = 0.3;
@@ -43,6 +44,7 @@ public class Zegana{
     
 
     public static void printBest(){
+
 	Deck best = Zegana.currentGen[0];
 	float bestP = Zegana.performance[0];
 	for(int i=1; i<Zegana.performance.length; i++){
@@ -51,6 +53,13 @@ public class Zegana{
 		best = Zegana.currentGen[i];
 	    }
 	}
+
+	if((bestP < Zegana.elitePerf) && (Zegana.env == 'f')){
+	    return;
+	}else if(Zegana.env == 'f'){
+	    Zegana.elitePerf = bestP;
+	}
+
 	System.out.println("New deck:");
 	System.out.println(best);
 	if(Zegana.env == 't'){
