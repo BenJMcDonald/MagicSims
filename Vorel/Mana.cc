@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+const int numTypes = 6;
+
 //Class representing mana, mana costs.
 class Mana{
     public:
@@ -13,38 +15,26 @@ class Mana{
     bool pay(Mana*);
     string toString();
 
-    private:
     int W = 0;
     int U = 0;
     int R = 0;
     int G = 0;
     int B = 0;
     int L = 0;//colorless
+    
+    private:
     bool pay(char);
-    int* types[6] = {&W, &U, &B, &R, &G, &L};
-    string names[6] = {"W", "U", "B", "R", "G", "1"};
-
-
+    int* types[numTypes] = {&W, &U, &B, &R, &G, &L};
+    string names[numTypes] = {"W", "U", "B", "R", "G", "1"};
 };
 
 Mana::Mana(){
-    W = 0;
-    U = 0;
-    R = 0;
-    G = 0;
-    B = 0;
-    L = 0;
+    return;
 };
 
 //Takes a string of the form RR1 or UUUU11111111
 //Doesn't handle split mana or anything else fancy.
 Mana::Mana(string n){
-    W = 0;
-    U = 0;
-    R = 0;
-    G = 0;
-    B = 0;
-    L = 0;
     for(int i=0; i<n.size(); i++){
 	for(int j = 0; j<6; j++){
 	    if(names[j][0]==n[i]){
@@ -56,7 +46,8 @@ Mana::Mana(string n){
 };
 
 Mana::~Mana(){
-    //TODO
+    delete types;
+    delete names;
     return;
 };
 
@@ -71,12 +62,47 @@ bool Mana::canPay(Mana* cost){
 };
 
 bool Mana::pay(Mana* cost){
-    //TODO
+    for(int i=0; i<numTypes; i++){
+	int t = *(cost->types[i]);
+	while(t>0){
+	    if(*types[i]>0){
+		*types[i] = *types[i] - 1;
+		t--;
+	    }else if(names[i]=="1"){
+		bool b = pay('1');
+		t--;
+		if(b == false){
+		    return false;
+		}
+	    }else{
+		return false;
+	    }
+	}
+    }
     return true;
 };
 
-bool pay(char cost){
-    //TODO
+
+bool Mana::pay(char cost){
+    switch(cost){
+	case '1':
+	    int max = 0;
+	    int* typ = 0;
+	    for(int i=0; i<numTypes-1; i++){
+		if(*types[i] > max){
+		    max = *types[i];
+		    typ = types[i];
+		}
+	    }
+	    if(max == 0){
+		return false;
+	    }else{
+		*typ = *typ - 1;
+		return true;
+	    }
+	    break;
+    }
+
     return true;
 };
 
@@ -131,7 +157,8 @@ string Mana::toString(){
     for(int i = 0; i<6; i++){
 	if(names[i]=="1"){
 	    string add = convertInt(*types[i]);
-	    output = output + add;
+	    if(add != "0")
+		output = output + add;
 	}else{
 	    for(int j = 0; j<*types[i]; j++){
 		output = output + names[i];
