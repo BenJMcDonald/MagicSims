@@ -24,17 +24,31 @@ class Mana{
     
     private:
     bool pay(char);
-    int* types[numTypes] = {&W, &U, &B, &R, &G, &L};
+
+    int** types = new int* [numTypes];
+    //types = {&W, &U, &B, &R, &G, &L};
     string names[numTypes] = {"W", "U", "B", "R", "G", "1"};
 };
 
 Mana::Mana(){
+    types[0] = &W;
+    types[1] = &U; 
+    types[2] = &R; 
+    types[3] = &G; 
+    types[4] = &B; 
+    types[5] = &L;
     return;
 };
 
 //Takes a string of the form RR1 or UUUU11111111
 //Doesn't handle split mana or anything else fancy.
 Mana::Mana(string n){
+    types[0] = &W;
+    types[1] = &U; 
+    types[2] = &R; 
+    types[3] = &G; 
+    types[4] = &B; 
+    types[5] = &L;
     for(int i=0; i<n.size(); i++){
 	for(int j = 0; j<6; j++){
 	    if(names[j][0]==n[i]){
@@ -46,6 +60,11 @@ Mana::Mana(string n){
 };
 
 Mana::~Mana(){
+    cout<<types;
+    for(int i=0; i<6; i++){
+	cout<<types[i]<<"\n";
+	cout<<*types[i]<<'\n';
+    }
     delete types;
     delete names;
     return;

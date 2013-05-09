@@ -51,7 +51,9 @@ class Zone{
 
 
 Zone::~Zone(){
-    delete first;
+    if(first!=0){
+	delete first;
+    }
 };
 
 LLnode::LLnode(string s){
