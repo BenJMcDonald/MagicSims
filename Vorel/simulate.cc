@@ -43,7 +43,7 @@ int simulate(Deck* d, int verb){
 
     while(true){
 	if(verb>1){
-	    cout<<"new turn\n";
+	    cout<<"new turn\n\n";
 	}
 
 	if(lib->position>=60){
@@ -76,6 +76,12 @@ int simulate(Deck* d, int verb){
 
 	if(verb>2){
 	    cout<<"Begginning plays for turn\n";
+	    cout<<"Hand: \n";
+	    ZoneIterator* it = hand->iter();
+	    while(it->hasNext()){
+		cout<<it->next()<<'\n';
+	    }
+	    delete it;
 	}
 
 	while(success){
@@ -94,6 +100,11 @@ int simulate(Deck* d, int verb){
 		    if(can){
 			if(verb>1){
 			    cout<<"Play "<<s<<'\n';
+			}
+			if(verb>2){
+			    cout<<"Mana available: "<<manaPool->toString()<<'\n';
+			    cout<<"Mana cost: "<<cost->toString()<<'\n';
+			    cout<<"Mana remaining: "<<localCopy->toString()<<'\n';
 			}
 			manaPool->pay(cost);
 			hand->drop(s);
@@ -161,6 +172,11 @@ int tryExtraTurn(Mana* pool, Zone* hand, int verb){
 	    
 	    bool can = localCopy->pay(cost);
 	    if(can){
+		if(verb>2){
+		    cout<<"Mana available: "<<pool->toString()<<'\n';
+		    cout<<"Mana cost: "<<cost->toString()<<'\n';
+		    cout<<"Mana remaining: "<<localCopy->toString()<<'\n';
+		}
 		if(verb>1){
 		    cout<<"Play "<<s<<"\n";
 		}
