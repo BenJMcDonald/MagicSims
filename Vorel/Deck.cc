@@ -37,7 +37,7 @@ Deck::Deck(string* possible, int length){
 };
 
 Deck::~Deck(){
-    delete cards;
+    delete[] cards;
 };
 
 void Deck::print(){
@@ -69,7 +69,7 @@ Library::Library(Deck* d){
 };
 
 Library::~Library(){
-    delete cards;
+    delete[] cards;
 };
 
 void Library::shuffle(){

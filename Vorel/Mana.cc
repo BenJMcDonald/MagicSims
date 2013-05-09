@@ -27,7 +27,8 @@ class Mana{
 
     int** types = new int* [numTypes];
     //types = {&W, &U, &B, &R, &G, &L};
-    string names[numTypes] = {"W", "U", "B", "R", "G", "1"};
+    string* names;// = new string [numTypes];
+    //string names[numTypes] = {"W", "U", "B", "R", "G", "1"};
 };
 
 Mana::Mana(){
@@ -37,6 +38,15 @@ Mana::Mana(){
     types[3] = &G; 
     types[4] = &B; 
     types[5] = &L;
+    names = new string[numTypes];
+    names[0] = "W";
+    names[1] = "U";
+    names[2] = "B";
+    names[3] = "R";
+    names[4] = "G";
+    names[5] = "1";
+    //names[0] = "W";
+   // names[numTypes] = {"W", "U", "B", "R", "G", "1"};
     return;
 };
 
@@ -49,6 +59,13 @@ Mana::Mana(string n){
     types[3] = &G; 
     types[4] = &B; 
     types[5] = &L;
+    names = new string[numTypes];
+    names[0] = "W";
+    names[1] = "U";
+    names[2] = "B";
+    names[3] = "R";
+    names[4] = "G";
+    names[5] = "1";
     for(int i=0; i<n.size(); i++){
 	for(int j = 0; j<6; j++){
 	    if(names[j][0]==n[i]){
@@ -60,24 +77,32 @@ Mana::Mana(string n){
 };
 
 Mana::~Mana(){
-    cout<<types;
-    for(int i=0; i<6; i++){
-	cout<<types[i]<<"\n";
-	cout<<*types[i]<<'\n';
-    }
-    delete types;
-    delete names;
+    delete[] types;
+    delete[] names;
+    //TODO not convinced that these don't leak
     return;
 };
 
 Mana::Mana(Mana* in){
+    types[0] = &W;
+    types[1] = &U; 
+    types[2] = &R; 
+    types[3] = &G; 
+    types[4] = &B; 
+    types[5] = &L;
+    names = new string[numTypes];
+    names[0] = "W";
+    names[1] = "U";
+    names[2] = "B";
+    names[3] = "R";
+    names[4] = "G";
+    names[5] = "1";
     W = in->W;
     U = in->U;
     R = in->R;
     G = in->G;
     B = in->B;
     L = in->L;     
-    //TODO
     return;
 };
 

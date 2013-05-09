@@ -115,6 +115,7 @@ int tryExtraTurn(Mana* pool, Zone* hand){
 	i = isExtraTurn(s);
 	if(i > 0){
 	    Mana* cost = new Mana(getCost(s));
+	    
 	    bool can = localCopy->pay(cost);
 	    if(can){
 		hand->drop(s);
