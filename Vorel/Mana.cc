@@ -34,9 +34,9 @@ class Mana{
 Mana::Mana(){
     types[0] = &W;
     types[1] = &U; 
-    types[2] = &R; 
-    types[3] = &G; 
-    types[4] = &B; 
+    types[2] = &B; 
+    types[3] = &R; 
+    types[4] = &G; 
     types[5] = &L;
     names = new string[numTypes];
     names[0] = "W";
@@ -55,9 +55,9 @@ Mana::Mana(){
 Mana::Mana(string n){
     types[0] = &W;
     types[1] = &U; 
-    types[2] = &R; 
-    types[3] = &G; 
-    types[4] = &B; 
+    types[2] = &B; 
+    types[3] = &R; 
+    types[4] = &G; 
     types[5] = &L;
     names = new string[numTypes];
     names[0] = "W";
@@ -86,9 +86,9 @@ Mana::~Mana(){
 Mana::Mana(Mana* in){
     types[0] = &W;
     types[1] = &U; 
-    types[2] = &R; 
-    types[3] = &G; 
-    types[4] = &B; 
+    types[2] = &B; 
+    types[3] = &R; 
+    types[4] = &G; 
     types[5] = &L;
     names = new string[numTypes];
     names[0] = "W";

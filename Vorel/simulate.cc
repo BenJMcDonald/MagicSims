@@ -46,7 +46,7 @@ int simulate(Deck* d, int verb){
 	    cout<<"new turn\n\n";
 	}
 
-	if(lib->position>=60){
+	if((60-lib->position)-cardsPerTurn < 0){
 	    break;
 	}
 	if(extraTurns >= 4){
@@ -55,9 +55,6 @@ int simulate(Deck* d, int verb){
 
 	manaPool = new Mana(manaBase);
 	landsRemaining = landsPerTurn;
-	if(verb>2){
-	    cout<<"Mana for turn "<<manaPool->toString()<<'\n';
-	}
 
 	for(int i=0; i<cardsPerTurn; i++){
 	    hand->add(lib->draw());
@@ -65,6 +62,10 @@ int simulate(Deck* d, int verb){
 
 	while((landsRemaining > 0) && (playLand(manaBase, manaPool, hand, verb))){
 	    landsRemaining--;
+	}
+	
+	if(verb>2){
+	    cout<<"Mana for turn "<<manaPool->toString()<<'\n';
 	}
 	
 	if(verb>2){
@@ -184,6 +185,7 @@ int tryExtraTurn(Mana* pool, Zone* hand, int verb){
 		pool->pay(cost);
 		break;
 	    }else{
+		i=0;
 		localCopy = new Mana(pool);
 	    }
 	}
@@ -220,6 +222,14 @@ bool playLand(Mana* base, Mana* pool, Zone* hand, int verb){
 	return true;
     }
 
+    if(hand->drop("Forest")){
+	if(verb>1){
+	    cout<<"Play Forest\n";
+	}
+	base->G++;
+	pool->G++;
+	return true;
+    }
+
     return false;
 }
-
