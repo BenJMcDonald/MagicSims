@@ -2,6 +2,10 @@
 #include <iostream>
 using namespace std;
 
+int tryExtraTurn(Mana*, Zone*);
+bool playLand(Mana*, Mana*, Zone*);
+
+
 int simulate(Deck* d){
     Library* lib = new Library(d);
     Zone* hand = new Zone();
@@ -50,20 +54,20 @@ int simulate(Deck* d){
 	while(success){
 	    success = false;
 	    ZoneIterator* it = hand->iter();
-	    Mana* localCopy = new Mana(pool);
-	    while(iter->hasNext()){
-		string s = iter->next();
+	    Mana* localCopy = new Mana(manaPool);
+	    while(it->hasNext()){
+		string s = it->next();
 		if(!isLand(s)){
 		    Mana* cost = new Mana(getCost(s));
 		    bool can = localCopy->pay(cost);
 		    if(can){
-			pool->pay(cost);
+			manaPool->pay(cost);
 			hand->drop(s);
 			success = true;
 			
 			extraTurns += isExtraTurn(s);
 			cardsPerTurn += isCardsPerTurn(s);
-			int i = isLandsPErTurn(s);
+			int i = isLandsPerTurn(s);
 			if(i>0){
 			    landsPerTurn += i;
 			    landsRemaining += i;
@@ -74,7 +78,7 @@ int simulate(Deck* d){
 
 			break;
 		    }else{
-			localCopy = new Mana(pool);
+			localCopy = new Mana(manaPool);
 		    }
 		}
 	    }
@@ -106,8 +110,8 @@ int tryExtraTurn(Mana* pool, Zone* hand){
     Mana* localCopy = new Mana(pool);
     int i = 0;
 
-    while(iter->hasNext()){
-	string s = iter->next();
+    while(it->hasNext()){
+	string s = it->next();
 	i = isExtraTurn(s);
 	if(i > 0){
 	    Mana* cost = new Mana(getCost(s));

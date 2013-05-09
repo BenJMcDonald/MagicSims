@@ -50,6 +50,10 @@ class Zone{
 };
 
 
+Zone::~Zone(){
+    delete first;
+};
+
 LLnode::LLnode(string s){
     e = s;
     next = 0;
@@ -121,7 +125,7 @@ void Zone::add(string s){
     return;
 };
 
-#include "convertInt.cc"
+//#include "convertInt.cc"
 
 void Zone::print(){
     cout<<"Zone:\n";
