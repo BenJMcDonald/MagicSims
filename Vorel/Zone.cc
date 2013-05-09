@@ -8,6 +8,20 @@ using namespace std;
 //Linked list for fast insertion/deletion (most common operations)
 //Also, when we want to search, we're likely searching for a match
 //based on some function, so no order is meaningful.
+class LLnode;
+class Zone;
+class ZoneIterator;
+
+
+class ZoneIterator{
+    private:
+    LLnode* node;
+    public:
+    bool hasNext();
+    string next();
+    ZoneIterator(LLnode*);
+    ~ZoneIterator();
+};
 
 class LLnode{
     public:
@@ -15,15 +29,6 @@ class LLnode{
     LLnode* next;
     LLnode(string);
     ~LLnode();
-};
-
-LLnode::LLnode(string s){
-    e = s;
-    next = 0;
-};
-
-LLnode::~LLnode(){
-    delete next;
 };
 
 class Zone{
@@ -37,9 +42,26 @@ class Zone{
     bool drop(string);
     void add(string);
 
+    ZoneIterator* iter();
+
     private:
     int size;
     LLnode* first;
+};
+
+
+LLnode::LLnode(string s){
+    e = s;
+    next = 0;
+};
+
+LLnode::~LLnode(){
+    delete next;
+};
+
+
+ZoneIterator* Zone::iter(){
+    return new ZoneIterator(first);
 };
 
 Zone::Zone(){
@@ -109,4 +131,22 @@ void Zone::print(){
 	cout<<"  "<<t->e<<'\n';
 	t = t->next;
     }
+};
+
+ZoneIterator::ZoneIterator(LLnode* in){
+    node = in;
+};
+
+ZoneIterator::~ZoneIterator(){
+    return;
+};
+
+bool ZoneIterator::hasNext(){
+    return node != 0;
+};
+
+string ZoneIterator::next(){
+    string r = node->e;
+    node = node->next;
+    return r;
 };

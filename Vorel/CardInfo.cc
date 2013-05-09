@@ -14,6 +14,10 @@ using namespace std;
 //so I'm going to do it the ugly way.
 
 
+
+//TODO list:
+//Pyromancer Ascension
+//Explore
 string validCards[10] = 
     {"Island",
     "Forest",
@@ -66,3 +70,30 @@ int isCardsPerTurn(string s){
 	return 2;
     return 0;
 };
+
+int isLandsPerTurn(string s){
+    if(s == "Rites of Flourishing")
+	return 1;
+    return 0;
+};
+
+string getCost(string s){
+    if(s == "Time Warp")
+	return "UU111";
+    if(s == "Capture of Jingzhou")
+	return "UU111";
+    if(s == "Temporal Manipulation")
+	return "UU111";
+    if(s == "Time Stretch")
+	return "UU11111111";
+    if(s == "Walk the Aeons")
+	return "UU1111";
+
+    if(s == "Howling Mine")
+	return "11";
+    if(s == "Rites of Flourishing")
+	return "G11";
+    if(s == "Font of Mythos")
+	return "1111";
+}
+

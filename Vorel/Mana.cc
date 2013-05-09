@@ -52,6 +52,12 @@ Mana::~Mana(){
 };
 
 Mana::Mana(Mana* in){
+    W = in->W;
+    U = in->U;
+    R = in->R;
+    G = in->G;
+    B = in->B;
+    L = in->L;     
     //TODO
     return;
 };

@@ -73,8 +73,8 @@ Library::~Library(){
 };
 
 void Library::shuffle(){
-    for(int i=0; i<size; i++){
-	int r = rand() % size;
+    for(int i=position; i<size; i++){
+	int r = rand() % (size-position);
 	string t = cards[i];
 	cards[i] = cards[r];
 	cards[r] = t;
