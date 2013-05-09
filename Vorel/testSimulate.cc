@@ -23,7 +23,7 @@ int main(){
 
     cout<<"Simulating deck\n";
 
-    int i = simulate(d);
+    int i = simulate(d, 3);
 
     cout<<"Returned "<<i;
 

@@ -2,11 +2,14 @@
 #include <iostream>
 using namespace std;
 
-int tryExtraTurn(Mana*, Zone*);
-bool playLand(Mana*, Mana*, Zone*);
+int tryExtraTurn(Mana*, Zone*, int);
+bool playLand(Mana*, Mana*, Zone*, int);
 
 
-int simulate(Deck* d){
+int simulate(Deck* d, int verb){
+    if(verb>2){
+	cout<<"Initalizing\n";
+    }
     Library* lib = new Library(d);
     Zone* hand = new Zone();
     Zone* grave = new Zone();
@@ -29,7 +32,20 @@ int simulate(Deck* d){
 	hand->add(lib->draw());
     }
 
+    if(verb>1){
+	cout<<"Inital Hand\n";
+	ZoneIterator* it = hand->iter();
+	while(it->hasNext()){
+	    cout<<it->next()<<'\n';
+	}
+	delete it;
+    }
+
     while(true){
+	if(verb>1){
+	    cout<<"new turn\n";
+	}
+
 	if(lib->position>=60){
 	    break;
 	}
@@ -39,17 +55,28 @@ int simulate(Deck* d){
 
 	manaPool = new Mana(manaBase);
 	landsRemaining = landsPerTurn;
-	
+	if(verb>2){
+	    cout<<"Mana for turn "<<manaPool->toString()<<'\n';
+	}
+
 	for(int i=0; i<cardsPerTurn; i++){
 	    hand->add(lib->draw());
 	}
 
-	while((landsRemaining > 0) && (playLand(manaBase, manaPool, hand))){
+	while((landsRemaining > 0) && (playLand(manaBase, manaPool, hand, verb))){
 	    landsRemaining--;
 	}
+	
+	if(verb>2){
+	    cout<<"trying to play extra turn\n";
+	}
 
-	extraTurns += tryExtraTurn(manaPool, hand);
+	extraTurns += tryExtraTurn(manaPool, hand, verb);
 	bool success = true;
+
+	if(verb>2){
+	    cout<<"Begginning plays for turn\n";
+	}
 
 	while(success){
 	    success = false;
@@ -57,10 +84,17 @@ int simulate(Deck* d){
 	    Mana* localCopy = new Mana(manaPool);
 	    while(it->hasNext()){
 		string s = it->next();
+		if(verb>2){
+		    cout<<"Trying to play "<<s<<"\n";
+		}
+
 		if(!isLand(s)){
 		    Mana* cost = new Mana(getCost(s));
 		    bool can = localCopy->pay(cost);
 		    if(can){
+			if(verb>1){
+			    cout<<"Play "<<s<<'\n';
+			}
 			manaPool->pay(cost);
 			hand->drop(s);
 			success = true;
@@ -71,7 +105,7 @@ int simulate(Deck* d){
 			if(i>0){
 			    landsPerTurn += i;
 			    landsRemaining += i;
-			    while((landsRemaining > 0) && (playLand(manaBase, manaPool, hand))){
+			    while((landsRemaining > 0) && (playLand(manaBase, manaPool, hand, verb))){
 				landsRemaining--;
 			    }
 			}
@@ -87,8 +121,14 @@ int simulate(Deck* d){
 	}
 
 	if(extraTurns>0){
+	    if(verb>1){
+		cout<<"Taking extra turn\n";
+	    }
 	    extraTurns--;
 	}else{
+	    if(verb>1){
+		cout<<"Allowing opponent to take a turn :( \n";
+	    }
 	    opponentTurns++;
 	}
 
@@ -105,7 +145,7 @@ int simulate(Deck* d){
 
 
 
-int tryExtraTurn(Mana* pool, Zone* hand){
+int tryExtraTurn(Mana* pool, Zone* hand, int verb){
     ZoneIterator* it = hand->iter();
     Mana* localCopy = new Mana(pool);
     int i = 0;
@@ -113,11 +153,17 @@ int tryExtraTurn(Mana* pool, Zone* hand){
     while(it->hasNext()){
 	string s = it->next();
 	i = isExtraTurn(s);
+	if(verb>2){
+	    cout<<"Trying to play "<<s<<"\n";
+	}
 	if(i > 0){
 	    Mana* cost = new Mana(getCost(s));
 	    
 	    bool can = localCopy->pay(cost);
 	    if(can){
+		if(verb>1){
+		    cout<<"Play "<<s<<"\n";
+		}
 		hand->drop(s);
 		pool->pay(cost);
 		break;
@@ -134,9 +180,15 @@ int tryExtraTurn(Mana* pool, Zone* hand){
 
 
 
-bool playLand(Mana* base, Mana* pool, Zone* hand){
+bool playLand(Mana* base, Mana* pool, Zone* hand, int verb){
+    if(verb>2){
+	cout<<"Trying to play land\n";
+    }
     if(base->G == 0){
 	if(hand->drop("Forest")){
+	    if(verb>1){
+		cout<<"Play Forest\n";
+	    }
 	    base->G++;
 	    pool->G++;
 	    return true;
@@ -144,6 +196,9 @@ bool playLand(Mana* base, Mana* pool, Zone* hand){
     }
 
     if(hand->drop("Island")){
+	if(verb>1){
+	    cout<<"Play Island\n";
+	}
 	base->U++;
 	pool->U++;
 	return true;
