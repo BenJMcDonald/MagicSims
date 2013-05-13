@@ -15,8 +15,10 @@ class Deck{
     string name;
     Deck();
     Deck(string*, int);
+    Deck(Deck*);
     ~Deck();
     void print();
+    void crossover(Deck*);
 };
 
 Deck::Deck(){
@@ -26,6 +28,14 @@ Deck::Deck(){
     }
     name = "";
 };
+
+Deck::Deck(Deck* other){
+    cards = new string[size];
+    for(int i=0; i<size; i++){
+	cards[i] = other->cards[i];
+    }
+    name = "";
+}
 
 Deck::Deck(string* possible, int length){
     cards = new string [size];
@@ -39,6 +49,23 @@ Deck::Deck(string* possible, int length){
 Deck::~Deck(){
     delete[] cards;
 };
+
+void Deck::crossover(Deck* other){
+    int a = rand() % size;
+    int b = rand() % size;
+    if(a > b){
+	int t = b;
+	b = a;
+	a = t;
+    }
+    
+    string t = "nothing";
+    for(int i = a; i<=b; i++){
+	t = other->cards[i];
+	other->cards[i] = cards[i];
+	cards[i] = t;
+    }
+}
 
 void Deck::print(){
     cout<<"Deck "<<name<<":\n";
