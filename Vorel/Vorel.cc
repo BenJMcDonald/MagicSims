@@ -20,7 +20,7 @@ int main(){
     const int size = 60;
 
     Deck* best = 0;
-    Deck* bestPerf = 60;
+    float bestPerf = 60;
 
     srand(time(NULL));
 
@@ -33,7 +33,7 @@ int main(){
     float perfSum;
 
     for(int i=0; i<genSize; i++){
-	gen[i] = new Deck(possible, numLegal)
+	gen[i] = new Deck(possible, numLegal);
     }
 
     while(true){
@@ -49,27 +49,27 @@ int main(){
 	bestPerf = 0;
 	for(int i=0; i<genSize; i++){
 	    perf[i] = 0;
-	    for(int j = 0; i<trials, j++){
+	    for(int j = 0; i<trials; j++){
 		perf[i] += simulate(gen[i], 0);
 	    }
-	    perf[i] = perf[i] / j;
+	    perf[i] = perf[i] / genSize;
 	    perf[i] = 1/perf[i];
 	    perfSum += perf[i];
 
 	    if(perf[i] > bestPerf){
-		bestPerf = perfSum[i];
+		bestPerf = perf[i];
 		best = gen[i];
 	    }
 	}
 
 	cout<<"Done simulation generation "<<generations<<"\n";
 	cout<<"Best deck:\n";
-	gen[i]->print;
+	best->print();
 	cout<<"Average opponent turns: "<<(1/bestPerf)<<"\n\n";
 
 	//Populate
 
-	Deck** newGen = new Deck[genSize];
+	Deck** newGen = new Deck*[genSize];
 	for(int i=0; i<genSize; i++){
 	    float n = ((float(rand()))/RAND_MAX) * perfSum;
 	    float s = 0;
@@ -97,9 +97,9 @@ int main(){
 	//Mutate
 	for(int i=0; i<genSize; i++){
 	    while((rand()%mutationRate)==0){
-		sp = rand()%numLegal;
-		s = possible[sp];
-		r = rand()%60;
+		int sp = rand()%numLegal;
+		string s = possible[sp];
+		int r = rand()%60;
 		gen[i]->cards[size] = s;
 	    }
 	}
@@ -111,4 +111,4 @@ int main(){
 	delete possible;
 	delete perf;
     }
-}
+};
