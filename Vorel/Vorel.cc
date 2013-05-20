@@ -13,10 +13,11 @@ using namespace std;
 #include <time.h>
 
 int main(){
-    int genSize = 100;
+    int verbosity = 0;
+    int genSize = 200;
     int trials = 1000;
     int mutationRate = 3;
-    int generations = 10;
+    int generations = 10000;
     const int size = 60;
 
     Deck* best = 0;
@@ -31,10 +32,12 @@ int main(){
     Deck** gen = new Deck*[genSize];
     float* perf = new float[genSize];
     float perfSum;
-
+    
+    cout<<"Generating inital decks\n";
     for(int i=0; i<genSize; i++){
 	gen[i] = new Deck(possible, numLegal);
     }
+
 
     while(true){
 
@@ -43,17 +46,23 @@ int main(){
 	}else{
 	    generations--;
 	}
-    
+
+	if(verbosity>1){
+	    cout<<"Beginning generation "<<generations<<" \n";
+	}
+	 
 	//Simulate
 	perfSum = 0;
 	bestPerf = 0;
 	for(int i=0; i<genSize; i++){
 	    perf[i] = 0;
-	    for(int j = 0; i<trials; j++){
+	    for(int j = 0; j<trials; j++){
 		perf[i] += simulate(gen[i], 0);
 	    }
-	    perf[i] = perf[i] / genSize;
-	    cout<<perf[i]<<'\n';
+	    perf[i] = perf[i] / trials;
+	    if(verbosity>2){
+		cout<<perf[i]<<'\n';
+	    }
 	    perf[i] = 1/perf[i];
 	    perfSum += perf[i];
 
@@ -101,15 +110,14 @@ int main(){
 		int sp = rand()%numLegal;
 		string s = possible[sp];
 		int r = rand()%60;
-		gen[i]->cards[size] = s;
+		gen[i]->cards[r] = s;
 	    }
 	}
     }
 
     for(int i=0; i<genSize; i++){
 	delete gen[i];
-	delete gen;
-	delete possible;
-	delete perf;
     }
-};
+    delete perf;
+    delete gen;
+}

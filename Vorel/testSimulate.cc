@@ -15,20 +15,21 @@ using namespace std;
 int main(){
 
     srand(time(NULL));
-
-    string possible[10] = {"Island", "Time Warp", "Forest", "Capture of Jingzhou", "Temporal Manipulation",
-    "Time Stretch", "Walk the Aeons", "Howling Mine", "Rites of Flourishing", "Font of Mythos"};
+    
+    int l = 10;
+    string possible[10] = {"Island", "Time Warp", "Forest", "Capture of Jingzhou", "Temporal Manipulation", "Time Stretch", "Walk the Aeons", "Howling Mine", "Rites of Flourishing", "Font of Mythos"};
 
     cout<<"Generating deck\n";
     Deck* d = new Deck(possible, 10);
 
     cout<<"Simulating deck\n";
     
-    for(int j=0; j<10000; j++){
+    for(int j=0; j<1000; j++){
 	int i = simulate(d, 0);
 
 	cout<<"Returned "<<i<<'\n';
     }
-
+   
+    delete d;
 }
 
