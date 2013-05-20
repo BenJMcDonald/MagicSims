@@ -23,10 +23,12 @@ int main(){
     Deck* d = new Deck(possible, 10);
 
     cout<<"Simulating deck\n";
+    
+    for(int j=0; j<10000; j++){
+	int i = simulate(d, 0);
 
-    int i = simulate(d, 2);
-
-    cout<<"Returned "<<i;
+	cout<<"Returned "<<i<<'\n';
+    }
 
 }
 

@@ -91,7 +91,7 @@ bool Zone::contains(string s){
 };
 
 bool Zone::drop(string s){
-    if(size==0){
+    if(size<=0){
 	return false;
     }else if(first->e == s){
 	size--;
@@ -103,7 +103,7 @@ bool Zone::drop(string s){
     }
 
     LLnode* t = first->next;
-    LLnode** here = &first;
+    LLnode** here = &first->next;
     while(t != 0){
 	if(t->e == s){
 	    size--;

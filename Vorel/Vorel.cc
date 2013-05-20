@@ -16,7 +16,7 @@ int main(){
     int genSize = 100;
     int trials = 1000;
     int mutationRate = 3;
-    int generations = 1000;
+    int generations = 10;
     const int size = 60;
 
     Deck* best = 0;
@@ -53,6 +53,7 @@ int main(){
 		perf[i] += simulate(gen[i], 0);
 	    }
 	    perf[i] = perf[i] / genSize;
+	    cout<<perf[i]<<'\n';
 	    perf[i] = 1/perf[i];
 	    perfSum += perf[i];
 
