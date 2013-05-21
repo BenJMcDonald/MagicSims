@@ -67,12 +67,44 @@ void Deck::crossover(Deck* other){
     }
 }
 
+/*
 void Deck::print(){
     cout<<"Deck "<<name<<":\n";
     for(int i=0; i<size; i++){
 	cout<<"  "<<cards[i]<<'\n';
     }
-};
+};*/
+
+void Deck::print(){
+    //Slow as all hell but very rarely called
+    cout<<"Deck:\n";
+    string* names = new string[size];
+    int* counts = new int[size];
+    int position = 0;
+
+    for(int i=0; i<size; i++){
+	for(int j=0; j<=position; j++){
+	    if(j==position){
+		names[j] = cards[i];
+		counts[j] = 1;
+		position++;
+		break;
+	    }else{
+		if(cards[i] == names[j]){
+		    counts[j]++;
+		    break;
+		}
+	    }
+	}
+    }
+
+    for(int i=0; i< position; i++){
+	cout<<convertInt(counts[i])<<" "<<names[i]<<"\n";
+    }
+
+    delete counts;
+    //delete names;
+}
 
 class Library{
     public:
@@ -121,3 +153,49 @@ void Library::print(){
 	cout<<"  "<<cards[i]<<'\n';
     }
 };
+
+void validate(Deck* d, string* legalCards, int length){
+    //TODO this could be faster if the arrays were sorted
+    //Then again, how likely are they every to be longer than 20, anyway?
+    //I'm not sure the common assumptions are valid here.
+
+    int* quantities = new int[length];
+    for(int i=0; i<length; i++){
+	quantities[i] = 0;
+    }
+
+    for(int i=0; i<Deck::size; i++){
+	for(int j=0; j<length; j++){
+	    if(d->cards[i] == legalCards[j]){
+		if(! isBasic(d->cards[i])){	
+		    quantities[j]++;
+		    if(quantities[j] > 4){
+			d->cards[i] = "Island";
+		    }
+		}
+		break;
+	    }
+	}
+    }
+
+    delete quantities;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

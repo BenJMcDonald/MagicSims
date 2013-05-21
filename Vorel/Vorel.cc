@@ -2,10 +2,11 @@
 #include <iostream>
 using namespace std;
 
+#include "convertInt.cc"
+#include "CardInfo.cc"
 #include "Deck.cc"
 #include "Mana.cc"
 #include "Zone.cc"
-#include "CardInfo.cc"
 #include "simulate.cc"
 
 #include <stdio.h>
@@ -36,6 +37,7 @@ int main(){
     cout<<"Generating inital decks\n";
     for(int i=0; i<genSize; i++){
 	gen[i] = new Deck(possible, numLegal);
+	validate(gen[i], possible, numLegal);
     }
 
 
@@ -113,6 +115,11 @@ int main(){
 		gen[i]->cards[r] = s;
 	    }
 	}
+
+	//Verify decks legal
+	for(int i=0; i<genSize; i++){
+	    validate(gen[i], possible, numLegal);
+	}
     }
 
     for(int i=0; i<genSize; i++){
@@ -120,4 +127,4 @@ int main(){
     }
     delete perf;
     delete gen;
-}
+};

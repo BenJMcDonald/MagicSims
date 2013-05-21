@@ -156,7 +156,6 @@ bool Mana::pay(char cost){
     return true;
 };
 
-#include "convertInt.cc"
 
 string Mana::toString(){
     string output = "";
