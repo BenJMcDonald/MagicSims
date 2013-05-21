@@ -18,7 +18,8 @@ using namespace std;
 //TODO list:
 //Pyromancer Ascension
 //Explore
-string validCards[10] = 
+const int validCardsLength = 11;
+string validCards[validCardsLength] = 
     {"Island",
     "Forest",
     "Time Warp",
@@ -28,7 +29,8 @@ string validCards[10] =
     "Walk the Aeons",
     "Howling Mine",
     "Rites of Flourishing",
-    "Font of Mythos"
+    "Font of Mythos",
+    "Jace Beleren"
     };
 
 bool isBasic(string s){
@@ -68,6 +70,8 @@ int isCardsPerTurn(string s){
 	return 1;
     if(s == "Font of Mythos")
 	return 2;
+    if(s == "Jace Beleren")
+	return 1;
     return 0;
 };
 
@@ -76,6 +80,12 @@ int isLandsPerTurn(string s){
 	return 1;
     return 0;
 };
+
+int isDraw(string s){
+    if(s == "Jace Beleren")
+	return 1;
+    return 0;
+}
 
 string getCost(string s){
     if(s == "Time Warp")
@@ -95,5 +105,8 @@ string getCost(string s){
 	return "G11";
     if(s == "Font of Mythos")
 	return "1111";
-}
+
+    if(s == "Jace Beleren")
+	return "UU1";
+};
 

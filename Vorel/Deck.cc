@@ -141,6 +141,9 @@ void Library::shuffle(){
 };
 
 string Library::draw(){
+    if(position>=size){
+	return "";
+    }
     string s = cards[position];
     cards[position] = "";
     position ++;

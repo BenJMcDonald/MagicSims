@@ -26,9 +26,10 @@ int main(){
 
     srand(time(NULL));
 
-    int numLegal = 10;
-    string possible[10] = {"Island", "Time Warp", "Forest", "Capture of Jingzhou", "Temporal Manipulation",
-    "Time Stretch", "Walk the Aeons", "Howling Mine", "Rites of Flourishing", "Font of Mythos"};
+    int numLegal =  validCardsLength;
+    string* possible = validCards;
+    //string possible[10] = {"Island", "Time Warp", "Forest", "Capture of Jingzhou", "Temporal Manipulation",
+    //"Time Stretch", "Walk the Aeons", "Howling Mine", "Rites of Flourishing", "Font of Mythos"};
 
     Deck** gen = new Deck*[genSize];
     float* perf = new float[genSize];
@@ -115,6 +116,28 @@ int main(){
 		gen[i]->cards[r] = s;
 	    }
 	}
+
+	//Inversion
+	for(int i=0; i<genSize; i++){
+	    if(rand()%mutationRate < 1){
+		int a = rand()%60;
+		int b = rand()%60;
+		if(a > b){
+		    int t = b;
+		    b = a;
+		    a = t;
+		}
+
+		while(a<b){
+		    string temp = gen[i]->cards[a];
+		    gen[i]->cards[a] = gen[i]->cards[b];
+		    gen[i]->cards[b] = temp;
+		    a++;
+		    b--;
+		}
+	    }
+	}
+
 
 	//Verify decks legal
 	for(int i=0; i<genSize; i++){

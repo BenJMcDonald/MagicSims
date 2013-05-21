@@ -90,13 +90,14 @@ int simulate(Deck* d, int verb){
 	    ZoneIterator* it = hand->iter();
 	    Mana* localCopy = new Mana(manaPool);
 	    Mana* cost = 0;
+	    int toDraw = 0;
 	    while(it->hasNext()){
 		string s = it->next();
 		if(verb>2){
 		    cout<<"Trying to play "<<s<<"\n";
 		}
 
-		if(!isLand(s)){
+		if((!isLand(s)) && (s != "")){
 		    delete cost;
 		    cost = new Mana(getCost(s));
 		    bool can = localCopy->pay(cost);
@@ -123,6 +124,7 @@ int simulate(Deck* d, int verb){
 				landsRemaining--;
 			    }
 			}
+			toDraw += isDraw(s);
 
 			break;
 		    }else{
@@ -130,6 +132,10 @@ int simulate(Deck* d, int verb){
 			localCopy = new Mana(manaPool);
 		    }
 		}
+	    }
+	    while(toDraw>0){
+		hand->add(lib->draw());
+		toDraw--;
 	    }
 	    delete cost;
 	    delete localCopy;
