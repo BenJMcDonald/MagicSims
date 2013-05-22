@@ -15,8 +15,8 @@ using namespace std;
 
 int main(){
     int verbosity = 0;
-    int genSize = 10;
-    int trials = 1000;
+    int genSize = 200;
+    int trials = 2000;
     int mutationRate = 10;
     int crossoverRate = 2;
     int inversionRate = 3;
@@ -97,6 +97,9 @@ int main(){
 	    }
 	}
 
+	//Elitism
+	newGen[0] = new Deck(best);
+
 	//Clear old decks
 	for(int i=0; i<genSize; i++){
 	    delete gen[i];
@@ -105,14 +108,14 @@ int main(){
 	gen = newGen;
 
 	//Crossover
-	for(int i=0; i<genSize; i+=2){
+	for(int i=1; i<(genSize-1); i+=2){
 	    if(rand()%crossoverRate == 0){
 		gen[i]->crossover(gen[i+1]);
 	    }
 	}
 
 	//Mutate
-	for(int i=0; i<genSize; i++){
+	for(int i=1; i<genSize; i++){
 	    while((rand()%mutationRate)==0){
 		int sp = rand()%numLegal;
 		string s = possible[sp];
@@ -122,7 +125,7 @@ int main(){
 	}
 
 	//Inversion
-	for(int i=0; i<genSize; i++){
+	for(int i=1; i<genSize; i++){
 	    if(rand()%inversionRate==0){
 		int a = rand()%60;
 		int b = rand()%60;
