@@ -15,9 +15,11 @@ using namespace std;
 
 int main(){
     int verbosity = 0;
-    int genSize = 200;
+    int genSize = 10;
     int trials = 1000;
-    int mutationRate = 3;
+    int mutationRate = 10;
+    int crossoverRate = 2;
+    int inversionRate = 3;
     int generations = 10000;
     const int size = 60;
 
@@ -104,7 +106,9 @@ int main(){
 
 	//Crossover
 	for(int i=0; i<genSize; i+=2){
-	    gen[i]->crossover(gen[i+1]);
+	    if(rand()%crossoverRate == 0){
+		gen[i]->crossover(gen[i+1]);
+	    }
 	}
 
 	//Mutate
@@ -119,7 +123,7 @@ int main(){
 
 	//Inversion
 	for(int i=0; i<genSize; i++){
-	    if(rand()%mutationRate < 1){
+	    if(rand()%inversionRate==0){
 		int a = rand()%60;
 		int b = rand()%60;
 		if(a > b){

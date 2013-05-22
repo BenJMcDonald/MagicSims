@@ -14,6 +14,7 @@ class Mana{
     bool canPay(Mana*);
     bool pay(Mana*);
     string toString();
+    void add(string);
 
     int W = 0;
     int U = 0;
@@ -66,6 +67,11 @@ Mana::Mana(string n){
     names[3] = "R";
     names[4] = "G";
     names[5] = "1";
+    this->add(n);
+    return;
+};
+
+void Mana::add(string n){
     for(int i=0; i<n.size(); i++){
 	for(int j = 0; j<6; j++){
 	    if(names[j][0]==n[i]){
@@ -73,7 +79,6 @@ Mana::Mana(string n){
 	    }
 	}
     }
-    return;
 };
 
 Mana::~Mana(){

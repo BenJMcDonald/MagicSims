@@ -116,6 +116,16 @@ int simulate(Deck* d, int verb){
 			
 			extraTurns += isExtraTurn(s);
 			cardsPerTurn += isCardsPerTurn(s);
+			string M = isMana(s);
+			if(M != ""){
+			    manaBase->add(M);
+			}
+
+			string M2 = isManaNow(s);
+			if(M2 != ""){
+			    manaPool->add(M2);
+			}
+
 			int i = isLandsPerTurn(s);
 			if(i>0){
 			    landsPerTurn += i;
@@ -227,12 +237,43 @@ bool playLand(Mana* base, Mana* pool, Zone* hand, int verb){
 	}
     }
 
+    if(base->U == 0){
+	if(hand->drop("Island")){
+	    if(verb>1){
+		cout<<"Play Island\n";
+	    }
+	    base->U++;
+	    pool->U++;
+	    return true;
+	}
+    }
+
+    if(base->R == 0){
+	if(hand->drop("Mountain")){
+	    if(verb>1){
+		cout<<"Play Mountain\n";
+	    }
+	    base->R++;
+	    pool->R++;
+	    return true;
+	}
+    }
+
     if(hand->drop("Island")){
 	if(verb>1){
 	    cout<<"Play Island\n";
 	}
 	base->U++;
 	pool->U++;
+	return true;
+    }
+
+    if(hand->drop("Mountain")){
+	if(verb>1){
+	    cout<<"Play Mountain\n";
+	}
+	base->R++;
+	pool->R++;
 	return true;
     }
 

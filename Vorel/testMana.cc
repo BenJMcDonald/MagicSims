@@ -1,8 +1,10 @@
-#include "Mana.cc"
-
 #include <iostream>
 #include <assert.h>
 using namespace std;
+
+#include "convertInt.cc"
+#include "Mana.cc"
+
 
 
 int main(){
@@ -54,8 +56,12 @@ int main(){
     assert(f->pay(g) == false);
     assert(g->toString() == "W3");
 
-    
-  
+    f = new Mana("W");
+    g = new Mana("G");
+    assert(f->pay(g) == false);
+    f->add("G");
+    assert(f->pay(g) == true);
+    assert(f->pay(g) == false);    
 
 };
 
